@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using cinema_project.DAL;
@@ -5,33 +6,36 @@ using cinema_project.BLL.Services;
 
 namespace cinema_project.BLL
 {
-    /// <summary>
-    /// Lớp xử lý nghiệp vụ Phim (BLL) - Quản lý dữ liệu từ TMDB trong bộ nhớ (không cần SQL)
-    /// </summary>
     public class PhimBLL
     {
-        private readonly PhimDAL _phimDAL;
-        private readonly TmdbService _tmdbService;
+        private readonly PhimDAL _phimDAL = new();
+        private readonly TmdbService _tmdbService = new();
 
-        public PhimBLL()
+        public async Task<List<Phim>> DongBoVaLayPhimAsync()
         {
-            _phimDAL = new PhimDAL();
-            _tmdbService = new TmdbService();
-        }
+            List<Phim> dsTmdb = new();
+            try
+            {
+                dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
+            }
+            catch
+            {
+            }
 
-        /// <summary>
-        /// Khởi tạo và nạp dữ liệu phim trực tiếp từ TMDB
-        /// </summary>
-        public async Task<int> NapPhimTuTmdbAsync()
-        {
-            var dsPhim = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
-            _phimDAL.CapNhatDanhSach(dsPhim);
-            return dsPhim.Count;
-        }
+            if (dsTmdb.Count > 0)
+            {
+                await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb);
+            }
 
-        public List<Phim> LayTatCaPhim()
-        {
-            return _phimDAL.LayTatCa();
+            var dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
+
+            if (dsSupabase.Count == 0 && dsTmdb.Count > 0)
+            {
+                _phimDAL.CapNhatBoNhoTam(dsTmdb);
+                return dsTmdb;
+            }
+
+            return dsSupabase;
         }
 
         public List<Phim> LayPhimTheoLoai(string loaiPhim)
@@ -39,9 +43,9 @@ namespace cinema_project.BLL
             return _phimDAL.LayTheoLoai(loaiPhim);
         }
 
-        public List<Phim> TimKiemPhim(string tuKhoa)
+        public List<Phim> LayTatCaPhim()
         {
-            return _phimDAL.TimKiem(tuKhoa);
+            return _phimDAL.LayTatCa();
         }
     }
 }

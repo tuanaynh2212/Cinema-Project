@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Net.Http;
 using System.Windows.Forms;
 using cinema_project.BLL;
 using cinema_project.DAL;
@@ -11,248 +10,155 @@ namespace cinema_project.UI
 {
     public partial class frmMain : Form
     {
-        private readonly PhimBLL _phimBLL;
-        private List<Phim> _danhSachPhimHienTai = new();
-        private static readonly HttpClient _httpClient = new();
+        private readonly PhimBLL _phimBLL = new();
+        private readonly string[] _dsBanner = { "banner1.jpg", "banner2.jpg", "banner3.jpg" };
 
-        public frmMain()
-        {
-            InitializeComponent();
-            _phimBLL = new PhimBLL();
-        }
+        private List<Phim> _danhSachPhim = new();
+        private int _idx;
+        private int _bannerIdx;
+
+        public frmMain() => InitializeComponent();
 
         private async void frmMain_Load(object? sender, EventArgs e)
         {
-            KhoiTaoGiaoDien();
-            cboLoaiPhim.SelectedIndex = 0; // "Tất cả"
+            tabMain.SelectedIndex = 0;
 
-            lblStatusTongSo.Text = "Đang nạp dữ liệu phim từ TMDB...";
-            try
-            {
-                // Tự động gọi API TMDB lấy phim về nạp vào bộ nhớ
-                await _phimBLL.NapPhimTuTmdbAsync();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"[Lỗi nạp TMDB]: {ex.Message}");
-            }
+            try { await _phimBLL.DongBoVaLayPhimAsync(); }
+            catch { }
 
-            // Hiển thị danh sách phim lên bảng
             TaiDanhSachPhim();
+            HienThiBanner();
+            tmrBanner.Start();
         }
 
-        /// <summary>
-        /// Khởi tạo cấu trúc cột cho DataGridView
-        /// </summary>
-        private void KhoiTaoGiaoDien()
-        {
-            dgvPhim.Columns.Clear();
-
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "MaPhim", HeaderText = "Mã", FillWeight = 30 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "Ten", HeaderText = "Tên phim", FillWeight = 140 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "TheLoai", HeaderText = "Thể loại", FillWeight = 110 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "LoaiPhim", HeaderText = "Loại", FillWeight = 60 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "DoTuoi", HeaderText = "Độ tuổi", FillWeight = 45 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "NgayChieu", HeaderText = "Khởi chiếu", FillWeight = 65 });
-            dgvPhim.Columns.Add(new DataGridViewTextBoxColumn { Name = "GiaVe", HeaderText = "Giá vé (VNĐ)", FillWeight = 70 });
-        }
-
-        /// <summary>
-        /// Tải danh sách phim lên bảng theo bộ lọc phân loại
-        /// </summary>
         private void TaiDanhSachPhim()
         {
-            string loai = cboLoaiPhim.SelectedItem?.ToString() ?? "Tất cả";
-            _danhSachPhimHienTai = _phimBLL.LayPhimTheoLoai(loai);
-            HienThiLenBang(_danhSachPhimHienTai);
-        }
-
-        /// <summary>
-        /// Đưa danh sách phim lên DataGridView
-        /// </summary>
-        private void HienThiLenBang(List<Phim> ds)
-        {
-            dgvPhim.Rows.Clear();
-
-            foreach (var phim in ds)
+            string loai = tabMain.SelectedIndex switch
             {
-                dgvPhim.Rows.Add(
-                    phim.MaPhim,
-                    phim.Ten,
-                    phim.TheLoai,
-                    phim.LoaiPhim,
-                    phim.DoTuoi,
-                    phim.NgayChieu,
-                    phim.GiaVe.ToString("#,##0")
-                );
-            }
+                0 => "Đang chiếu",
+                1 => "Đặc biệt",
+                2 => "Sắp chiếu",
+                _ => string.Empty
+            };
 
-            lblStatusTongSo.Text = $"Tổng số phim: {ds.Count}";
+            _danhSachPhim = string.IsNullOrEmpty(loai) ? new() : _phimBLL.LayPhimTheoLoai(loai);
+            _idx = 0;
+            HienThiCarousel();
+        }
 
-            if (ds.Count > 0)
+        private void HienThiCarousel()
+        {
+            PictureBox[] posters = { picXaTrai, picTrai, picGiua, picPhai, picXaPhai };
+
+            if (_danhSachPhim.Count == 0)
             {
-                dgvPhim.Rows[0].Selected = true;
-                CapNhatChiTiet(ds[0]);
-            }
-            else
-            {
-                XoaChiTiet();
-            }
-        }
-
-        /// <summary>
-        /// Cập nhật thông tin chi tiết phim sang panel bên phải
-        /// </summary>
-        private void CapNhatChiTiet(Phim phim)
-        {
-            lblTenPhim.Text = phim.Ten;
-            lblTheLoai.Text = $"Thể loại: {phim.TheLoai}";
-            lblThoiLuong.Text = $"Thời lượng: {phim.ThoiLuong}";
-            lblNgayChieu.Text = $"Khởi chiếu: {phim.NgayChieu}";
-            lblDoTuoi.Text = $"Độ tuổi: {phim.DoTuoi} | Phân loại: {phim.LoaiPhim}";
-            lblGiaVe.Text = $"Giá vé: {phim.GiaVe:#,##0} VNĐ";
-
-            TaiAnhPosterAsync(phim.DuongDanAnh);
-        }
-
-        /// <summary>
-        /// Xóa thông tin chi tiết
-        /// </summary>
-        private void XoaChiTiet()
-        {
-            lblTenPhim.Text = "Không có phim";
-            lblTheLoai.Text = "Thể loại: -";
-            lblThoiLuong.Text = "Thời lượng: -";
-            lblNgayChieu.Text = "Khởi chiếu: -";
-            lblDoTuoi.Text = "Độ tuổi: -";
-            lblGiaVe.Text = "Giá vé: -";
-
-            picPoster.Image?.Dispose();
-            picPoster.Image = null;
-        }
-
-        /// <summary>
-        /// Tải ảnh poster từ URL TMDB hoặc thư mục nội bộ an toàn và không gây đơ giao diện
-        /// </summary>
-        private async void TaiAnhPosterAsync(string duongDanAnh)
-        {
-            picPoster.Image?.Dispose();
-            picPoster.Image = null;
-
-            if (string.IsNullOrWhiteSpace(duongDanAnh)) return;
-
-            try
-            {
-                // Nếu là URL online từ TMDB
-                if (duongDanAnh.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-                    duongDanAnh.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                {
-                    byte[] data = await _httpClient.GetByteArrayAsync(duongDanAnh);
-                    using var ms = new MemoryStream(data);
-                    picPoster.Image = new Bitmap(ms);
-                    return;
-                }
-
-                // Nếu là file ảnh cục bộ
-                string localPath = Path.Combine(AppContext.BaseDirectory, "UI", "Images", duongDanAnh);
-                if (File.Exists(localPath))
-                {
-                    using var stream = new FileStream(localPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                    picPoster.Image = new Bitmap(stream);
-                }
-            }
-            catch
-            {
-                picPoster.Image = null;
-            }
-        }
-
-        /// <summary>
-        /// Khi người dùng chọn dòng trên DataGridView
-        /// </summary>
-        private void dgvPhim_SelectionChanged(object? sender, EventArgs e)
-        {
-            if (dgvPhim.CurrentRow != null && dgvPhim.CurrentRow.Index >= 0)
-            {
-                int index = dgvPhim.CurrentRow.Index;
-                if (index < _danhSachPhimHienTai.Count)
-                {
-                    CapNhatChiTiet(_danhSachPhimHienTai[index]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Khi thay đổi bộ lọc phân loại phim
-        /// </summary>
-        private void cboLoaiPhim_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            TaiDanhSachPhim();
-        }
-
-        /// <summary>
-        /// Tìm kiếm phim theo tên hoặc thể loại
-        /// </summary>
-        private void btnTimKiem_Click(object? sender, EventArgs e)
-        {
-            ThucHienTimKiem();
-        }
-
-        private void txtTimKiem_KeyDown(object? sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                ThucHienTimKiem();
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void ThucHienTimKiem()
-        {
-            string tuKhoa = txtTimKiem.Text.Trim();
-            _danhSachPhimHienTai = _phimBLL.TimKiemPhim(tuKhoa);
-            HienThiLenBang(_danhSachPhimHienTai);
-        }
-
-        /// <summary>
-        /// Làm mới danh sách và ô tìm kiếm
-        /// </summary>
-        private void btnLamMoi_Click(object? sender, EventArgs e)
-        {
-            txtTimKiem.Clear();
-            cboLoaiPhim.SelectedIndex = 0;
-            TaiDanhSachPhim();
-        }
-
-        /// <summary>
-        /// Xử lý đặt vé xem phim
-        /// </summary>
-        private void btnDatVe_Click(object? sender, EventArgs e)
-        {
-            if (dgvPhim.CurrentRow == null || dgvPhim.CurrentRow.Index < 0 || dgvPhim.CurrentRow.Index >= _danhSachPhimHienTai.Count)
-            {
-                MessageBox.Show("Vui lòng chọn một bộ phim từ danh sách để đặt vé!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblTenPhim.Text = "Chưa có phim";
+                lblDoTuoi.Visible = false;
+                lblThongTin.Text = lblThuHang.Text = string.Empty;
+                foreach (var p in posters) { p.Visible = false; p.ImageLocation = null; }
                 return;
             }
 
-            Phim phimChon = _danhSachPhimHienTai[dgvPhim.CurrentRow.Index];
+            Phim phim = _danhSachPhim[_idx];
 
-            string thongBao = $"XÁC NHẬN ĐẶT VÉ XEM PHIM\n\n" +
-                              $"🎬 Tên phim: {phimChon.Ten}\n" +
-                              $"⏱️ Thời lượng: {phimChon.ThoiLuong}\n" +
-                              $"🔞 Độ tuổi: {phimChon.DoTuoi}\n" +
-                              $"📅 Khởi chiếu: {phimChon.NgayChieu}\n" +
-                              $"💵 Giá vé tiêu chuẩn: {phimChon.GiaVe:#,##0} VNĐ\n\n" +
-                              $"Bạn có muốn tiếp tục tiến hành đặt vé không?";
-
-            DialogResult ketQua = MessageBox.Show(thongBao, "Đặt vé CGV", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (ketQua == DialogResult.Yes)
+            lblTenPhim.Text = phim.Ten;
+            lblDoTuoi.Text = phim.DoTuoi;
+            lblDoTuoi.Visible = !string.IsNullOrEmpty(phim.DoTuoi);
+            lblDoTuoi.BackColor = phim.DoTuoi switch
             {
-                MessageBox.Show($"Đặt vé thành công cho phim:\n\"{phimChon.Ten}\"\n\nChúc bạn xem phim vui vẻ tại CGV!",
-                                "Thông báo thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                "T18" => Color.FromArgb(231, 26, 15),
+                "T16" => Color.FromArgb(255, 149, 0),
+                "T13" => Color.FromArgb(255, 204, 0),
+                "P" => Color.FromArgb(52, 199, 89),
+                _ => Color.FromArgb(142, 142, 147)
+            };
+            lblThongTin.Text = $"Thời lượng: {phim.ThoiLuong}  ·  Khởi chiếu: {phim.NgayChieu}";
+            lblThuHang.Text = $"{_idx + 1}/{_danhSachPhim.Count}";
+
+            for (int i = 0; i < posters.Length; i++)
+            {
+                int vt = _idx + i - 2;
+                bool hopLe = vt >= 0 && vt < _danhSachPhim.Count;
+                posters[i].Visible = hopLe;
+                posters[i].ImageLocation = hopLe ? _danhSachPhim[vt].DuongDanAnh : null;
             }
         }
+
+        private void DiChuyen(int delta)
+        {
+            int moi = Math.Clamp(_idx + delta, 0, Math.Max(_danhSachPhim.Count - 1, 0));
+            if (moi == _idx) return;
+            _idx = moi;
+            HienThiCarousel();
+        }
+
+        private void btnPrev_Click(object? sender, EventArgs e) => DiChuyen(-1);
+        private void btnNext_Click(object? sender, EventArgs e) => DiChuyen(1);
+        private void picTrai_Click(object? sender, EventArgs e) => DiChuyen(-1);
+        private void picPhai_Click(object? sender, EventArgs e) => DiChuyen(1);
+        private void picXaTrai_Click(object? sender, EventArgs e) => DiChuyen(-2);
+        private void picXaPhai_Click(object? sender, EventArgs e) => DiChuyen(2);
+        private void picGiua_Click(object? sender, EventArgs e) { }
+
+        private void frmMain_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode is Keys.Left or Keys.Right)
+            {
+                DiChuyen(e.KeyCode == Keys.Left ? -1 : 1);
+                e.Handled = true;
+            }
+        }
+
+        private void frmMain_MouseWheel(object? sender, MouseEventArgs e) => DiChuyen(e.Delta > 0 ? -1 : 1);
+
+        private void tabMain_SelectedIndexChanged(object? sender, EventArgs e) => TaiDanhSachPhim();
+
+        private void tabMain_DrawItem(object? sender, DrawItemEventArgs e)
+        {
+            if (sender is not TabControl tabs) return;
+            Graphics g = e.Graphics;
+            Rectangle bounds = tabs.GetTabRect(e.Index);
+            bool chon = tabs.SelectedIndex == e.Index;
+            Color mau = chon ? Color.FromArgb(231, 26, 15) : Color.FromArgb(142, 142, 147);
+
+            g.FillRectangle(Brushes.White, bounds);
+
+            using var font = new Font("Segoe UI", 10.5F, chon ? FontStyle.Bold : FontStyle.Regular);
+            using var brush = new SolidBrush(mau);
+            using var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+            g.DrawString(tabs.TabPages[e.Index].Text, font, brush, bounds, sf);
+
+            if (chon)
+            {
+                using var pen = new Pen(mau, 3F);
+                g.DrawLine(pen, bounds.Left + 10, bounds.Bottom - 2, bounds.Right - 10, bounds.Bottom - 2);
+            }
+        }
+
+        private void btnDatVe_Click(object? sender, EventArgs e)
+        {
+            if (_danhSachPhim.Count == 0)
+            {
+                MessageBox.Show("Hiện chưa có phim để đặt vé.", "CGV Cinemas");
+                return;
+            }
+
+            Phim phim = _danhSachPhim[_idx];
+            MessageBox.Show(
+                $"Phim: {phim.Ten}\nĐộ tuổi: {phim.DoTuoi}\nThời lượng: {phim.ThoiLuong}\nNgày chiếu: {phim.NgayChieu}\nGiá vé: {phim.GiaVe:#,##0} VNĐ",
+                "Đặt vé CGV");
+        }
+
+        private void btnVe_Click(object? sender, EventArgs e) => MessageBox.Show("TODO: Màn hình vé.", "CGV Cinemas");
+        private void btnMenu_Click(object? sender, EventArgs e) => MessageBox.Show("TODO: Menu chức năng.", "CGV Cinemas");
+
+        private void tmrBanner_Tick(object? sender, EventArgs e)
+        {
+            _bannerIdx = (_bannerIdx + 1) % _dsBanner.Length;
+            HienThiBanner();
+        }
+
+        private void HienThiBanner() =>
+            picBanner.ImageLocation = Path.Combine(AppContext.BaseDirectory, "UI", "Images", _dsBanner[_bannerIdx]);
     }
 }

@@ -2,435 +2,595 @@ namespace cinema_project.UI
 {
     partial class frmMain
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
+            if (disposing && components != null)
                 components.Dispose();
-            }
+
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.pnlFilter = new System.Windows.Forms.Panel();
-            this.btnLamMoi = new System.Windows.Forms.Button();
-            this.btnTimKiem = new System.Windows.Forms.Button();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.lblTimKiem = new System.Windows.Forms.Label();
-            this.cboLoaiPhim = new System.Windows.Forms.ComboBox();
-            this.lblLoc = new System.Windows.Forms.Label();
-            this.spltMain = new System.Windows.Forms.SplitContainer();
-            this.grpDanhSach = new System.Windows.Forms.GroupBox();
-            this.dgvPhim = new System.Windows.Forms.DataGridView();
-            this.grpChiTiet = new System.Windows.Forms.GroupBox();
-            this.btnDatVe = new System.Windows.Forms.Button();
-            this.lblGiaVe = new System.Windows.Forms.Label();
-            this.lblDoTuoi = new System.Windows.Forms.Label();
-            this.lblNgayChieu = new System.Windows.Forms.Label();
-            this.lblThoiLuong = new System.Windows.Forms.Label();
-            this.lblTheLoai = new System.Windows.Forms.Label();
-            this.lblTenPhim = new System.Windows.Forms.Label();
-            this.picPoster = new System.Windows.Forms.PictureBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lblStatusTongSo = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pnlHeader.SuspendLayout();
-            this.pnlFilter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spltMain)).BeginInit();
-            this.spltMain.Panel1.SuspendLayout();
-            this.spltMain.Panel2.SuspendLayout();
-            this.spltMain.SuspendLayout();
-            this.grpDanhSach.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhim)).BeginInit();
-            this.grpChiTiet.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // pnlHeader
-            // 
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(101)))), ((int)(((byte)(192)))));
-            this.pnlHeader.Controls.Add(this.lblTitle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
-            this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1008, 65);
-            this.pnlHeader.TabIndex = 0;
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(18, 16);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(434, 30);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "🎬 HỆ THỐNG ĐẶT VÉ PHIM CGV CINEMA";
-            // 
-            // pnlFilter
-            // 
-            this.pnlFilter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(244)))), ((int)(((byte)(248)))));
-            this.pnlFilter.Controls.Add(this.btnLamMoi);
-            this.pnlFilter.Controls.Add(this.btnTimKiem);
-            this.pnlFilter.Controls.Add(this.txtTimKiem);
-            this.pnlFilter.Controls.Add(this.lblTimKiem);
-            this.pnlFilter.Controls.Add(this.cboLoaiPhim);
-            this.pnlFilter.Controls.Add(this.lblLoc);
-            this.pnlFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlFilter.Location = new System.Drawing.Point(0, 65);
-            this.pnlFilter.Name = "pnlFilter";
-            this.pnlFilter.Size = new System.Drawing.Size(1008, 55);
-            this.pnlFilter.TabIndex = 1;
-            // 
-            // btnLamMoi
-            // 
-            this.btnLamMoi.BackColor = System.Drawing.Color.White;
-            this.btnLamMoi.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnLamMoi.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnLamMoi.Location = new System.Drawing.Point(685, 12);
-            this.btnLamMoi.Name = "btnLamMoi";
-            this.btnLamMoi.Size = new System.Drawing.Size(85, 29);
-            this.btnLamMoi.TabIndex = 5;
-            this.btnLamMoi.Text = "Làm mới";
-            this.btnLamMoi.UseVisualStyleBackColor = true;
-            this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
-            // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.BackColor = System.Drawing.Color.White;
-            this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnTimKiem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnTimKiem.Location = new System.Drawing.Point(595, 12);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(80, 29);
-            this.btnTimKiem.TabIndex = 4;
-            this.btnTimKiem.Text = "Tìm kiếm";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
-            // 
-            // txtTimKiem
-            // 
-            this.txtTimKiem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtTimKiem.Location = new System.Drawing.Point(395, 14);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.PlaceholderText = "Nhập tên phim...";
-            this.txtTimKiem.Size = new System.Drawing.Size(190, 25);
-            this.txtTimKiem.TabIndex = 3;
-            this.txtTimKiem.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtTimKiem_KeyDown);
-            // 
-            // lblTimKiem
-            // 
-            this.lblTimKiem.AutoSize = true;
-            this.lblTimKiem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTimKiem.Location = new System.Drawing.Point(325, 17);
-            this.lblTimKiem.Name = "lblTimKiem";
-            this.lblTimKiem.Size = new System.Drawing.Size(68, 17);
-            this.lblTimKiem.TabIndex = 2;
-            this.lblTimKiem.Text = "Tìm kiếm:";
-            // 
-            // cboLoaiPhim
-            // 
-            this.cboLoaiPhim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboLoaiPhim.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.cboLoaiPhim.FormattingEnabled = true;
-            this.cboLoaiPhim.Items.AddRange(new object[] {
-            "Tất cả",
-            "Đang chiếu",
-            "Đặc biệt",
-            "Sắp chiếu"});
-            this.cboLoaiPhim.Location = new System.Drawing.Point(125, 14);
-            this.cboLoaiPhim.Name = "cboLoaiPhim";
-            this.cboLoaiPhim.Size = new System.Drawing.Size(165, 25);
-            this.cboLoaiPhim.TabIndex = 1;
-            this.cboLoaiPhim.SelectedIndexChanged += new System.EventHandler(this.cboLoaiPhim_SelectedIndexChanged);
-            // 
-            // lblLoc
-            // 
-            this.lblLoc.AutoSize = true;
-            this.lblLoc.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblLoc.Location = new System.Drawing.Point(18, 17);
-            this.lblLoc.Name = "lblLoc";
-            this.lblLoc.Size = new System.Drawing.Size(103, 17);
-            this.lblLoc.TabIndex = 0;
-            this.lblLoc.Text = "Phân loại phim:";
-            // 
-            // spltMain
-            // 
-            this.spltMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spltMain.Location = new System.Drawing.Point(0, 120);
-            this.spltMain.Name = "spltMain";
-            // 
-            // spltMain.Panel1
-            // 
-            this.spltMain.Panel1.Controls.Add(this.grpDanhSach);
-            this.spltMain.Panel1.Padding = new System.Windows.Forms.Padding(10);
-            // 
-            // spltMain.Panel2
-            // 
-            this.spltMain.Panel2.Controls.Add(this.grpChiTiet);
-            this.spltMain.Panel2.Padding = new System.Windows.Forms.Padding(10);
-            this.spltMain.Size = new System.Drawing.Size(1008, 579);
-            this.spltMain.SplitterDistance = 630;
-            this.spltMain.TabIndex = 2;
-            // 
-            // grpDanhSach
-            // 
-            this.grpDanhSach.Controls.Add(this.dgvPhim);
-            this.grpDanhSach.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpDanhSach.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.grpDanhSach.Location = new System.Drawing.Point(10, 10);
-            this.grpDanhSach.Name = "grpDanhSach";
-            this.grpDanhSach.Padding = new System.Windows.Forms.Padding(8);
-            this.grpDanhSach.Size = new System.Drawing.Size(610, 559);
-            this.grpDanhSach.TabIndex = 0;
-            this.grpDanhSach.TabStop = false;
-            this.grpDanhSach.Text = "DANH SÁCH PHIM";
-            // 
-            // dgvPhim
-            // 
-            this.dgvPhim.AllowUserToAddRows = false;
-            this.dgvPhim.AllowUserToDeleteRows = false;
-            this.dgvPhim.AllowUserToResizeRows = false;
-            this.dgvPhim.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvPhim.BackgroundColor = System.Drawing.Color.White;
-            this.dgvPhim.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(101)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPhim.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvPhim.ColumnHeadersHeight = 35;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(242)))), ((int)(((byte)(253)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPhim.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvPhim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPhim.EnableHeadersVisualStyles = false;
-            this.dgvPhim.Location = new System.Drawing.Point(8, 26);
-            this.dgvPhim.MultiSelect = false;
-            this.dgvPhim.Name = "dgvPhim";
-            this.dgvPhim.ReadOnly = true;
-            this.dgvPhim.RowHeadersVisible = false;
-            this.dgvPhim.RowTemplate.Height = 32;
-            this.dgvPhim.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPhim.Size = new System.Drawing.Size(594, 525);
-            this.dgvPhim.TabIndex = 0;
-            this.dgvPhim.SelectionChanged += new System.EventHandler(this.dgvPhim_SelectionChanged);
-            // 
-            // grpChiTiet
-            // 
-            this.grpChiTiet.Controls.Add(this.btnDatVe);
-            this.grpChiTiet.Controls.Add(this.lblGiaVe);
-            this.grpChiTiet.Controls.Add(this.lblDoTuoi);
-            this.grpChiTiet.Controls.Add(this.lblNgayChieu);
-            this.grpChiTiet.Controls.Add(this.lblThoiLuong);
-            this.grpChiTiet.Controls.Add(this.lblTheLoai);
-            this.grpChiTiet.Controls.Add(this.lblTenPhim);
-            this.grpChiTiet.Controls.Add(this.picPoster);
-            this.grpChiTiet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpChiTiet.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.grpChiTiet.Location = new System.Drawing.Point(10, 10);
-            this.grpChiTiet.Name = "grpChiTiet";
-            this.grpChiTiet.Padding = new System.Windows.Forms.Padding(12);
-            this.grpChiTiet.Size = new System.Drawing.Size(354, 559);
-            this.grpChiTiet.TabIndex = 0;
-            this.grpChiTiet.TabStop = false;
-            this.grpChiTiet.Text = "THÔNG TIN CHI TIẾT (TMDB)";
-            // 
-            // btnDatVe
-            // 
-            this.btnDatVe.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDatVe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(101)))), ((int)(((byte)(192)))));
-            this.btnDatVe.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDatVe.FlatAppearance.BorderSize = 0;
-            this.btnDatVe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDatVe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnDatVe.ForeColor = System.Drawing.Color.White;
-            this.btnDatVe.Location = new System.Drawing.Point(15, 495);
-            this.btnDatVe.Name = "btnDatVe";
-            this.btnDatVe.Size = new System.Drawing.Size(324, 45);
-            this.btnDatVe.TabIndex = 7;
-            this.btnDatVe.Text = "🎟️ ĐẶT VÉ NGAY";
-            this.btnDatVe.UseVisualStyleBackColor = false;
-            this.btnDatVe.Click += new System.EventHandler(this.btnDatVe_Click);
-            // 
-            // lblGiaVe
-            // 
-            this.lblGiaVe.AutoSize = true;
-            this.lblGiaVe.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblGiaVe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.lblGiaVe.Location = new System.Drawing.Point(15, 450);
-            this.lblGiaVe.Name = "lblGiaVe";
-            this.lblGiaVe.Size = new System.Drawing.Size(125, 20);
-            this.lblGiaVe.TabIndex = 6;
-            this.lblGiaVe.Text = "Giá vé: 90.000 đ";
-            // 
-            // lblDoTuoi
-            // 
-            this.lblDoTuoi.AutoSize = true;
-            this.lblDoTuoi.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblDoTuoi.Location = new System.Drawing.Point(15, 418);
-            this.lblDoTuoi.Name = "lblDoTuoi";
-            this.lblDoTuoi.Size = new System.Drawing.Size(83, 17);
-            this.lblDoTuoi.TabIndex = 5;
-            this.lblDoTuoi.Text = "Độ tuổi: T18";
-            // 
-            // lblNgayChieu
-            // 
-            this.lblNgayChieu.AutoSize = true;
-            this.lblNgayChieu.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNgayChieu.Location = new System.Drawing.Point(15, 386);
-            this.lblNgayChieu.Name = "lblNgayChieu";
-            this.lblNgayChieu.Size = new System.Drawing.Size(143, 17);
-            this.lblNgayChieu.TabIndex = 4;
-            this.lblNgayChieu.Text = "Khởi chiếu: 10/02/2026";
-            // 
-            // lblThoiLuong
-            // 
-            this.lblThoiLuong.AutoSize = true;
-            this.lblThoiLuong.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblThoiLuong.Location = new System.Drawing.Point(15, 354);
-            this.lblThoiLuong.Name = "lblThoiLuong";
-            this.lblThoiLuong.Size = new System.Drawing.Size(130, 17);
-            this.lblThoiLuong.TabIndex = 3;
-            this.lblThoiLuong.Text = "Thời lượng: 120 phút";
-            // 
-            // lblTheLoai
-            // 
-            this.lblTheLoai.AutoSize = true;
-            this.lblTheLoai.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTheLoai.Location = new System.Drawing.Point(15, 322);
-            this.lblTheLoai.Name = "lblTheLoai";
-            this.lblTheLoai.Size = new System.Drawing.Size(161, 17);
-            this.lblTheLoai.TabIndex = 2;
-            this.lblTheLoai.Text = "Thể loại: Tâm lý, Tình cảm";
-            // 
-            // lblTenPhim
-            // 
-            this.lblTenPhim.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTenPhim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(13)))), ((int)(((byte)(71)))), ((int)(((byte)(161)))));
-            this.lblTenPhim.Location = new System.Drawing.Point(15, 270);
-            this.lblTenPhim.Name = "lblTenPhim";
-            this.lblTenPhim.Size = new System.Drawing.Size(324, 45);
-            this.lblTenPhim.TabIndex = 1;
-            this.lblTenPhim.Text = "Tên phim";
-            // 
-            // picPoster
-            // 
-            this.picPoster.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
-            this.picPoster.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picPoster.Dock = System.Windows.Forms.DockStyle.Top;
-            this.picPoster.Location = new System.Drawing.Point(12, 30);
-            this.picPoster.Name = "picPoster";
-            this.picPoster.Size = new System.Drawing.Size(330, 230);
-            this.picPoster.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picPoster.TabIndex = 0;
-            this.picPoster.TabStop = false;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatusTongSo});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 699);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // lblStatusTongSo
-            // 
-            this.lblStatusTongSo.Name = "lblStatusTongSo";
-            this.lblStatusTongSo.Size = new System.Drawing.Size(100, 17);
-            this.lblStatusTongSo.Text = "Tổng số phim: 0";
-            // 
-            // frmMain
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1008, 721);
-            this.Controls.Add(this.spltMain);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.pnlFilter);
-            this.Controls.Add(this.pnlHeader);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.MinimumSize = new System.Drawing.Size(800, 600);
-            this.Name = "frmMain";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Hệ Thống Đặt Vé Phim CGV (TMDB API)";
-            this.Load += new System.EventHandler(this.frmMain_Load);
-            this.pnlHeader.ResumeLayout(false);
-            this.pnlHeader.PerformLayout();
-            this.pnlFilter.ResumeLayout(false);
-            this.pnlFilter.PerformLayout();
-            this.spltMain.Panel1.ResumeLayout(false);
-            this.spltMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.spltMain)).EndInit();
-            this.spltMain.ResumeLayout(false);
-            this.grpDanhSach.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhim)).EndInit();
-            this.grpChiTiet.ResumeLayout(false);
-            this.grpChiTiet.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picPoster)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            components = new System.ComponentModel.Container();
 
+            // ── Design Tokens ─────────────────────────────────
+            var cgvRed = System.Drawing.Color.FromArgb(231, 26, 15);
+            var cgvRedHover = System.Drawing.Color.FromArgb(200, 20, 10);
+            var bgLight = System.Drawing.Color.FromArgb(248, 248, 250);
+            var surface = System.Drawing.Color.White;
+            var textPrimary = System.Drawing.Color.FromArgb(29, 29, 31);
+            var textSecondary = System.Drawing.Color.FromArgb(110, 110, 115);
+            var border = System.Drawing.Color.FromArgb(229, 229, 234);
+            var hoverBg = System.Drawing.Color.FromArgb(242, 242, 247);
+
+            var fontBase = new System.Drawing.Font(
+                "Segoe UI", 9.5F);
+            var fontLogo = new System.Drawing.Font(
+                "Segoe UI", 22F, System.Drawing.FontStyle.Bold);
+            var fontBtn = new System.Drawing.Font(
+                "Segoe UI Semibold", 9.5F);
+            var fontTab = new System.Drawing.Font(
+                "Segoe UI Semibold", 10.5F);
+            var fontTitle = new System.Drawing.Font(
+                "Segoe UI", 15F, System.Drawing.FontStyle.Bold);
+            var fontBadge = new System.Drawing.Font(
+                "Segoe UI Semibold", 9F);
+            var fontInfo = new System.Drawing.Font(
+                "Segoe UI", 9.5F);
+            var fontDatVe = new System.Drawing.Font(
+                "Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            var fontNav = new System.Drawing.Font(
+                "Segoe UI", 22F);
+            var fontRank = new System.Drawing.Font(
+                "Segoe UI", 32F, System.Drawing.FontStyle.Bold);
+            var fontHoTro = new System.Drawing.Font(
+                "Segoe UI", 9.5F);
+
+            // Khởi tạo các control
+            pnlHeader = new Panel();
+            pnlHeaderBorder = new Panel();
+            tlpHeader = new TableLayoutPanel();
+            picAvatar = new PictureBox();
+            lblLogo = new Label();
+            tlpHeaderRight = new TableLayoutPanel();
+            btnVe = new Button();
+            btnMenu = new Button();
+
+            picBanner = new PictureBox();
+            tabMain = new TabControl();
+            tabDangChieu = new TabPage();
+            tabDacBiet = new TabPage();
+            tabSapChieu = new TabPage();
+
+            pnlHoTro = new Panel();
+            picMascot = new PictureBox();
+            lblHoTro = new Label();
+
+            pnlThongTin = new Panel();
+            pnlThongTinBorder = new Panel();
+            tlpThongTin = new TableLayoutPanel();
+            flpThongTinPhim = new FlowLayoutPanel();
+            lblTenPhim = new Label();
+            lblDoTuoi = new Label();
+            lblThongTin = new Label();
+            btnDatVe = new Button();
+
+            pnlCarousel = new Panel();
+            tlpCarousel = new TableLayoutPanel();
+            btnPrev = new Button();
+            picXaTrai = new PictureBox();
+            picTrai = new PictureBox();
+            picGiua = new PictureBox();
+            picPhai = new PictureBox();
+            picXaPhai = new PictureBox();
+            btnNext = new Button();
+            lblThuHang = new Label();
+
+            tmrBanner = new System.Windows.Forms.Timer(components);
+            tip = new ToolTip(components);
+
+            // Tạm dừng bố cục
+            SuspendLayout();
+            pnlHeader.SuspendLayout();
+            tlpHeader.SuspendLayout();
+            tlpHeaderRight.SuspendLayout();
+            pnlHoTro.SuspendLayout();
+            pnlThongTin.SuspendLayout();
+            tlpThongTin.SuspendLayout();
+            flpThongTinPhim.SuspendLayout();
+            pnlCarousel.SuspendLayout();
+            tlpCarousel.SuspendLayout();
+
+            ((System.ComponentModel.ISupportInitialize)picAvatar)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picBanner)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picMascot)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picXaTrai)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picTrai)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picGiua)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picPhai)
+                .BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picXaPhai)
+                .BeginInit();
+
+            // ══════════════════════════════════════════════════
+            // HEADER – logo trái, nút phải, nền trắng
+            // ══════════════════════════════════════════════════
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Height = 56;
+            pnlHeader.BackColor = surface;
+            pnlHeader.Padding = new Padding(16, 0, 16, 0);
+            pnlHeader.Name = "pnlHeader";
+
+            tlpHeader.Dock = DockStyle.Fill;
+            tlpHeader.ColumnCount = 3;
+            tlpHeader.RowCount = 1;
+            tlpHeader.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 56F));
+            tlpHeader.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100F));
+            tlpHeader.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 220F));
+            tlpHeader.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100F));
+            tlpHeader.BackColor = surface;
+            tlpHeader.Name = "tlpHeader";
+
+            picAvatar.Dock = DockStyle.Fill;
+            picAvatar.SizeMode = PictureBoxSizeMode.Zoom;
+            picAvatar.BackColor = surface;
+            picAvatar.Name = "picAvatar";
+            picAvatar.TabStop = false;
+
+            lblLogo.Dock = DockStyle.Fill;
+            lblLogo.Text = "CGV";
+            lblLogo.TextAlign = ContentAlignment.MiddleLeft;
+            lblLogo.Font = fontLogo;
+            lblLogo.ForeColor = cgvRed;
+            lblLogo.BackColor = surface;
+            lblLogo.Padding = new Padding(4, 0, 0, 0);
+            lblLogo.Name = "lblLogo";
+
+            tlpHeaderRight.Dock = DockStyle.Fill;
+            tlpHeaderRight.ColumnCount = 2;
+            tlpHeaderRight.RowCount = 1;
+            tlpHeaderRight.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 50F));
+            tlpHeaderRight.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 50F));
+            tlpHeaderRight.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100F));
+            tlpHeaderRight.BackColor = surface;
+            tlpHeaderRight.Name = "tlpHeaderRight";
+
+            btnVe.Dock = DockStyle.None;
+            btnVe.Anchor = AnchorStyles.None;
+            btnVe.Size = new System.Drawing.Size(92, 36);
+            btnVe.Text = "🎫 Vé";
+            btnVe.Font = fontBtn;
+            btnVe.FlatStyle = FlatStyle.Flat;
+            btnVe.FlatAppearance.BorderColor = border;
+            btnVe.FlatAppearance.BorderSize = 1;
+            btnVe.FlatAppearance.MouseOverBackColor = hoverBg;
+            btnVe.BackColor = surface;
+            btnVe.ForeColor = textPrimary;
+            btnVe.Cursor = Cursors.Hand;
+            btnVe.Name = "btnVe";
+            btnVe.Click += new EventHandler(btnVe_Click);
+
+            btnMenu.Dock = DockStyle.None;
+            btnMenu.Anchor = AnchorStyles.None;
+            btnMenu.Size = new System.Drawing.Size(92, 36);
+            btnMenu.Text = "☰ Menu";
+            btnMenu.Font = fontBtn;
+            btnMenu.FlatStyle = FlatStyle.Flat;
+            btnMenu.FlatAppearance.BorderColor = border;
+            btnMenu.FlatAppearance.BorderSize = 1;
+            btnMenu.FlatAppearance.MouseOverBackColor = hoverBg;
+            btnMenu.BackColor = surface;
+            btnMenu.ForeColor = textPrimary;
+            btnMenu.Cursor = Cursors.Hand;
+            btnMenu.Name = "btnMenu";
+            btnMenu.Click += new EventHandler(btnMenu_Click);
+
+            tlpHeaderRight.Controls.Add(btnVe, 0, 0);
+            tlpHeaderRight.Controls.Add(btnMenu, 1, 0);
+
+            tlpHeader.Controls.Add(picAvatar, 0, 0);
+            tlpHeader.Controls.Add(lblLogo, 1, 0);
+            tlpHeader.Controls.Add(tlpHeaderRight, 2, 0);
+            pnlHeader.Controls.Add(tlpHeader);
+
+            // Đường kẻ phân cách header
+            pnlHeaderBorder.Dock = DockStyle.Top;
+            pnlHeaderBorder.Height = 1;
+            pnlHeaderBorder.BackColor = border;
+            pnlHeaderBorder.Name = "pnlHeaderBorder";
+
+            // ══════════════════════════════════════════════════
+            // BANNER quảng cáo
+            // ══════════════════════════════════════════════════
+            picBanner.Dock = DockStyle.Top;
+            picBanner.Height = 120;
+            picBanner.SizeMode = PictureBoxSizeMode.Zoom;
+            picBanner.BackColor = bgLight;
+            picBanner.Name = "picBanner";
+
+            tmrBanner.Interval = 3000;
+            tmrBanner.Tick += new EventHandler(tmrBanner_Tick);
+
+            // ══════════════════════════════════════════════════
+            // TABS – vẽ thủ công, gạch đỏ dưới tab đang chọn
+            // ══════════════════════════════════════════════════
+            tabMain.Dock = DockStyle.Top;
+            tabMain.Height = 42;
+            tabMain.DrawMode = TabDrawMode.OwnerDrawFixed;
+            tabMain.SizeMode = TabSizeMode.Fixed;
+            tabMain.ItemSize = new System.Drawing.Size(110, 40);
+            tabMain.Appearance = TabAppearance.FlatButtons;
+            tabMain.Font = fontTab;
+            tabMain.BackColor = surface;
+            tabMain.Name = "tabMain";
+            tabMain.SelectedIndexChanged +=
+                new EventHandler(tabMain_SelectedIndexChanged);
+            tabMain.DrawItem +=
+                new DrawItemEventHandler(tabMain_DrawItem);
+
+            tabDangChieu.Text = "Đang Chiếu";
+            tabDangChieu.BackColor = surface;
+            tabDangChieu.Name = "tabDangChieu";
+
+            tabDacBiet.Text = "Đặc Biệt";
+            tabDacBiet.BackColor = surface;
+            tabDacBiet.Name = "tabDacBiet";
+
+            tabSapChieu.Text = "Sắp Chiếu";
+            tabSapChieu.BackColor = surface;
+            tabSapChieu.Name = "tabSapChieu";
+
+            tabMain.TabPages.AddRange(new TabPage[]
+            {
+                tabDangChieu,
+                tabDacBiet,
+                tabSapChieu
+            });
+
+            // ══════════════════════════════════════════════════
+            // HỖ TRỢ – thanh nhỏ dưới cùng
+            // ══════════════════════════════════════════════════
+            pnlHoTro.Dock = DockStyle.Bottom;
+            pnlHoTro.Height = 42;
+            pnlHoTro.BackColor = surface;
+            pnlHoTro.Padding = new Padding(20, 0, 20, 0);
+            pnlHoTro.Name = "pnlHoTro";
+
+            picMascot.Dock = DockStyle.Left;
+            picMascot.Width = 36;
+            picMascot.SizeMode = PictureBoxSizeMode.Zoom;
+            picMascot.BackColor = surface;
+            picMascot.Name = "picMascot";
+            picMascot.TabStop = false;
+
+            lblHoTro.Dock = DockStyle.Fill;
+            lblHoTro.Text = "Bạn cần hỗ trợ gì?";
+            lblHoTro.TextAlign = ContentAlignment.MiddleLeft;
+            lblHoTro.Font = fontHoTro;
+            lblHoTro.ForeColor = textSecondary;
+            lblHoTro.BackColor = surface;
+            lblHoTro.Padding = new Padding(8, 0, 0, 0);
+            lblHoTro.Name = "lblHoTro";
+
+            pnlHoTro.Controls.Add(lblHoTro);
+            pnlHoTro.Controls.Add(picMascot);
+
+            // ══════════════════════════════════════════════════
+            // THÔNG TIN PHIM + NÚT ĐẶT VÉ
+            // ══════════════════════════════════════════════════
+            pnlThongTinBorder.Dock = DockStyle.Bottom;
+            pnlThongTinBorder.Height = 1;
+            pnlThongTinBorder.BackColor = border;
+            pnlThongTinBorder.Name = "pnlThongTinBorder";
+
+            pnlThongTin.Dock = DockStyle.Bottom;
+            pnlThongTin.Height = 100;
+            pnlThongTin.BackColor = surface;
+            pnlThongTin.Padding = new Padding(28, 10, 28, 10);
+            pnlThongTin.Name = "pnlThongTin";
+
+            tlpThongTin.Dock = DockStyle.Fill;
+            tlpThongTin.ColumnCount = 2;
+            tlpThongTin.RowCount = 2;
+            tlpThongTin.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 78F));
+            tlpThongTin.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 22F));
+            tlpThongTin.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 55F));
+            tlpThongTin.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 45F));
+            tlpThongTin.BackColor = surface;
+            tlpThongTin.Name = "tlpThongTin";
+
+            flpThongTinPhim.Dock = DockStyle.Fill;
+            flpThongTinPhim.WrapContents = true;
+            flpThongTinPhim.BackColor = surface;
+            flpThongTinPhim.Name = "flpThongTinPhim";
+
+            lblTenPhim.AutoSize = true;
+            lblTenPhim.Text = "Chọn phim";
+            lblTenPhim.Font = fontTitle;
+            lblTenPhim.ForeColor = textPrimary;
+            lblTenPhim.Margin = new Padding(0, 6, 10, 0);
+            lblTenPhim.Name = "lblTenPhim";
+
+            lblDoTuoi.AutoSize = true;
+            lblDoTuoi.Text = "";
+            lblDoTuoi.Font = fontBadge;
+            lblDoTuoi.ForeColor = System.Drawing.Color.White;
+            lblDoTuoi.BackColor = cgvRed;
+            lblDoTuoi.Padding = new Padding(6, 4, 6, 4);
+            lblDoTuoi.Margin = new Padding(0, 9, 0, 0);
+            lblDoTuoi.Visible = false;
+            lblDoTuoi.Name = "lblDoTuoi";
+
+            flpThongTinPhim.Controls.Add(lblTenPhim);
+            flpThongTinPhim.Controls.Add(lblDoTuoi);
+
+            lblThongTin.Dock = DockStyle.Fill;
+            lblThongTin.Text = "";
+            lblThongTin.TextAlign = ContentAlignment.MiddleLeft;
+            lblThongTin.Font = fontInfo;
+            lblThongTin.ForeColor = textSecondary;
+            lblThongTin.BackColor = surface;
+            lblThongTin.Name = "lblThongTin";
+
+            btnDatVe.Text = "ĐẶT VÉ";
+            btnDatVe.Name = "btnDatVe";
+            btnDatVe.Anchor = AnchorStyles.None;
+            btnDatVe.Size = new System.Drawing.Size(160, 48);
+            btnDatVe.Font = fontDatVe;
+            btnDatVe.FlatStyle = FlatStyle.Flat;
+            btnDatVe.FlatAppearance.BorderSize = 0;
+            btnDatVe.FlatAppearance.MouseOverBackColor = cgvRedHover;
+            btnDatVe.BackColor = cgvRed;
+            btnDatVe.ForeColor = System.Drawing.Color.White;
+            btnDatVe.Cursor = Cursors.Hand;
+            btnDatVe.Click += new EventHandler(btnDatVe_Click);
+
+            tlpThongTin.Controls.Add(flpThongTinPhim, 0, 0);
+            tlpThongTin.Controls.Add(lblThongTin, 0, 1);
+            tlpThongTin.Controls.Add(btnDatVe, 1, 0);
+            tlpThongTin.SetRowSpan(btnDatVe, 2);
+
+            pnlThongTin.Controls.Add(tlpThongTin);
+
+            // ══════════════════════════════════════════════════
+            // CAROUSEL – năm poster + hai nút điều hướng
+            // ══════════════════════════════════════════════════
+            pnlCarousel.Dock = DockStyle.Fill;
+            pnlCarousel.BackColor = bgLight;
+            pnlCarousel.Padding = new Padding(0, 8, 0, 8);
+            pnlCarousel.Name = "pnlCarousel";
+
+            tlpCarousel.Dock = DockStyle.Fill;
+            tlpCarousel.ColumnCount = 7;
+            tlpCarousel.RowCount = 1;
+            tlpCarousel.BackColor = bgLight;
+            tlpCarousel.Name = "tlpCarousel";
+
+            float[] tyLeCot = { 5F, 10F, 16F, 38F, 16F, 10F, 5F };
+
+            foreach (float tyLe in tyLeCot)
+            {
+                tlpCarousel.ColumnStyles.Add(
+                    new ColumnStyle(SizeType.Percent, tyLe));
+            }
+
+            tlpCarousel.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100F));
+
+            btnPrev.Dock = DockStyle.Fill;
+            btnPrev.Text = "‹";
+            btnPrev.Font = fontNav;
+            btnPrev.FlatStyle = FlatStyle.Flat;
+            btnPrev.FlatAppearance.BorderSize = 0;
+            btnPrev.FlatAppearance.MouseOverBackColor =
+                System.Drawing.Color.FromArgb(235, 235, 237);
+            btnPrev.BackColor = System.Drawing.Color.Transparent;
+            btnPrev.ForeColor = textSecondary;
+            btnPrev.Cursor = Cursors.Hand;
+            btnPrev.Name = "btnPrev";
+            btnPrev.Click += new EventHandler(btnPrev_Click);
+
+            btnNext.Dock = DockStyle.Fill;
+            btnNext.Text = "›";
+            btnNext.Font = fontNav;
+            btnNext.FlatStyle = FlatStyle.Flat;
+            btnNext.FlatAppearance.BorderSize = 0;
+            btnNext.FlatAppearance.MouseOverBackColor =
+                System.Drawing.Color.FromArgb(235, 235, 237);
+            btnNext.BackColor = System.Drawing.Color.Transparent;
+            btnNext.ForeColor = textSecondary;
+            btnNext.Cursor = Cursors.Hand;
+            btnNext.Name = "btnNext";
+            btnNext.Click += new EventHandler(btnNext_Click);
+
+            picXaTrai.Dock = DockStyle.Fill;
+            picXaTrai.Margin = new Padding(2, 60, 2, 60);
+            picXaTrai.SizeMode = PictureBoxSizeMode.Zoom;
+            picXaTrai.BackColor = System.Drawing.Color.Transparent;
+            picXaTrai.Cursor = Cursors.Hand;
+            picXaTrai.Name = "picXaTrai";
+            picXaTrai.Click += new EventHandler(picXaTrai_Click);
+
+            picTrai.Dock = DockStyle.Fill;
+            picTrai.Margin = new Padding(2, 30, 2, 30);
+            picTrai.SizeMode = PictureBoxSizeMode.Zoom;
+            picTrai.BackColor = System.Drawing.Color.Transparent;
+            picTrai.Cursor = Cursors.Hand;
+            picTrai.Name = "picTrai";
+            picTrai.Click += new EventHandler(picTrai_Click);
+
+            picGiua.Dock = DockStyle.Fill;
+            picGiua.Margin = new Padding(4);
+            picGiua.SizeMode = PictureBoxSizeMode.Zoom;
+            picGiua.BackColor = System.Drawing.Color.Transparent;
+            picGiua.Cursor = Cursors.Hand;
+            picGiua.Controls.Add(lblThuHang);
+            picGiua.Name = "picGiua";
+            picGiua.Click += new EventHandler(picGiua_Click);
+
+            lblThuHang.Dock = DockStyle.Bottom;
+            lblThuHang.Height = 52;
+            lblThuHang.Text = "";
+            lblThuHang.TextAlign = ContentAlignment.BottomLeft;
+            lblThuHang.BackColor = System.Drawing.Color.Transparent;
+            lblThuHang.ForeColor = System.Drawing.Color.White;
+            lblThuHang.Font = fontRank;
+            lblThuHang.Padding = new Padding(8, 0, 0, 4);
+            lblThuHang.Name = "lblThuHang";
+
+            picPhai.Dock = DockStyle.Fill;
+            picPhai.Margin = new Padding(2, 30, 2, 30);
+            picPhai.SizeMode = PictureBoxSizeMode.Zoom;
+            picPhai.BackColor = System.Drawing.Color.Transparent;
+            picPhai.Cursor = Cursors.Hand;
+            picPhai.Name = "picPhai";
+            picPhai.Click += new EventHandler(picPhai_Click);
+
+            picXaPhai.Dock = DockStyle.Fill;
+            picXaPhai.Margin = new Padding(2, 60, 2, 60);
+            picXaPhai.SizeMode = PictureBoxSizeMode.Zoom;
+            picXaPhai.BackColor = System.Drawing.Color.Transparent;
+            picXaPhai.Cursor = Cursors.Hand;
+            picXaPhai.Name = "picXaPhai";
+            picXaPhai.Click += new EventHandler(picXaPhai_Click);
+
+            tlpCarousel.Controls.Add(btnPrev, 0, 0);
+            tlpCarousel.Controls.Add(picXaTrai, 1, 0);
+            tlpCarousel.Controls.Add(picTrai, 2, 0);
+            tlpCarousel.Controls.Add(picGiua, 3, 0);
+            tlpCarousel.Controls.Add(picPhai, 4, 0);
+            tlpCarousel.Controls.Add(picXaPhai, 5, 0);
+            tlpCarousel.Controls.Add(btnNext, 6, 0);
+
+            pnlCarousel.Controls.Add(tlpCarousel);
+
+            // Chú thích thao tác nhanh
+            tip.SetToolTip(btnPrev, "Phim trước");
+            tip.SetToolTip(btnNext, "Phim tiếp theo");
+            tip.SetToolTip(btnDatVe, "Đặt vé phim đang chọn");
+            tip.SetToolTip(btnVe, "Vé của bạn");
+            tip.SetToolTip(btnMenu, "Menu");
+
+            // ══════════════════════════════════════════════════
+            // FORM
+            // ══════════════════════════════════════════════════
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = bgLight;
+            Font = fontBase;
+            MinimumSize = new System.Drawing.Size(1024, 700);
+            WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.Sizable;
+            KeyPreview = true;
+            DoubleBuffered = true;
+            Name = "frmMain";
+            Text = "CGV Cinemas";
+
+            // Thứ tự thêm control để Dock xếp chồng đúng
+            Controls.Add(pnlCarousel);
+            Controls.Add(pnlThongTinBorder);
+            Controls.Add(pnlThongTin);
+            Controls.Add(pnlHoTro);
+            Controls.Add(tabMain);
+            Controls.Add(picBanner);
+            Controls.Add(pnlHeaderBorder);
+            Controls.Add(pnlHeader);
+
+            Load += new EventHandler(frmMain_Load);
+            KeyDown += new KeyEventHandler(frmMain_KeyDown);
+            MouseWheel += new MouseEventHandler(frmMain_MouseWheel);
+
+            // Tiếp tục bố cục
+            ((System.ComponentModel.ISupportInitialize)picAvatar)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picBanner)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picMascot)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picXaTrai)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picTrai)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picGiua)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picPhai)
+                .EndInit();
+            ((System.ComponentModel.ISupportInitialize)picXaPhai)
+                .EndInit();
+
+            pnlHeader.ResumeLayout(false);
+            tlpHeader.ResumeLayout(false);
+            tlpHeaderRight.ResumeLayout(false);
+            pnlHoTro.ResumeLayout(false);
+            pnlThongTin.ResumeLayout(false);
+            tlpThongTin.ResumeLayout(false);
+            flpThongTinPhim.ResumeLayout(false);
+            flpThongTinPhim.PerformLayout();
+            pnlCarousel.ResumeLayout(false);
+            tlpCarousel.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
-        #endregion
+        // Khai báo các control
+        private Panel pnlHeader;
+        private Panel pnlHeaderBorder;
+        private TableLayoutPanel tlpHeader;
+        private PictureBox picAvatar;
+        private Label lblLogo;
+        private TableLayoutPanel tlpHeaderRight;
+        private Button btnVe;
+        private Button btnMenu;
 
-        private System.Windows.Forms.Panel pnlHeader;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel pnlFilter;
-        private System.Windows.Forms.ComboBox cboLoaiPhim;
-        private System.Windows.Forms.Label lblLoc;
-        private System.Windows.Forms.TextBox txtTimKiem;
-        private System.Windows.Forms.Label lblTimKiem;
-        private System.Windows.Forms.Button btnTimKiem;
-        private System.Windows.Forms.Button btnLamMoi;
-        private System.Windows.Forms.SplitContainer spltMain;
-        private System.Windows.Forms.GroupBox grpDanhSach;
-        private System.Windows.Forms.DataGridView dgvPhim;
-        private System.Windows.Forms.GroupBox grpChiTiet;
-        private System.Windows.Forms.PictureBox picPoster;
-        private System.Windows.Forms.Label lblTenPhim;
-        private System.Windows.Forms.Label lblTheLoai;
-        private System.Windows.Forms.Label lblThoiLuong;
-        private System.Windows.Forms.Label lblNgayChieu;
-        private System.Windows.Forms.Label lblDoTuoi;
-        private System.Windows.Forms.Label lblGiaVe;
-        private System.Windows.Forms.Button btnDatVe;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel lblStatusTongSo;
+        private PictureBox picBanner;
+        private TabControl tabMain;
+        private TabPage tabDangChieu;
+        private TabPage tabDacBiet;
+        private TabPage tabSapChieu;
+
+        private Panel pnlHoTro;
+        private PictureBox picMascot;
+        private Label lblHoTro;
+
+        private Panel pnlThongTin;
+        private Panel pnlThongTinBorder;
+        private TableLayoutPanel tlpThongTin;
+        private FlowLayoutPanel flpThongTinPhim;
+        private Label lblTenPhim;
+        private Label lblDoTuoi;
+        private Label lblThongTin;
+        private Button btnDatVe;
+
+        private Panel pnlCarousel;
+        private TableLayoutPanel tlpCarousel;
+        private Button btnPrev;
+        private PictureBox picXaTrai;
+        private PictureBox picTrai;
+        private PictureBox picGiua;
+        private PictureBox picPhai;
+        private PictureBox picXaPhai;
+        private Button btnNext;
+        private Label lblThuHang;
+
+        private System.Windows.Forms.Timer tmrBanner;
+        private ToolTip tip;
     }
 }
