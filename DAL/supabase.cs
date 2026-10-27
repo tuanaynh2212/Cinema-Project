@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -16,15 +15,11 @@ namespace cinema_project.DAL
         public static string TableName { get; set; } = "movies";
 
         private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
-        private static readonly JsonSerializerOptions _jsonOpt = new() { PropertyNameCaseInsensitive = true };
+        private static readonly JsonSerializerOptions _json = new() { PropertyNameCaseInsensitive = true };
 
         private HttpRequestMessage CreateRequest(HttpMethod method, string path)
         {
-            string baseUrl = SupabaseUrl.TrimEnd('/');
-            if (baseUrl.EndsWith("/rest/v1", StringComparison.OrdinalIgnoreCase))
-                baseUrl = baseUrl[..^8].TrimEnd('/');
-
-            var req = new HttpRequestMessage(method, $"{baseUrl}/rest/v1/{path.TrimStart('/')}");
+            var req = new HttpRequestMessage(method, $"{SupabaseUrl.TrimEnd('/')}/rest/v1/{path}");
             req.Headers.Add("apikey", SupabaseKey);
             req.Headers.Add("Authorization", $"Bearer {SupabaseKey}");
             return req;
@@ -32,56 +27,45 @@ namespace cinema_project.DAL
 
         public async Task<bool> ThemHoacCapNhatDanhSachPhimAsync(List<Phim> dsPhim)
         {
-            if (dsPhim == null || dsPhim.Count == 0 || string.IsNullOrWhiteSpace(SupabaseUrl)) return false;
+            var ds = dsPhim?.Where(p => p.TmdbId > 0)
+                            .GroupBy(p => p.TmdbId)
+                            .Select(g => g.First())
+                            .ToList();
+            if (ds == null || ds.Count == 0) return false;
+
+            foreach (var p in ds)
+                if (string.IsNullOrWhiteSpace(p.NgayChieu)) p.NgayChieu = null;
 
             try
             {
-                var dsHopLe = dsPhim.Where(p => p.TmdbId > 0).GroupBy(p => p.TmdbId!.Value).Select(g => g.First()).ToList();
-                if (dsHopLe.Count == 0) return false;
-
-                foreach (var p in dsHopLe)
-                    if (string.IsNullOrWhiteSpace(p.NgayChieu)) p.NgayChieu = null;
-
                 var req = CreateRequest(HttpMethod.Post, $"{TableName}?on_conflict=tmdb_id");
                 req.Headers.Add("Prefer", "resolution=merge-duplicates");
-                req.Content = new StringContent(JsonSerializer.Serialize(dsHopLe), Encoding.UTF8, "application/json");
-
+                req.Content = new StringContent(JsonSerializer.Serialize(ds), Encoding.UTF8, "application/json");
                 var res = await _http.SendAsync(req);
                 return res.IsSuccessStatusCode;
             }
-            catch (Exception ex)
+            catch
             {
-                Debug.WriteLine($"Supabase Upsert Exception: {ex.Message}");
                 return false;
             }
         }
 
         public async Task<List<Phim>> LayTatCaPhimAsync()
         {
-            var result = new List<Phim>();
-            if (string.IsNullOrWhiteSpace(SupabaseUrl)) return result;
-
             try
             {
                 var req = CreateRequest(HttpMethod.Get, $"{TableName}?select=*&order=tmdb_id.desc");
                 var res = await _http.SendAsync(req);
-                if (res.IsSuccessStatusCode)
-                {
-                    string json = await res.Content.ReadAsStringAsync();
-                    var data = JsonSerializer.Deserialize<List<Phim>>(json, _jsonOpt);
-                    if (data != null)
-                    {
-                        for (int i = 0; i < data.Count; i++) data[i].ChuanHoaThongTin(i);
-                        result = data;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Supabase LayTatCaPhimAsync Exception: {ex.Message}");
-            }
+                if (!res.IsSuccessStatusCode) return new();
 
-            return result;
+                var data = JsonSerializer.Deserialize<List<Phim>>(await res.Content.ReadAsStringAsync(), _json) ?? new();
+                for (int i = 0; i < data.Count; i++) data[i].ChuanHoaThongTin(i);
+                return data;
+            }
+            catch
+            {
+                return new();
+            }
         }
     }
 }

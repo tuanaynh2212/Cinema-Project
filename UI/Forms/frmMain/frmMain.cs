@@ -24,7 +24,6 @@ namespace cinema_project.UI
 
         private async void FrmMain_Load(object? sender, EventArgs e)
         {
-            NapKhuyenMai();
             SelectTab(0);
             HienThiBanner();
             tmrBanner.Start();

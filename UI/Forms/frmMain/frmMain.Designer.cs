@@ -49,7 +49,7 @@ namespace cinema_project.UI
             pnlHeader.Controls.Add(lblLogo);
 
             int navX = 86;
-            foreach (var (lbl, txt) in new[] { (lblNavPhim = new(), "Phim"), (lblNavRap = new(), "Rạp"), (lblNavKM = new(), "Khuyến mãi"), (lblNavUuDai = new(), "Ưu đãi") })
+            foreach (var (lbl, txt) in new[] { (lblNavPhim = new(), "Phim"), (lblNavRap = new(), "Rạp") })
             {
                 lbl.AutoSize = true;
                 lbl.Text = txt;
@@ -75,13 +75,12 @@ namespace cinema_project.UI
 
             pnlHeaderRight = new FlowLayoutPanel
             {
-                Size = new Size(290, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
+                Size = new Size(200, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
                 FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Padding = new Padding(0, 15, 0, 0)
             };
-            btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 6, 0), (s, e) => MessageBox.Show("TODO: Vé của bạn"));
-            btnLogin = CreateHeaderBtn("Đăng nhập", false, new Size(106, 38), new Padding(0, 0, 8, 0), (s, e) => MessageBox.Show("TODO: Đăng nhập"));
-            btnRegister = CreateHeaderBtn("Đăng ký", true, new Size(90, 38), Padding.Empty, null);
-            pnlHeaderRight.Controls.AddRange(new Control[] { btnTicket, btnLogin, btnRegister });
+            btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MessageBox.Show("TODO: Vé của bạn"));
+            btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(110, 38), Padding.Empty, (s, e) => MessageBox.Show("TODO: Đăng nhập"));
+            pnlHeaderRight.Controls.AddRange(new Control[] { btnTicket, btnLogin });
             pnlHeader.Controls.Add(pnlHeaderRight);
 
             pnlHeader.Resize += (s, e) => txtSearch.Location = new Point((pnlHeader.Width - txtSearch.Width) / 2, 18);
@@ -158,7 +157,7 @@ namespace cinema_project.UI
             pnlCarouselOuter.Controls.AddRange(new Control[] { pnlPosters, pnlDots, btnPrev, btnNext });
             pnlCarouselOuter.Resize += (s, e) => ArrangePosters();
 
-            pnlInfo = new Panel { Dock = DockStyle.Top, Height = 150, BackColor = Color.White, Padding = new Padding(28, 14, 28, 14) };
+            pnlInfo = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(28, 14, 28, 14) };
             pnlInfo.Paint += PnlInfo_Paint;
 
             flpTenBadge = new FlowLayoutPanel { Dock = DockStyle.Top, Height = 42, BackColor = Color.Transparent, WrapContents = false };
@@ -213,11 +212,6 @@ namespace cinema_project.UI
 
             pnlInfo.Controls.AddRange(new Control[] { pnlInfoRight, pnlInfoLeft });
 
-            pnlKhuyenMai = new Panel { Dock = DockStyle.Top, Height = 210, BackColor = C_BG, Padding = new Padding(24, 10, 24, 10) };
-            lblKMTitle = new Label { Dock = DockStyle.Top, Height = 38, Text = "Khuyến mãi & Ưu đãi", Font = new Font("Segoe UI", 13f, FontStyle.Bold), ForeColor = C_TEXT, BackColor = Color.Transparent };
-            flpKM = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoScroll = true, FlowDirection = FlowDirection.LeftToRight, WrapContents = false, BackColor = Color.Transparent };
-            pnlKhuyenMai.Controls.AddRange(new Control[] { flpKM, lblKMTitle });
-
             pnlFooter = new Panel { Dock = DockStyle.Bottom, Height = 70, BackColor = Color.FromArgb(26, 26, 34), Padding = new Padding(24, 0, 24, 0) };
             lblFooterText = new Label
             {
@@ -226,7 +220,7 @@ namespace cinema_project.UI
             };
             pnlFooter.Controls.Add(lblFooterText);
 
-            Controls.AddRange(new Control[] { pnlKhuyenMai, pnlInfo, pnlCarouselOuter, pnlTabBar, pnlBanner, pnlHeader, pnlFooter });
+            Controls.AddRange(new Control[] { pnlInfo, pnlCarouselOuter, pnlTabBar, pnlBanner, pnlHeader, pnlFooter });
 
             Load += FrmMain_Load;
             KeyDown += FrmMain_KeyDown;
@@ -367,36 +361,11 @@ namespace cinema_project.UI
             pnlDots.ResumeLayout();
         }
 
-        internal void NapKhuyenMai()
-        {
-            flpKM.Controls.Clear();
-            var danhSach = new[]
-            {
-                ("🎁 Thứ Tư Vui Vẻ - Giá vé chỉ từ 55k", "Áp dụng mọi suất chiếu thứ 4 hàng tuần cho thành viên CGV"),
-                ("🍿 Combo Bắp Nước Siêu Tiết Kiệm", "Giảm ngay 20% khi mua kèm vé trực tuyến trên ứng dụng"),
-                ("💳 Ưu Đãi Thanh Toán Ngân Hàng", "Hoàn tiền tới 50.000đ khi thanh toán qua ví điện tử & thẻ"),
-                ("⭐ Đặc Quyền Thành Viên CGV VIP", "Tích điểm nhân đôi và nhận quà sinh nhật hấp dẫn")
-            };
-
-            foreach (var (tieuDe, noiDung) in danhSach)
-            {
-                var card = new Panel { Size = new Size(270, 140), BackColor = Color.White, Margin = new Padding(0, 0, 16, 0), Padding = new Padding(16) };
-                card.Paint += (s, e) =>
-                {
-                    using var p = new Pen(C_BORDER, 1);
-                    e.Graphics.DrawRectangle(p, 0, 0, card.Width - 1, card.Height - 1);
-                };
-                card.Controls.Add(new Label { Text = noiDung, Font = new Font("Segoe UI", 9f), ForeColor = C_SUB, Dock = DockStyle.Fill, BackColor = Color.Transparent });
-                card.Controls.Add(new Label { Text = tieuDe, Font = new Font("Segoe UI", 10.5f, FontStyle.Bold), ForeColor = C_TEXT, Dock = DockStyle.Top, Height = 44, BackColor = Color.Transparent });
-                flpKM.Controls.Add(card);
-            }
-        }
-
-        private Panel           pnlHeader = null!, pnlBanner = null!, pnlTabBar = null!, pnlCarouselOuter = null!, pnlPosters = null!, pnlInfo = null!, pnlInfoRight = null!, pnlKhuyenMai = null!, pnlFooter = null!;
-        private FlowLayoutPanel pnlHeaderRight = null!, pnlDots = null!, flpTenBadge = null!, flpKM = null!;
-        private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblNavKM = null!, lblNavUuDai = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblKMTitle = null!, lblFooterText = null!;
+        private Panel           pnlHeader = null!, pnlBanner = null!, pnlTabBar = null!, pnlCarouselOuter = null!, pnlPosters = null!, pnlInfo = null!, pnlInfoRight = null!, pnlFooter = null!;
+        private FlowLayoutPanel pnlHeaderRight = null!, pnlDots = null!, flpTenBadge = null!;
+        private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblFooterText = null!;
         private TextBox         txtSearch = null!;
-        private Button          btnTicket = null!, btnLogin = null!, btnRegister = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
+        private Button          btnTicket = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
         private ComboBox        cmbGenre = null!;
         private PictureBox      picBanner = null!, picXaTrai = null!, picTrai = null!, picGiua = null!, picPhai = null!, picXaPhai = null!;
         private System.Windows.Forms.Timer tmrBanner = null!;
