@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "d1PdobsOnq4=",
+  "dgSpecHash": "15+tlXGY36o=",
   "success": true,
-  "projectFilePath": "d:\\cinema-project\\cinema-project\\cinema-project.csproj",
+  "projectFilePath": "D:\\cinema-project\\cinema-project\\cinema-project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tuan Anh\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Tuan Anh\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",

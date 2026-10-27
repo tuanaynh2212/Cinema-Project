@@ -10,41 +10,27 @@ namespace cinema_project.DAL
         private readonly SupabaseService _supabase = new();
         private readonly List<Phim> _danhSachPhim = new();
 
-        public async Task<bool> LuuPhimVaoSupabaseAsync(List<Phim> dsPhim)
-        {
-            return await _supabase.ThemHoacCapNhatDanhSachPhimAsync(dsPhim);
-        }
+        public Task<bool> LuuPhimVaoSupabaseAsync(List<Phim> ds) => _supabase.ThemHoacCapNhatDanhSachPhimAsync(ds);
 
         public async Task<List<Phim>> LayPhimTuSupabaseAsync()
         {
             var ds = await _supabase.LayTatCaPhimAsync();
-            if (ds.Count > 0)
-            {
-                _danhSachPhim.Clear();
-                _danhSachPhim.AddRange(ds);
-            }
-            return new List<Phim>(_danhSachPhim);
+            if (ds.Count > 0) CapNhatBoNhoTam(ds);
+            return new(_danhSachPhim);
         }
 
-        public void CapNhatBoNhoTam(List<Phim> dsPhim)
+        public void CapNhatBoNhoTam(List<Phim> ds)
         {
             _danhSachPhim.Clear();
-            _danhSachPhim.AddRange(dsPhim);
+            _danhSachPhim.AddRange(ds);
         }
 
         public List<Phim> LayTatCa() => new(_danhSachPhim);
 
-        public List<Phim> LayTheoLoai(string loaiPhim)
+        public List<Phim> LayTheoLoai(string loai)
         {
-            if (string.IsNullOrEmpty(loaiPhim) || loaiPhim == "Tất cả")
-            {
-                return LayTatCa();
-            }
-
-            var ketQua = _danhSachPhim
-                .Where(p => p.LoaiPhim.Equals(loaiPhim, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
+            if (string.IsNullOrEmpty(loai) || loai == "Tất cả") return LayTatCa();
+            var ketQua = _danhSachPhim.Where(p => p.LoaiPhim.Equals(loai, StringComparison.OrdinalIgnoreCase)).ToList();
             return ketQua.Count > 0 ? ketQua : LayTatCa();
         }
     }

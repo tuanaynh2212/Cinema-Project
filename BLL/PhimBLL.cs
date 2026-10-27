@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using cinema_project.DAL;
@@ -13,50 +12,27 @@ namespace cinema_project.BLL
 
         public async Task<List<Phim>> DongBoVaLayPhimAsync()
         {
-            // 1. Lấy dữ liệu từ Supabase trước
-            var dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
+            var ds = await _phimDAL.LayPhimTuSupabaseAsync();
+            if (ds.Count > 0) return ds;
 
-            // 2. Nếu Supabase chưa có dữ liệu (hoặc muốn đồng bộ thêm)
-            if (dsSupabase.Count == 0)
+            try
             {
-                List<Phim> dsNguon = new();
-                try
+                var dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
+                if (dsTmdb.Count > 0)
                 {
-                    dsNguon = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
-                }
-                catch
-                {
-                }
+                    if (await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb))
+                        return await _phimDAL.LayPhimTuSupabaseAsync();
 
-                if (dsNguon.Count > 0)
-                {
-                    // Đẩy danh sách phim lên Supabase
-                    bool luuThanhCong = await _phimDAL.LuuPhimVaoSupabaseAsync(dsNguon);
-                    if (luuThanhCong)
-                    {
-                        // Lấy lại danh sách chính thức từ Supabase
-                        dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
-                    }
-                    else
-                    {
-                        // Nếu mạng lỗi không đẩy được lên Supabase thì dùng tạm trong bộ nhớ
-                        _phimDAL.CapNhatBoNhoTam(dsNguon);
-                        return dsNguon;
-                    }
+                    _phimDAL.CapNhatBoNhoTam(dsTmdb);
+                    return dsTmdb;
                 }
             }
+            catch { }
 
-            return dsSupabase;
+            return ds;
         }
 
-        public List<Phim> LayPhimTheoLoai(string loaiPhim)
-        {
-            return _phimDAL.LayTheoLoai(loaiPhim);
-        }
-
-        public List<Phim> LayTatCaPhim()
-        {
-            return _phimDAL.LayTatCa();
-        }
+        public List<Phim> LayPhimTheoLoai(string loaiPhim) => _phimDAL.LayTheoLoai(loaiPhim);
+        public List<Phim> LayTatCaPhim() => _phimDAL.LayTatCa();
     }
 }

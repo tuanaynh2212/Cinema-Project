@@ -1,5 +1,3 @@
-#nullable enable
-#pragma warning disable CS8618
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,9 +22,6 @@ namespace cinema_project.UI
 
         public frmMain() => InitializeComponent();
 
-        // ════════════════════════════════════════════════════
-        // LOAD & DỮ LIỆU
-        // ════════════════════════════════════════════════════
         private async void FrmMain_Load(object? sender, EventArgs e)
         {
             NapKhuyenMai();
@@ -34,12 +29,7 @@ namespace cinema_project.UI
             HienThiBanner();
             tmrBanner.Start();
 
-            try
-            {
-                await _phimBLL.DongBoVaLayPhimAsync();
-            }
-            catch { }
-
+            try { await _phimBLL.DongBoVaLayPhimAsync(); } catch { }
             TaiDanhSachPhim();
         }
 
@@ -54,14 +44,7 @@ namespace cinema_project.UI
 
         private void TaiDanhSachPhim()
         {
-            string loai = _selectedTab switch
-            {
-                0 => "Đang chiếu",
-                1 => "Đặc biệt",
-                2 => "Sắp chiếu",
-                _ => string.Empty
-            };
-
+            string loai = _selectedTab switch { 0 => "Đang chiếu", 1 => "Đặc biệt", 2 => "Sắp chiếu", _ => "" };
             _danhSachGoc = string.IsNullOrEmpty(loai) ? _phimBLL.LayTatCaPhim() : _phimBLL.LayPhimTheoLoai(loai);
             LocPhim();
         }
@@ -87,9 +70,6 @@ namespace cinema_project.UI
             SelectTab(0);
         }
 
-        // ════════════════════════════════════════════════════
-        // CAROUSEL & HIỂN THỊ
-        // ════════════════════════════════════════════════════
         private void HienThiCarousel()
         {
             PictureBox[] posters = { picXaTrai, picTrai, picGiua, picPhai, picXaPhai };
@@ -137,9 +117,11 @@ namespace cinema_project.UI
         {
             if (_danhSachPhim.Count == 0) return;
             int moi = Math.Clamp(_idx + delta, 0, _danhSachPhim.Count - 1);
-            if (moi == _idx) return;
-            _idx = moi;
-            HienThiCarousel();
+            if (moi != _idx)
+            {
+                _idx = moi;
+                HienThiCarousel();
+            }
         }
 
         internal void NhayDenIndex(int viTri)
@@ -151,9 +133,6 @@ namespace cinema_project.UI
             }
         }
 
-        // ════════════════════════════════════════════════════
-        // SỰ KIỆN CLICK & NÚT BẤM
-        // ════════════════════════════════════════════════════
         private void BtnDatVe_Click(object? sender, EventArgs e)
         {
             if (_danhSachPhim.Count == 0)

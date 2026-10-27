@@ -14,47 +14,29 @@ namespace cinema_project.DAL
         [JsonPropertyName("overview")]
         public string MoTa { get; set; } = string.Empty;
 
-        [JsonPropertyName("release_date")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("release_date"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? NgayChieu { get; set; }
 
         [JsonPropertyName("poster_url")]
         public string DuongDanAnh { get; set; } = string.Empty;
 
-        [JsonPropertyName("backdrop_url")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("backdrop_url"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? BackdropUrl { get; set; }
 
-        [JsonPropertyName("vote_average")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonPropertyName("vote_average"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public double? VoteAverage { get; set; }
 
-        // Các thuộc tính phụ cho giao diện và nghiệp vụ trong app
-        [JsonIgnore]
-        public int MaPhim { get; set; }
-
-        [JsonIgnore]
-        public string TheLoai { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public string DoTuoi { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public string ThoiLuong { get; set; } = "120 phút";
-
-        [JsonIgnore]
-        public string LoaiPhim { get; set; } = string.Empty;
-
-        [JsonIgnore]
-        public decimal GiaVe { get; set; } = 90000;
+        [JsonIgnore] public int MaPhim { get; set; }
+        [JsonIgnore] public string TheLoai { get; set; } = string.Empty;
+        [JsonIgnore] public string DoTuoi { get; set; } = string.Empty;
+        [JsonIgnore] public string ThoiLuong { get; set; } = "120 phút";
+        [JsonIgnore] public string LoaiPhim { get; set; } = string.Empty;
+        [JsonIgnore] public decimal GiaVe { get; set; } = 90000;
 
         public void ChuanHoaThongTin(int index = 0)
         {
-            if (string.IsNullOrWhiteSpace(ThoiLuong))
-                ThoiLuong = "120 phút";
-
-            if (GiaVe <= 0)
-                GiaVe = 90000;
+            if (string.IsNullOrWhiteSpace(ThoiLuong)) ThoiLuong = "120 phút";
+            if (GiaVe <= 0) GiaVe = 90000;
 
             if (string.IsNullOrWhiteSpace(DoTuoi))
             {
@@ -64,24 +46,10 @@ namespace cinema_project.DAL
 
             if (string.IsNullOrWhiteSpace(LoaiPhim))
             {
-                if (DateTime.TryParse(NgayChieu, out var dt) && dt > DateTime.Today)
-                {
-                    LoaiPhim = "Sắp chiếu";
-                }
-                else if ((VoteAverage ?? 0) >= 8.0 || index % 3 == 1)
-                {
-                    LoaiPhim = "Đặc biệt";
-                }
-                else if (index % 3 == 2)
-                {
-                    LoaiPhim = "Sắp chiếu";
-                }
-                else
-                {
-                    LoaiPhim = "Đang chiếu";
-                }
+                LoaiPhim = (DateTime.TryParse(NgayChieu, out var dt) && dt > DateTime.Today) ? "Sắp chiếu"
+                         : ((VoteAverage ?? 0) >= 8.0 || index % 3 == 1) ? "Đặc biệt"
+                         : (index % 3 == 2) ? "Sắp chiếu" : "Đang chiếu";
             }
         }
     }
 }
-
