@@ -13,26 +13,37 @@ namespace cinema_project.BLL
 
         public async Task<List<Phim>> DongBoVaLayPhimAsync()
         {
-            List<Phim> dsTmdb = new();
-            try
-            {
-                dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
-            }
-            catch
-            {
-            }
-
-            if (dsTmdb.Count > 0)
-            {
-                await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb);
-            }
-
+            // 1. Lấy dữ liệu từ Supabase trước
             var dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
 
-            if (dsSupabase.Count == 0 && dsTmdb.Count > 0)
+            // 2. Nếu Supabase chưa có dữ liệu (hoặc muốn đồng bộ thêm)
+            if (dsSupabase.Count == 0)
             {
-                _phimDAL.CapNhatBoNhoTam(dsTmdb);
-                return dsTmdb;
+                List<Phim> dsNguon = new();
+                try
+                {
+                    dsNguon = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
+                }
+                catch
+                {
+                }
+
+                if (dsNguon.Count > 0)
+                {
+                    // Đẩy danh sách phim lên Supabase
+                    bool luuThanhCong = await _phimDAL.LuuPhimVaoSupabaseAsync(dsNguon);
+                    if (luuThanhCong)
+                    {
+                        // Lấy lại danh sách chính thức từ Supabase
+                        dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
+                    }
+                    else
+                    {
+                        // Nếu mạng lỗi không đẩy được lên Supabase thì dùng tạm trong bộ nhớ
+                        _phimDAL.CapNhatBoNhoTam(dsNguon);
+                        return dsNguon;
+                    }
+                }
             }
 
             return dsSupabase;

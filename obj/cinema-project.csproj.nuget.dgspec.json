@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\cinema-project\\cinema-project\\cinema-project.csproj": {}
+    "d:\\cinema-project\\cinema-project\\cinema-project.csproj": {}
   },
   "projects": {
-    "D:\\cinema-project\\cinema-project\\cinema-project.csproj": {
+    "d:\\cinema-project\\cinema-project\\cinema-project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\cinema-project\\cinema-project\\cinema-project.csproj",
+        "projectUniqueName": "d:\\cinema-project\\cinema-project\\cinema-project.csproj",
         "projectName": "cinema-project",
-        "projectPath": "D:\\cinema-project\\cinema-project\\cinema-project.csproj",
+        "projectPath": "d:\\cinema-project\\cinema-project\\cinema-project.csproj",
         "packagesPath": "C:\\Users\\Tuan Anh\\.nuget\\packages\\",
-        "outputPath": "D:\\cinema-project\\cinema-project\\obj\\",
+        "outputPath": "d:\\cinema-project\\cinema-project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Tuan Anh\\AppData\\Roaming\\NuGet\\NuGet.Config"

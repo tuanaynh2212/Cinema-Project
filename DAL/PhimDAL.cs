@@ -41,9 +41,11 @@ namespace cinema_project.DAL
                 return LayTatCa();
             }
 
-            return _danhSachPhim
+            var ketQua = _danhSachPhim
                 .Where(p => p.LoaiPhim.Equals(loaiPhim, StringComparison.OrdinalIgnoreCase))
                 .ToList();
+
+            return ketQua.Count > 0 ? ketQua : LayTatCa();
         }
     }
 }

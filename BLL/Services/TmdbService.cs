@@ -53,6 +53,7 @@ namespace cinema_project.BLL.Services
             catch
             {
             }
+
             return dsPhim;
         }
 
@@ -76,7 +77,9 @@ namespace cinema_project.BLL.Services
                     .Where(t => t != null);
 
                 string posterPath = item.GetProperty("poster_path").GetString() ?? "";
+                string backdropPath = item.TryGetProperty("backdrop_path", out var bp) ? bp.GetString() ?? "" : "";
                 double vote = item.GetProperty("vote_average").GetDouble();
+                string releaseDate = item.GetProperty("release_date").GetString() ?? "";
 
                 danhSach.Add(new Phim
                 {
@@ -85,10 +88,12 @@ namespace cinema_project.BLL.Services
                     TheLoai = string.Join(", ", theLoai),
                     DoTuoi = item.GetProperty("adult").GetBoolean() ? "T18" : vote > 7.5 ? "T16" : vote > 6 ? "T13" : "P",
                     ThoiLuong = "120 phút",
-                    NgayChieu = item.GetProperty("release_date").GetString() ?? "",
+                    NgayChieu = string.IsNullOrWhiteSpace(releaseDate) ? null : releaseDate,
                     LoaiPhim = loaiPhim,
                     GiaVe = giaVe,
                     DuongDanAnh = posterPath != "" ? BaseImageUrl + posterPath : "",
+                    BackdropUrl = backdropPath != "" ? BaseImageUrl + backdropPath : null,
+                    VoteAverage = vote,
                     MoTa = item.GetProperty("overview").GetString() ?? ""
                 });
             }
