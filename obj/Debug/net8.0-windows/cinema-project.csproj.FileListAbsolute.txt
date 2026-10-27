@@ -1,0 +1,17 @@
+D:\CInema\cinema-project\cinema-project\bin\Debug\net8.0-windows\cinema-project.exe
+D:\CInema\cinema-project\cinema-project\bin\Debug\net8.0-windows\cinema-project.deps.json
+D:\CInema\cinema-project\cinema-project\bin\Debug\net8.0-windows\cinema-project.runtimeconfig.json
+D:\CInema\cinema-project\cinema-project\bin\Debug\net8.0-windows\cinema-project.dll
+D:\CInema\cinema-project\cinema-project\bin\Debug\net8.0-windows\cinema-project.pdb
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema_project.UI.frmMain.resources
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.csproj.GenerateResource.cache
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.GeneratedMSBuildEditorConfig.editorconfig
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.AssemblyInfoInputs.cache
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.AssemblyInfo.cs
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.csproj.CoreCompileInputs.cache
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.sourcelink.json
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.dll
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\refint\cinema-project.dll
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.pdb
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.genruntimeconfig.cache
+D:\CInema\cinema-project\cinema-project\obj\Debug\net8.0-windows\ref\cinema-project.dll
