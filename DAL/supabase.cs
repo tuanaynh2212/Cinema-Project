@@ -114,7 +114,7 @@ namespace cinema_project.DAL
         public Task<List<PhongChieu>> LayTatCaPhongChieuAsync() =>
             LayDanhSachAsync<PhongChieu>("phong_chieu?select=*&order=ma_phong.asc");
         public Task<List<SuatChieu>> LayTatCaSuatChieuAsync() =>
-            LayDanhSachAsync<SuatChieu>("v_suat_chieu?select=*&order=ngay_chieu.asc,gio_bat_dau.asc");
+            LayDanhSachAsync<SuatChieu>("suat_chieu?select=*,phong_chieu(*),movies(*)&order=ngay_chieu.asc,gio_bat_dau.asc");
 
         public Task<bool> ThemSuatChieuAsync(SuatChieu sc)
         {

@@ -5,19 +5,46 @@ namespace cinema_project.DAL
 {
     public class SuatChieu
     {
-        [JsonPropertyName("ma_phong")]
-        public int MaPhong { get; set; }
         [JsonPropertyName("ma_suat_chieu")]
         public int MaSuatChieu { get; set; }
+
+        [JsonPropertyName("ma_phong")]
+        public int MaPhong { get; set; }
 
         [JsonPropertyName("ma_phim")]
         public int MaPhim { get; set; }
 
-        [JsonPropertyName("ten_phim")]
-        public string TenPhim { get; set; } = "";
+        [JsonPropertyName("movies")]
+        public Phim? PhimThongTin { get; set; }
 
+        [JsonPropertyName("phong_chieu")]
+        public PhongChieu? PhongChieuThongTin { get; set; }
+
+        private string _tenPhim = "";
+        [JsonPropertyName("ten_phim")]
+        public string TenPhim
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_tenPhim)) return _tenPhim;
+                if (PhimThongTin != null && !string.IsNullOrWhiteSpace(PhimThongTin.Ten)) return PhimThongTin.Ten;
+                return "";
+            }
+            set => _tenPhim = value;
+        }
+
+        private string _tenPhong = "";
         [JsonPropertyName("ten_phong")]
-        public string TenPhong { get; set; } = "Phòng 01 (2D Standard)";
+        public string TenPhong
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_tenPhong)) return _tenPhong;
+                if (PhongChieuThongTin != null && !string.IsNullOrWhiteSpace(PhongChieuThongTin.TenPhong)) return PhongChieuThongTin.TenPhong;
+                return MaPhong > 0 ? $"Phòng {MaPhong:D2}" : "";
+            }
+            set => _tenPhong = value;
+        }
 
         [JsonPropertyName("ngay_chieu")]
         public DateTime NgayChieu { get; set; } = DateTime.Today;

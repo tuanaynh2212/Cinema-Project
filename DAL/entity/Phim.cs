@@ -13,7 +13,13 @@ namespace cinema_project.DAL
         [JsonPropertyName("backdrop_url")] public string? BackdropUrl { get; set; }
         [JsonPropertyName("vote_average")] public double? VoteAverage { get; set; }
 
-        [JsonIgnore] public int MaPhim { get; set; }
+        private int _maPhim;
+        [JsonIgnore]
+        public int MaPhim
+        {
+            get => TmdbId ?? _maPhim;
+            set => _maPhim = value;
+        }
         [JsonIgnore] public string TheLoai { get; set; } = "";
         [JsonIgnore] public string DoTuoi { get; set; } = "";
         [JsonIgnore] public string ThoiLuong { get; set; } = "120 phút";

@@ -82,10 +82,10 @@ namespace cinema_project.UI.Forms.frmLichChieu
             await LoadDanhSachPhongAsync();
 
             cmbLocPhong.Items.Clear();
-            cmbLocPhong.Items.Add(new PhongChieu { MaPhong = 0, TenPhong = "Tất cả phòng" });
+            cmbLocPhong.Items.Add("Tất cả phòng");
             foreach (var p in _danhSachPhong)
             {
-                cmbLocPhong.Items.Add(p);
+                cmbLocPhong.Items.Add(p.TenPhong);
             }
             if (cmbLocPhong.Items.Count > 0) cmbLocPhong.SelectedIndex = 0;
 
@@ -163,14 +163,33 @@ namespace cinema_project.UI.Forms.frmLichChieu
             string? phim = cmbLocPhim.SelectedItem?.ToString();
 
             int? maPhong = null;
-            if (cmbLocPhong.SelectedItem is PhongChieu p && p.MaPhong > 0)
+            if (cmbLocPhong.SelectedItem is string tenPhong && tenPhong != "Tất cả phòng")
             {
-                maPhong = p.MaPhong;
+                var phong = _danhSachPhong.FirstOrDefault(p => p.TenPhong.Equals(tenPhong, StringComparison.OrdinalIgnoreCase));
+                if (phong != null)
+                {
+                    maPhong = phong.MaPhong;
+                }
             }
 
             string tuKhoa = txtTimKiem.Text.Trim();
 
             _danhSachHienThi = _suatChieuBLL.LocSuatChieu(ngay, phim, maPhong, null, tuKhoa);
+
+            foreach (var sc in _danhSachHienThi)
+            {
+                if (string.IsNullOrWhiteSpace(sc.TenPhim) && sc.MaPhim > 0)
+                {
+                    var p = _danhSachPhim.FirstOrDefault(x => x.MaPhim == sc.MaPhim || x.TmdbId == sc.MaPhim);
+                    if (p != null) sc.TenPhim = p.Ten;
+                }
+
+                if (string.IsNullOrWhiteSpace(sc.TenPhong) && sc.MaPhong > 0)
+                {
+                    var r = _danhSachPhong.FirstOrDefault(x => x.MaPhong == sc.MaPhong);
+                    if (r != null) sc.TenPhong = r.TenPhong;
+                }
+            }
 
             dgvSuatChieu.DataSource = null;
             dgvSuatChieu.DataSource = _danhSachHienThi;
@@ -215,7 +234,10 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             txtMaSC.Text = sc.MaSuatChieu.ToString();
 
-            if (cmbPhim.Items.Contains(sc.TenPhim))
+            var phim = _danhSachPhim.FirstOrDefault(p => (!string.IsNullOrEmpty(sc.TenPhim) && p.Ten.Equals(sc.TenPhim, StringComparison.OrdinalIgnoreCase)) || (sc.MaPhim > 0 && (p.MaPhim == sc.MaPhim || p.TmdbId == sc.MaPhim)));
+            if (phim != null && cmbPhim.Items.Contains(phim.Ten))
+                cmbPhim.SelectedItem = phim.Ten;
+            else if (cmbPhim.Items.Contains(sc.TenPhim))
                 cmbPhim.SelectedItem = sc.TenPhim;
             else if (cmbPhim.Items.Count > 0)
                 cmbPhim.SelectedIndex = 0;
@@ -306,10 +328,14 @@ namespace cinema_project.UI.Forms.frmLichChieu
         private void BtnThem_Click(object? sender, EventArgs e)
         {
             var phongChon = cmbPhong.SelectedItem as PhongChieu;
+            string tenPhimChon = cmbPhim.SelectedItem?.ToString() ?? cmbPhim.Text.Trim();
+            var phim = _danhSachPhim.FirstOrDefault(p => p.Ten.Equals(tenPhimChon, StringComparison.OrdinalIgnoreCase));
+
             var sc = new SuatChieu
             {
+                MaPhim = phim?.MaPhim ?? phim?.TmdbId ?? 0,
                 MaPhong = phongChon?.MaPhong ?? 0,
-                TenPhim = cmbPhim.SelectedItem?.ToString() ?? "",
+                TenPhim = tenPhimChon,
                 TenPhong = phongChon?.TenPhong ?? cmbPhong.Text,
                 NgayChieu = dtpNgay.Value.Date,
                 GioBatDau = dtpGioBD.Value.TimeOfDay,
@@ -318,9 +344,6 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 GiaVe = nudGiaVe.Value,
                 TrangThai = cmbTrangThai.SelectedItem?.ToString() ?? "Sắp chiếu"
             };
-
-            var phim = _danhSachPhim.FirstOrDefault(p => p.Ten == sc.TenPhim);
-            if (phim != null) sc.MaPhim = phim.MaPhim;
 
             if (!_suatChieuBLL.ThemSuatChieu(sc, out string loi))
             {
@@ -342,11 +365,15 @@ namespace cinema_project.UI.Forms.frmLichChieu
             }
 
             var phongChon = cmbPhong.SelectedItem as PhongChieu;
+            string tenPhimChon = cmbPhim.SelectedItem?.ToString() ?? cmbPhim.Text.Trim();
+            var phim = _danhSachPhim.FirstOrDefault(p => p.Ten.Equals(tenPhimChon, StringComparison.OrdinalIgnoreCase));
+
             var sc = new SuatChieu
             {
                 MaSuatChieu = maSC,
+                MaPhim = phim?.MaPhim ?? phim?.TmdbId ?? 0,
                 MaPhong = phongChon?.MaPhong ?? 0,
-                TenPhim = cmbPhim.SelectedItem?.ToString() ?? "",
+                TenPhim = tenPhimChon,
                 TenPhong = phongChon?.TenPhong ?? cmbPhong.Text,
                 NgayChieu = dtpNgay.Value.Date,
                 GioBatDau = dtpGioBD.Value.TimeOfDay,
@@ -355,9 +382,6 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 GiaVe = nudGiaVe.Value,
                 TrangThai = cmbTrangThai.SelectedItem?.ToString() ?? "Sắp chiếu"
             };
-
-            var phim = _danhSachPhim.FirstOrDefault(p => p.Ten == sc.TenPhim);
-            if (phim != null) sc.MaPhim = phim.MaPhim;
 
             if (!_suatChieuBLL.CapNhatSuatChieu(sc, out string loi))
             {

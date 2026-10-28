@@ -70,7 +70,7 @@ namespace cinema_project.BLL
 
             if (!string.IsNullOrWhiteSpace(tenPhong) && tenPhong != "Tất cả phòng")
             {
-                ds = ds.Where(s => s.TenPhong.Equals(tenPhong, StringComparison.OrdinalIgnoreCase));
+                ds = ds.Where(s => s.MaPhong.ToString().Equals(tenPhong, StringComparison.OrdinalIgnoreCase));
             }
 
             if (!string.IsNullOrWhiteSpace(trangThai) && trangThai != "Tất cả trạng thái")
