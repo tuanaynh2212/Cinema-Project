@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using cinema_project.DAL;
@@ -13,39 +12,27 @@ namespace cinema_project.BLL
 
         public async Task<List<Phim>> DongBoVaLayPhimAsync()
         {
-            List<Phim> dsTmdb = new();
+            var ds = await _phimDAL.LayPhimTuSupabaseAsync();
+            if (ds.Count > 0) return ds;
+
             try
             {
-                dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
-            }
-            catch
-            {
-            }
+                var dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
+                if (dsTmdb.Count > 0)
+                {
+                    if (await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb))
+                        return await _phimDAL.LayPhimTuSupabaseAsync();
 
-            if (dsTmdb.Count > 0)
-            {
-                await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb);
+                    _phimDAL.CapNhatBoNhoTam(dsTmdb);
+                    return dsTmdb;
+                }
             }
+            catch { }
 
-            var dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
-
-            if (dsSupabase.Count == 0 && dsTmdb.Count > 0)
-            {
-                _phimDAL.CapNhatBoNhoTam(dsTmdb);
-                return dsTmdb;
-            }
-
-            return dsSupabase;
+            return ds;
         }
 
-        public List<Phim> LayPhimTheoLoai(string loaiPhim)
-        {
-            return _phimDAL.LayTheoLoai(loaiPhim);
-        }
-
-        public List<Phim> LayTatCaPhim()
-        {
-            return _phimDAL.LayTatCa();
-        }
+        public List<Phim> LayPhimTheoLoai(string loaiPhim) => _phimDAL.LayTheoLoai(loaiPhim);
+        public List<Phim> LayTatCaPhim() => _phimDAL.LayTatCa();
     }
 }
