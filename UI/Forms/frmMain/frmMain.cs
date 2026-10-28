@@ -75,20 +75,40 @@ namespace cinema_project.UI
             lblThongTin.Text = $"Thời lượng: {phim.ThoiLuong}  ·  Khởi chiếu: {phim.NgayChieu}";
             lblThuHang.Text = $"{_idx + 1}/{_danhSachPhim.Count}";
 
+            // Hiển thị poster theo vòng tròn, không để trống hai bên
             for (int i = 0; i < posters.Length; i++)
             {
-                int vt = _idx + i - 2;
-                bool hopLe = vt >= 0 && vt < _danhSachPhim.Count;
-                posters[i].Visible = hopLe;
-                posters[i].ImageLocation = hopLe ? _danhSachPhim[vt].DuongDanAnh : null;
+                int vt = (_idx + i - 2) % _danhSachPhim.Count;
+
+                // C# có thể trả về số dư âm, nên cần điều chỉnh
+                if (vt < 0)
+                {
+                    vt += _danhSachPhim.Count;
+                }
+
+                posters[i].Visible = true;
+                posters[i].ImageLocation = _danhSachPhim[vt].DuongDanAnh;
             }
         }
 
         private void DiChuyen(int delta)
         {
-            int moi = Math.Clamp(_idx + delta, 0, Math.Max(_danhSachPhim.Count - 1, 0));
-            if (moi == _idx) return;
+            if (_danhSachPhim.Count == 0)
+                return;
+
+            int moi = (_idx + delta) % _danhSachPhim.Count;
+
+            // Quay vòng về cuối nếu đang ở đầu danh sách
+            if (moi < 0)
+            {
+                moi += _danhSachPhim.Count;
+            }
+
+            if (moi == _idx)
+                return;
+
             _idx = moi;
+
             HienThiCarousel();
         }
 
