@@ -38,3 +38,17 @@ D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Npgsql.dll
 D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
 D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-project.csproj.AssemblyReference.cache
 D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema-p.37426307.Up2Date
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Configuration.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Console.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.Text.Encodings.Web.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.Text.Json.dll
+D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
