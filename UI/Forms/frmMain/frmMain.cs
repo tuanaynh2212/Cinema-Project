@@ -162,6 +162,12 @@ namespace cinema_project.UI
             MessageBox.Show($"Xem trailer: {phim.Ten}", "CGV Trailer", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        internal void MoFormLichChieu()
+        {
+            using var f = new Forms.frmLichChieu.frmLichChieu();
+            f.ShowDialog(this);
+        }
+
         private void TmrBanner_Tick(object? sender, EventArgs e)
         {
             _bannerIdx = (_bannerIdx + 1) % _dsBanner.Length;

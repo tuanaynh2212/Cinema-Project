@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.DAL
 {
@@ -19,10 +18,10 @@ namespace cinema_project.DAL
         private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
         private static readonly JsonSerializerOptions _json = new() { PropertyNameCaseInsensitive = true };
 
-        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(builder =>
+        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
         {
-            builder.AddConsole();
-            builder.SetMinimumLevel(LogLevel.Debug);
+            b.AddConsole();
+            b.SetMinimumLevel(LogLevel.Debug);
         });
 
         private readonly ILogger<SupabaseService> _logger;
@@ -34,47 +33,56 @@ namespace cinema_project.DAL
 
         public HttpRequestMessage CreateRequest(HttpMethod method, string path)
         {
-            if (method == null)
-            {
-                var ex = new ArgumentNullException(nameof(method), "HttpMethod không được null.");
-                _logger.LogError(ex, "CreateRequest thất bại: Tham số 'method' không được rỗng (null).");
-                throw ex;
-            }
-
-            if (path == null)
-            {
-                var ex = new ArgumentNullException(nameof(path), "Path không được null.");
-                _logger.LogError(ex, "CreateRequest thất bại: Tham số 'path' không được rỗng (null).");
-                throw ex;
-            }
-
+            ArgumentNullException.ThrowIfNull(method);
+            ArgumentNullException.ThrowIfNull(path);
             if (string.IsNullOrWhiteSpace(SupabaseUrl))
-            {
-                var ex = new InvalidOperationException("SupabaseUrl đang trống hoặc chưa được cấu hình.");
-                _logger.LogError(ex, "CreateRequest thất bại: Cấu hình SupabaseUrl không hợp lệ.");
-                throw ex;
-            }
+                throw new InvalidOperationException("SupabaseUrl đang trống hoặc chưa được cấu hình.");
 
+            string url = $"{SupabaseUrl.TrimEnd('/')}/rest/v1/{path.TrimStart('/')}";
+            _logger.LogInformation("Request: {Method} {Url}", method.Method, url);
+
+            var req = new HttpRequestMessage(method, url);
+            req.Headers.Add("apikey", SupabaseKey);
+            req.Headers.Add("Authorization", $"Bearer {SupabaseKey}");
+            return req;
+        }
+
+        private async Task<List<T>> LayDanhSachAsync<T>(string path)
+        {
             try
             {
-                // Chuẩn hóa path tránh lỗi double-slash nếu path có dấu / ở đầu
-                string cleanPath = path.TrimStart('/');
-                string url = $"{SupabaseUrl.TrimEnd('/')}/rest/v1/{cleanPath}";
+                var res = await _http.SendAsync(CreateRequest(HttpMethod.Get, path));
+                string body = await res.Content.ReadAsStringAsync();
+                if (!res.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Lỗi tải {Path}: {Status} - {Body}", path, (int)res.StatusCode, body);
+                    return new();
+                }
 
-                _logger.LogInformation("Đang tạo HttpRequestMessage: Method = {Method}, URL = {Url}", method.Method, url);
-
-                var req = new HttpRequestMessage(method, url);
-                req.Headers.Add("apikey", SupabaseKey);
-                req.Headers.Add("Authorization", $"Bearer {SupabaseKey}");
-
-                _logger.LogDebug("Headers đã được thiết lập thành công: apikey, Authorization (Bearer)");
-
-                return req;
+                var data = JsonSerializer.Deserialize<List<T>>(body, _json) ?? new();
+                _logger.LogInformation("Tải thành công {Count} bản ghi từ {Path}.", data.Count, path);
+                return data;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Lỗi ngoại lệ khi tạo HttpRequestMessage: {Message}", ex.Message);
-                throw;
+                _logger.LogError(ex, "Exception khi tải {Path}: {Message}", path, ex.Message);
+                return new();
+            }
+        }
+
+        private async Task<bool> GuiAsync(HttpRequestMessage req, string action)
+        {
+            try
+            {
+                var res = await _http.SendAsync(req);
+                if (!res.IsSuccessStatusCode)
+                    _logger.LogWarning("Lỗi {Action}: {Status} - {Body}", action, (int)res.StatusCode, await res.Content.ReadAsStringAsync());
+                return res.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception khi {Action}: {Message}", action, ex.Message);
+                return false;
             }
         }
 
@@ -89,51 +97,64 @@ namespace cinema_project.DAL
             foreach (var p in ds)
                 if (string.IsNullOrWhiteSpace(p.NgayChieu)) p.NgayChieu = null;
 
-            try
-            {
-                var req = CreateRequest(HttpMethod.Post, $"{TableName}?on_conflict=tmdb_id");
-                req.Headers.Add("Prefer", "resolution=merge-duplicates");
-                req.Content = new StringContent(JsonSerializer.Serialize(ds), Encoding.UTF8, "application/json");
-                var res = await _http.SendAsync(req);
-                if (res.IsSuccessStatusCode)
-                {
-                    _logger.LogInformation("Cập nhật thành công {Count} phim lên Supabase.", ds.Count);
-                }
-                else
-                {
-                    _logger.LogWarning("Lỗi cập nhật phim. Mã phản hồi: {StatusCode} ({ReasonPhrase})", (int)res.StatusCode, res.ReasonPhrase);
-                }
-                return res.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception khi gửi request cập nhật phim: {Message}", ex.Message);
-                return false;
-            }
+            var req = CreateRequest(HttpMethod.Post, $"{TableName}?on_conflict=tmdb_id");
+            req.Headers.Add("Prefer", "resolution=merge-duplicates");
+            req.Content = new StringContent(JsonSerializer.Serialize(ds), Encoding.UTF8, "application/json");
+            return await GuiAsync(req, $"cập nhật {ds.Count} phim");
         }
 
         public async Task<List<Phim>> LayTatCaPhimAsync()
         {
-            try
-            {
-                var req = CreateRequest(HttpMethod.Get, $"{TableName}?select=*&order=tmdb_id.desc");
-                var res = await _http.SendAsync(req);
-                if (!res.IsSuccessStatusCode)
-                {
-                    _logger.LogWarning("Lỗi tải danh sách phim. Mã phản hồi: {StatusCode} ({ReasonPhrase})", (int)res.StatusCode, res.ReasonPhrase);
-                    return new();
-                }
-
-                var data = JsonSerializer.Deserialize<List<Phim>>(await res.Content.ReadAsStringAsync(), _json) ?? new();
-                for (int i = 0; i < data.Count; i++) data[i].ChuanHoaThongTin(i);
-                _logger.LogInformation("Tải thành công {Count} phim từ Supabase.", data.Count);
-                return data;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Exception khi tải phim từ Supabase: {Message}", ex.Message);
-                return new();
-            }
+            var data = await LayDanhSachAsync<Phim>($"{TableName}?select=*&order=tmdb_id.desc");
+            for (int i = 0; i < data.Count; i++) data[i].ChuanHoaThongTin(i);
+            return data;
         }
+
+
+        public Task<List<PhongChieu>> LayTatCaPhongChieuAsync() =>
+            LayDanhSachAsync<PhongChieu>("phong_chieu?select=*&order=ma_phong.asc");
+        public Task<List<SuatChieu>> LayTatCaSuatChieuAsync() =>
+            LayDanhSachAsync<SuatChieu>("v_suat_chieu?select=*&order=ngay_chieu.asc,gio_bat_dau.asc");
+
+        public Task<bool> ThemSuatChieuAsync(SuatChieu sc)
+        {
+            var body = new
+            {
+                ma_phim = sc.MaPhim,
+                ma_phong = sc.MaPhong,
+                ngay_chieu = sc.NgayChieu.ToString("yyyy-MM-dd"),
+                gio_bat_dau = sc.GioBatDau.ToString(@"hh\:mm\:ss"),
+                gio_ket_thuc = sc.GioKetThuc.ToString(@"hh\:mm\:ss"),
+                dinh_dang = sc.DinhDang,
+                gia_ve = sc.GiaVe,
+                trang_thai = sc.TrangThai
+            };
+            var req = CreateRequest(HttpMethod.Post, "suat_chieu");
+            req.Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+            return GuiAsync(req, "thêm suất chiếu");
+        }
+        public Task<bool> CapNhatSuatChieuAsync(SuatChieu sc)
+        {
+            var body = new
+            {
+                ma_phim = sc.MaPhim,
+                ma_phong = sc.MaPhong,
+                ngay_chieu = sc.NgayChieu.ToString("yyyy-MM-dd"),
+                gio_bat_dau = sc.GioBatDau.ToString(@"hh\:mm\:ss"),
+                gio_ket_thuc = sc.GioKetThuc.ToString(@"hh\:mm\:ss"),
+                dinh_dang = sc.DinhDang,
+                gia_ve = sc.GiaVe,
+                trang_thai = sc.TrangThai
+            };
+            var req = CreateRequest(HttpMethod.Patch, $"suat_chieu?ma_suat_chieu=eq.{sc.MaSuatChieu}");
+            req.Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+            return GuiAsync(req, $"cập nhật suất chiếu {sc.MaSuatChieu}");
+        }
+        public Task<bool> XoaSuatChieuAsync(int maSuatChieu) =>
+            XoaAsync("suat_chieu", "ma_suat_chieu", maSuatChieu);
+
+
+        public Task<bool> XoaAsync(string table, string cot, int id) =>
+            GuiAsync(CreateRequest(HttpMethod.Delete, $"{table}?{cot}=eq.{id}"), $"xóa {table} {id}");
     }
 }

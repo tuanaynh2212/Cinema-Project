@@ -49,7 +49,7 @@ namespace cinema_project.UI
             pnlHeader.Controls.Add(lblLogo);
 
             int navX = 86;
-            foreach (var (lbl, txt) in new[] { (lblNavPhim = new(), "Phim"), (lblNavRap = new(), "Rạp") })
+            foreach (var (lbl, txt) in new[] { (lblNavPhim = new(), "Phim"), (lblNavRap = new(), "Rạp"), (lblNavLichChieu = new(), "Lịch chiếu") })
             {
                 lbl.AutoSize = true;
                 lbl.Text = txt;
@@ -63,10 +63,11 @@ namespace cinema_project.UI
                 pnlHeader.Controls.Add(lbl);
                 navX += lbl.PreferredWidth + 24;
             }
+            lblNavLichChieu.Click += (s, e) => MoFormLichChieu();
 
             txtSearch = new TextBox
             {
-                Size = new Size(230, 34), Font = new Font("Segoe UI", 10f), ForeColor = C_SUB,
+                Size = new Size(220, 34), Font = new Font("Segoe UI", 10f), ForeColor = C_SUB,
                 BackColor = Color.FromArgb(237, 237, 242), BorderStyle = BorderStyle.None,
                 PlaceholderText = "Tìm phim, rạp..."
             };
@@ -75,12 +76,13 @@ namespace cinema_project.UI
 
             pnlHeaderRight = new FlowLayoutPanel
             {
-                Size = new Size(200, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
+                Size = new Size(330, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
                 FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Padding = new Padding(0, 15, 0, 0)
             };
+            btnLichChieu = CreateHeaderBtn("🎬 Lịch Chiếu", false, new Size(115, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormLichChieu());
             btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MessageBox.Show("TODO: Vé của bạn"));
-            btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(110, 38), Padding.Empty, (s, e) => MessageBox.Show("TODO: Đăng nhập"));
-            pnlHeaderRight.Controls.AddRange(new Control[] { btnTicket, btnLogin });
+            btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, (s, e) => MessageBox.Show("TODO: Đăng nhập"));
+            pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnLogin });
             pnlHeader.Controls.Add(pnlHeaderRight);
 
             pnlHeader.Resize += (s, e) => txtSearch.Location = new Point((pnlHeader.Width - txtSearch.Width) / 2, 18);
@@ -363,9 +365,9 @@ namespace cinema_project.UI
 
         private Panel           pnlHeader = null!, pnlBanner = null!, pnlTabBar = null!, pnlCarouselOuter = null!, pnlPosters = null!, pnlInfo = null!, pnlInfoRight = null!, pnlFooter = null!;
         private FlowLayoutPanel pnlHeaderRight = null!, pnlDots = null!, flpTenBadge = null!;
-        private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblFooterText = null!;
+        private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblNavLichChieu = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblFooterText = null!;
         private TextBox         txtSearch = null!;
-        private Button          btnTicket = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
+        private Button          btnLichChieu = null!, btnTicket = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
         private ComboBox        cmbGenre = null!;
         private PictureBox      picBanner = null!, picXaTrai = null!, picTrai = null!, picGiua = null!, picPhai = null!, picXaPhai = null!;
         private System.Windows.Forms.Timer tmrBanner = null!;

@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL;
+using Microsoft.Extensions.Logging;
 
 namespace cinema_project.BLL.Services
 {
@@ -14,6 +15,19 @@ namespace cinema_project.BLL.Services
         private const string BaseApiUrl = "https://api.themoviedb.org/3";
         private const string BaseImageUrl = "https://image.tmdb.org/t/p/w500";
         public static string ApiKey { get; set; } = "93e884c92367fcd34e9a974accfb4f3b";
+
+        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+            builder.SetMinimumLevel(LogLevel.Debug);
+        });
+
+        private readonly ILogger<TmdbService> _logger;
+
+        public TmdbService(ILogger<TmdbService>? logger = null)
+        {
+            _logger = logger ?? _defaultLoggerFactory.CreateLogger<TmdbService>();
+        }
 
         private static readonly Dictionary<int, string> _theLoaiMap = new()
         {
@@ -32,51 +46,75 @@ namespace cinema_project.BLL.Services
                 dsPhim.AddRange(await LayPhimTuEndpointAsync("movie/now_playing", "Đang chiếu", 90000));
                 dsPhim.AddRange(await LayPhimTuEndpointAsync("movie/top_rated", "Đặc biệt", 110000));
                 dsPhim.AddRange(await LayPhimTuEndpointAsync("movie/upcoming", "Sắp chiếu", 85000));
+                _logger.LogInformation("Tải thành công {Count} phim từ TMDB.", dsPhim.Count);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy danh sách phim từ TMDB: {Message}", ex.Message);
+            }
             return dsPhim;
         }
 
-        private async Task<List<Phim>> LayPhimTuEndpointAsync(string endpoint, string loaiPhim, decimal giaVe)
+        public async Task<List<Phim>> LayPhimTuEndpointAsync(string endpoint, string loaiPhim, decimal giaVe)
         {
-            var list = new List<Phim>();
-            if (string.IsNullOrWhiteSpace(ApiKey)) return list;
-
-            var res = await _http.GetAsync($"{BaseApiUrl}/{endpoint}?api_key={ApiKey.Trim()}&language=vi-VN&page=1");
-            if (!res.IsSuccessStatusCode) return list;
-
-            using var doc = JsonDocument.Parse(await res.Content.ReadAsStringAsync());
-            if (!doc.RootElement.TryGetProperty("results", out var results)) return list;
-
-            foreach (var item in results.EnumerateArray().Take(8))
+            try
             {
-                var genres = item.GetProperty("genre_ids").EnumerateArray()
-                    .Select(g => _theLoaiMap.GetValueOrDefault(g.GetInt32()))
-                    .Where(t => t != null);
-
-                string poster = item.GetProperty("poster_path").GetString() ?? "";
-                string backdrop = item.TryGetProperty("backdrop_path", out var bp) ? bp.GetString() ?? "" : "";
-                double vote = item.GetProperty("vote_average").GetDouble();
-                string release = item.GetProperty("release_date").GetString() ?? "";
-
-                list.Add(new Phim
+                var list = new List<Phim>();
+                if (string.IsNullOrWhiteSpace(ApiKey))
                 {
-                    TmdbId = item.GetProperty("id").GetInt32(),
-                    Ten = item.GetProperty("title").GetString() ?? "",
-                    TheLoai = string.Join(", ", genres),
-                    DoTuoi = item.GetProperty("adult").GetBoolean() ? "T18" : vote > 7.5 ? "T16" : vote > 6 ? "T13" : "P",
-                    ThoiLuong = "120 phút",
-                    NgayChieu = string.IsNullOrWhiteSpace(release) ? null : release,
-                    LoaiPhim = loaiPhim,
-                    GiaVe = giaVe,
-                    DuongDanAnh = poster != "" ? BaseImageUrl + poster : "",
-                    BackdropUrl = backdrop != "" ? BaseImageUrl + backdrop : null,
-                    VoteAverage = vote,
-                    MoTa = item.GetProperty("overview").GetString() ?? ""
-                });
-            }
+                    _logger.LogError("API key is null or empty.");
+                    return list;
+                }
 
-            return list;
+                var res = await _http.GetAsync($"{BaseApiUrl}/{endpoint}?api_key={ApiKey.Trim()}&language=vi-VN&page=1");
+                if (!res.IsSuccessStatusCode)
+                {
+                    _logger.LogError("Lỗi API TMDB: {StatusCode}", res.StatusCode);
+                    throw new Exception($"Lỗi API TMDB: {res.StatusCode}");
+                }
+
+                using var doc = JsonDocument.Parse(await res.Content.ReadAsStringAsync());
+                if (!doc.RootElement.TryGetProperty("results", out var results))
+                {
+                    _logger.LogError("Không có results trong JSON response");
+                    return list;
+                }
+
+                foreach (var item in results.EnumerateArray().Take(20))
+                {
+                    var genres = item.GetProperty("genre_ids").EnumerateArray()
+                        .Select(g => _theLoaiMap.GetValueOrDefault(g.GetInt32()))
+                        .Where(t => t != null);
+
+                    string poster = item.GetProperty("poster_path").GetString() ?? "";
+                    string backdrop = item.TryGetProperty("backdrop_path", out var bp) ? bp.GetString() ?? "" : "";
+                    double vote = item.GetProperty("vote_average").GetDouble();
+                    string release = item.GetProperty("release_date").GetString() ?? "";
+
+                    list.Add(new Phim
+                    {
+                        TmdbId = item.GetProperty("id").GetInt32(),
+                        Ten = item.GetProperty("title").GetString() ?? "",
+                        TheLoai = string.Join(", ", genres),
+                        DoTuoi = item.GetProperty("adult").GetBoolean() ? "T18" : vote > 7.5 ? "T16" : vote > 6 ? "T13" : "P",
+                        ThoiLuong = "120 phút",
+                        NgayChieu = string.IsNullOrWhiteSpace(release) ? null : release,
+                        LoaiPhim = loaiPhim,
+                        GiaVe = giaVe,
+                        DuongDanAnh = poster != "" ? BaseImageUrl + poster : "",
+                        BackdropUrl = backdrop != "" ? BaseImageUrl + backdrop : null,
+                        VoteAverage = vote,
+                        MoTa = item.GetProperty("overview").GetString() ?? ""
+                    });
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in LayPhimTuEndpointAsync: {Message}", ex.Message);
+                throw;
+            }
         }
     }
 }
