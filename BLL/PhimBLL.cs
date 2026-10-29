@@ -34,5 +34,11 @@ namespace cinema_project.BLL
 
         public List<Phim> LayPhimTheoLoai(string loaiPhim) => _phimDAL.LayTheoLoai(loaiPhim);
         public List<Phim> LayTatCaPhim() => _phimDAL.LayTatCa();
+
+        public Task<string?> LayTrailerKeyAsync(int tmdbId, string? tenPhim = null) =>
+            _tmdbService.LayTrailerKeyAsync(tmdbId, tenPhim);
+
+        public Task<(string? moTa, string? thoiLuong, string? trailerKey)> LayChiTietPhimBoSungAsync(int tmdbId, string? tenPhim = null) =>
+            _tmdbService.LayChiTietPhimBoSungAsync(tmdbId, tenPhim);
     }
 }

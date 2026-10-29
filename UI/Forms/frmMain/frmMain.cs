@@ -155,11 +155,17 @@ namespace cinema_project.UI
                 MessageBoxIcon.Information);
         }
 
+        internal void MoChiTietPhim()
+        {
+            if (_danhSachPhim.Count == 0 || _idx < 0 || _idx >= _danhSachPhim.Count) return;
+            Phim phim = _danhSachPhim[_idx];
+            using var f = new Forms.frmChiTietPhim.frmChiTietPhim(phim);
+            f.ShowDialog(this);
+        }
+
         private void BtnTrailer_Click(object? sender, EventArgs e)
         {
-            if (_danhSachPhim.Count == 0) return;
-            Phim phim = _danhSachPhim[_idx];
-            MessageBox.Show($"Xem trailer: {phim.Ten}", "CGV Trailer", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MoChiTietPhim();
         }
 
         internal void MoFormLichChieu()

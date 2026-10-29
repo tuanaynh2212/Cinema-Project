@@ -166,8 +166,10 @@ namespace cinema_project.UI
             lblTenPhim = new Label
             {
                 AutoSize = true, Text = "Chọn phim", Font = new Font("Segoe UI", 17f, FontStyle.Bold),
-                ForeColor = C_TEXT, BackColor = Color.Transparent, Margin = new Padding(0, 2, 10, 0)
+                ForeColor = C_TEXT, BackColor = Color.Transparent, Margin = new Padding(0, 2, 10, 0),
+                Cursor = Cursors.Hand
             };
+            lblTenPhim.Click += (_, _) => MoChiTietPhim();
             lblDoTuoi = new Label
             {
                 Size = new Size(42, 24), TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
@@ -199,7 +201,7 @@ namespace cinema_project.UI
 
             btnTrailer = new Button
             {
-                Text = "▶  Trailer", Font = new Font("Segoe UI", 10f, FontStyle.Bold), ForeColor = C_RED, BackColor = Color.White,
+                Text = "▶  Trailer & Chi Tiết", Font = new Font("Segoe UI", 10f, FontStyle.Bold), ForeColor = C_RED, BackColor = Color.White,
                 FlatStyle = FlatStyle.Flat, Size = new Size(200, 40), Location = new Point(0, 70), Cursor = Cursors.Hand
             };
             btnTrailer.FlatAppearance.BorderColor = C_RED;
@@ -293,6 +295,7 @@ namespace cinema_project.UI
         {
             var p = new PictureBox { SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.FromArgb(210, 210, 218), Cursor = Cursors.Hand, ErrorImage = null };
             if (delta != 0) p.Click += (_, _) => DiChuyen(delta);
+            else p.Click += (_, _) => MoChiTietPhim();
             return p;
         }
 

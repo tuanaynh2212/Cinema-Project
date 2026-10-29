@@ -116,5 +116,163 @@ namespace cinema_project.BLL.Services
                 throw;
             }
         }
+
+        public async Task<string?> LayTrailerKeyAsync(int tmdbId, string? tenPhim = null)
+        {
+            var (_, _, trailerKey) = await LayChiTietPhimBoSungAsync(tmdbId, tenPhim);
+            return trailerKey;
+        }
+
+        public async Task<(string? moTa, string? thoiLuong, string? trailerKey)> LayChiTietPhimBoSungAsync(int tmdbId, string? tenPhim = null)
+        {
+            string? moTa = null;
+            string? thoiLuong = null;
+            string? trailerKey = null;
+
+            if (string.IsNullOrWhiteSpace(ApiKey))
+                return (moTa, thoiLuong, trailerKey);
+
+            int targetId = tmdbId;
+
+            // Nếu tmdbId <= 0 và có tên phim, tìm kiếm ID theo tên phim
+            if (targetId <= 0 && !string.IsNullOrWhiteSpace(tenPhim))
+            {
+                try
+                {
+                    string searchUrl = $"{BaseApiUrl}/search/movie?api_key={ApiKey.Trim()}&query={Uri.EscapeDataString(tenPhim)}&language=vi-VN";
+                    var searchRes = await _http.GetAsync(searchUrl);
+                    if (searchRes.IsSuccessStatusCode)
+                    {
+                        using var sDoc = JsonDocument.Parse(await searchRes.Content.ReadAsStringAsync());
+                        if (sDoc.RootElement.TryGetProperty("results", out var sResults) && sResults.GetArrayLength() > 0)
+                        {
+                            var first = sResults[0];
+                            if (first.TryGetProperty("id", out var idProp))
+                            {
+                                targetId = idProp.GetInt32();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Lỗi tìm kiếm phim theo tên '{TenPhim}': {Message}", tenPhim, ex.Message);
+                }
+            }
+
+            if (targetId <= 0)
+                return (moTa, thoiLuong, trailerKey);
+
+            // 1. Lấy thông tin chi tiết phim (Overview, Runtime)
+            try
+            {
+                // Thử vi-VN trước
+                string detailUrlVi = $"{BaseApiUrl}/movie/{targetId}?api_key={ApiKey.Trim()}&language=vi-VN";
+                var detResVi = await _http.GetAsync(detailUrlVi);
+                if (detResVi.IsSuccessStatusCode)
+                {
+                    using var dDoc = JsonDocument.Parse(await detResVi.Content.ReadAsStringAsync());
+                    var root = dDoc.RootElement;
+                    if (root.TryGetProperty("overview", out var ov) && !string.IsNullOrWhiteSpace(ov.GetString()))
+                    {
+                        moTa = ov.GetString();
+                    }
+                    if (root.TryGetProperty("runtime", out var rt) && rt.GetInt32() > 0)
+                    {
+                        thoiLuong = $"{rt.GetInt32()} phút";
+                    }
+                }
+
+                // Nếu overview vi-VN bị trống, fallback sang en-US
+                if (string.IsNullOrWhiteSpace(moTa))
+                {
+                    string detailUrlEn = $"{BaseApiUrl}/movie/{targetId}?api_key={ApiKey.Trim()}&language=en-US";
+                    var detResEn = await _http.GetAsync(detailUrlEn);
+                    if (detResEn.IsSuccessStatusCode)
+                    {
+                        using var dDocEn = JsonDocument.Parse(await detResEn.Content.ReadAsStringAsync());
+                        var rootEn = dDocEn.RootElement;
+                        if (rootEn.TryGetProperty("overview", out var ovEn) && !string.IsNullOrWhiteSpace(ovEn.GetString()))
+                        {
+                            moTa = ovEn.GetString();
+                        }
+                        if (string.IsNullOrWhiteSpace(thoiLuong) && rootEn.TryGetProperty("runtime", out var rtEn) && rtEn.GetInt32() > 0)
+                        {
+                            thoiLuong = $"{rtEn.GetInt32()} phút";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Lỗi lấy chi tiết movie ID {Id}: {Message}", targetId, ex.Message);
+            }
+
+            // 2. Lấy video trailer (ưu tiên vi-VN, sau đó fallback sang mặc định/en-US)
+            trailerKey = await LayTrailerKeyTuTmdbIdAsync(targetId);
+
+            return (moTa, thoiLuong, trailerKey);
+        }
+
+        private async Task<string?> LayTrailerKeyTuTmdbIdAsync(int tmdbId)
+        {
+            // Thử 1: vi-VN
+            string? key = await QueryVideosEndpointAsync($"{BaseApiUrl}/movie/{tmdbId}/videos?api_key={ApiKey.Trim()}&language=vi-VN");
+            if (!string.IsNullOrEmpty(key)) return key;
+
+            // Thử 2: mặc định (không giới hạn ngôn ngữ, hầu hết trailer quốc tế/official đều nằm ở đây)
+            key = await QueryVideosEndpointAsync($"{BaseApiUrl}/movie/{tmdbId}/videos?api_key={ApiKey.Trim()}");
+            return key;
+        }
+
+        private async Task<string?> QueryVideosEndpointAsync(string url)
+        {
+            try
+            {
+                var res = await _http.GetAsync(url);
+                if (!res.IsSuccessStatusCode) return null;
+
+                using var doc = JsonDocument.Parse(await res.Content.ReadAsStringAsync());
+                if (!doc.RootElement.TryGetProperty("results", out var results)) return null;
+
+                var ytVideos = results.EnumerateArray()
+                    .Where(x => x.TryGetProperty("site", out var s) && s.GetString()?.Equals("YouTube", StringComparison.OrdinalIgnoreCase) == true)
+                    .ToList();
+
+                if (ytVideos.Count == 0) return null;
+
+                var chosen = ytVideos.FirstOrDefault(x =>
+                    x.TryGetProperty("type", out var t) && t.GetString()?.Equals("Trailer", StringComparison.OrdinalIgnoreCase) == true
+                    && x.TryGetProperty("official", out var o) && o.GetBoolean());
+
+                if (chosen.ValueKind == JsonValueKind.Undefined)
+                {
+                    chosen = ytVideos.FirstOrDefault(x =>
+                        x.TryGetProperty("type", out var t) && t.GetString()?.Equals("Trailer", StringComparison.OrdinalIgnoreCase) == true);
+                }
+
+                if (chosen.ValueKind == JsonValueKind.Undefined)
+                {
+                    chosen = ytVideos.FirstOrDefault(x =>
+                        x.TryGetProperty("type", out var t) && t.GetString()?.Equals("Teaser", StringComparison.OrdinalIgnoreCase) == true);
+                }
+
+                if (chosen.ValueKind == JsonValueKind.Undefined)
+                {
+                    chosen = ytVideos.FirstOrDefault();
+                }
+
+                if (chosen.ValueKind != JsonValueKind.Undefined && chosen.TryGetProperty("key", out var k))
+                {
+                    return k.GetString();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Lỗi khi gọi API videos từ TMDB: {Message}", ex.Message);
+            }
+
+            return null;
+        }
     }
 }
