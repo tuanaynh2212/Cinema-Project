@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -168,6 +168,13 @@ namespace cinema_project.UI
 
         private void BtnDatVe_Click(object? sender, EventArgs e)
         {
+            if (!PhienDangNhap.DaDangNhap)
+            {
+                MessageBox.Show("Vui lòng đăng nhập trước khi đặt vé để lưu vé theo tài khoản của bạn.",
+                    "Yêu cầu đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (_danhSachPhim.Count == 0)
             {
                 MessageBox.Show("Hiện chưa có phim để đặt vé.", "CGV Cinemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
