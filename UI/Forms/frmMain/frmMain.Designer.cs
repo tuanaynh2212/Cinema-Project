@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -80,8 +80,8 @@ namespace cinema_project.UI
                 FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Padding = new Padding(0, 15, 0, 0)
             };
             btnLichChieu = CreateHeaderBtn("🎬 Lịch Chiếu", false, new Size(115, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormLichChieu());
-            btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MessageBox.Show("TODO: Vé của bạn"));
-            btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, (s, e) => MessageBox.Show("TODO: Đăng nhập"));
+            btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormVeCuaBan());
+            btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, BtnLogin_Click);
             pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnLogin });
             pnlHeader.Controls.Add(pnlHeaderRight);
 

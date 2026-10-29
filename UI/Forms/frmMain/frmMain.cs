@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -6,6 +6,9 @@ using System.Linq;
 using System.Windows.Forms;
 using cinema_project.BLL;
 using cinema_project.DAL;
+using FormDatVe = cinema_project.UI.Forms.frmDatVe.frmDatVe;
+using cinema_project.UI.Forms.frmAuth;
+using cinema_project.UI.Forms.frmVeCuaBan;
 
 namespace cinema_project.UI
 {
@@ -19,6 +22,31 @@ namespace cinema_project.UI
         private int _idx = 0;
         private int _bannerIdx = 0;
         private int _selectedTab = 0;
+
+        private string? _emailDangNhap;
+
+        private void BtnLogin_Click(object? sender, EventArgs e)
+        {
+            using var form = new frmDangNhap();
+            if (form.ShowDialog(this) == DialogResult.OK)
+            {
+                _emailDangNhap = form.EmailDangNhap;
+                btnLogin.Text = "Tài khoản";
+                MessageBox.Show(
+                    "Đăng nhập thành công: " + _emailDangNhap,
+                    "CGV Cinemas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+        }
+
+
+        // Mo man hinh xem cac ghe/ve da duoc luu trong Supabase.
+        internal void MoFormVeCuaBan()
+        {
+            using var form = new frmVeCuaBan();
+            form.ShowDialog(this);
+        }
 
         public frmMain() => InitializeComponent();
 
@@ -147,12 +175,24 @@ namespace cinema_project.UI
                 return;
             }
 
+            // Lấy đúng phim đang được chọn trên frmMain và mở form đặt vé.
             Phim phim = _danhSachPhim[_idx];
-            MessageBox.Show(
-                $"🎬 Phim: {phim.Ten}\n🔞 Độ tuổi: {phim.DoTuoi}\n⏱️ Thời lượng: {phim.ThoiLuong}\n📅 Ngày chiếu: {phim.NgayChieu}\n💵 Giá vé: {phim.GiaVe:#,##0} VNĐ",
-                "Đặt vé CGV",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            using var formDatVe = new FormDatVe(phim);
+            DialogResult ketQua = formDatVe.ShowDialog(this);
+
+            if (ketQua == DialogResult.OK)
+            {
+                string danhSachGhe = string.Join(", ", formDatVe.GheDaChon);
+                MessageBox.Show(
+                    $"Đã lưu ghế cho phim: {phim.Ten}\n" +
+                    $"Suất chiếu: {formDatVe.SuatChieuDaChon?.NgayChieu:dd/MM/yyyy} " +
+                    $"{formDatVe.SuatChieuDaChon?.GioBatDau:hh\\:mm}\n" +
+                    $"Ghế: {danhSachGhe}\n" +
+                    $"Tổng tiền tạm tính: {formDatVe.GiaTamTinh:N0} VNĐ",
+                    "CGV Cinemas - Đặt vé",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
         }
 
         internal void MoChiTietPhim()
