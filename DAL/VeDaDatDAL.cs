@@ -17,6 +17,9 @@ namespace cinema_project.DAL
         [JsonPropertyName("ma_suat_chieu")]
         public int MaSuatChieu { get; set; }
 
+        [JsonPropertyName("user_id")]
+        public string UserId { get; set; } = "";
+
         [JsonPropertyName("ma_ghe")]
         public string MaGhe { get; set; } = "";
 
@@ -42,25 +45,35 @@ namespace cinema_project.DAL
             PropertyNameCaseInsensitive = true
         };
 
-        // Hiện tại bảng ghe_suat_chieu chưa lưu user_id/email người đặt,
-        // nên hàm này trả về các ghế đã đặt trong hệ thống, chưa lọc theo tài khoản.
+        // Chỉ tải ghế/vé thuộc tài khoản đang đăng nhập.
         public async Task<List<VeDaDatItem>> LayTatCaGheDaDatAsync()
         {
-            const string path = "ghe_suat_chieu?select=id,ma_suat_chieu,ma_ghe,gia_ghe,trang_thai,ngay_dat&trang_thai=eq.da_dat&order=ngay_dat.desc";
+            AuthLoginResult? phien = PhienDangNhap.NguoiDung;
+            if (phien == null || string.IsNullOrWhiteSpace(phien.UserId) ||
+                string.IsNullOrWhiteSpace(phien.AccessToken))
+            {
+                throw new UnauthorizedAccessException("Vui lòng đăng nhập để xem vé của bạn.");
+            }
 
-            using HttpRequestMessage request = _supabase.CreateRequest(HttpMethod.Get, path);
+            string userId = Uri.EscapeDataString(phien.UserId);
+            string path =
+                "ghe_suat_chieu?select=id,user_id,ma_suat_chieu,ma_ghe,gia_ghe,trang_thai,ngay_dat" +
+                $"&user_id=eq.{userId}&trang_thai=eq.da_dat&order=ngay_dat.desc";
+
+            using HttpRequestMessage request = _supabase.CreateRequest(HttpMethod.Get, path, phien.AccessToken);
             using HttpResponseMessage response = await _http.SendAsync(request);
             string content = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new InvalidOperationException(
-                    $"Không tải được danh sách vé/ghế (HTTP {(int)response.StatusCode}).\n{content}");
+                    $"Không tải được vé của tài khoản (HTTP {(int)response.StatusCode}).\n{content}");
             }
 
             List<VeDaDatItem>? result = JsonSerializer.Deserialize<List<VeDaDatItem>>(content, _json);
-            return result?.Where(x => x.TrangThai == "da_dat").ToList()
-                   ?? new List<VeDaDatItem>();
+            return result?.Where(x => x.TrangThai == "da_dat" &&
+                                      string.Equals(x.UserId, phien.UserId, StringComparison.OrdinalIgnoreCase))
+                   .ToList() ?? new List<VeDaDatItem>();
         }
     }
 }

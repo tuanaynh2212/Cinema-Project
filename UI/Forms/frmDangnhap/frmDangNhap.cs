@@ -8,22 +8,22 @@ namespace cinema_project.UI.Forms.frmAuth
     public partial class frmDangNhap : Form
     {
         private readonly AuthDAL _authDAL;
-        private readonly SupabaseService supabase;
         private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
         {
             b.AddConsole();
             b.SetMinimumLevel(LogLevel.Debug);
         });
 
-        private readonly ILogger<AuthDAL> _logger;
+        private readonly ILogger<frmDangNhap> _logger;
 
 
 
         public string EmailDangNhap { get; private set; } = "";
         public AuthLoginResult? KetQuaDangNhap { get; private set; }
 
-        public frmDangNhap(AuthDAL authDAL = null)
+        public frmDangNhap(AuthDAL? authDAL = null)
         {
+            _logger = _defaultLoggerFactory.CreateLogger<frmDangNhap>();
             _authDAL = authDAL ?? new AuthDAL(
                 supabaseServices: new SupabaseService(),
                 logger: _defaultLoggerFactory.CreateLogger<AuthDAL>());
@@ -31,7 +31,7 @@ namespace cinema_project.UI.Forms.frmAuth
             AcceptButton = btnDangNhap;
         }
 
-        private async void btnDangNhap_Click(object? sender, EventArgs e)
+        private async void BtnDangNhap_Click(object? sender, EventArgs e)
         {
             string email = txtEmail.Text.Trim();
             string matKhau = txtMatKhau.Text;
@@ -57,7 +57,7 @@ namespace cinema_project.UI.Forms.frmAuth
             catch (Exception ex)
             {
                 HienThongBao(ex.Message);
-                _logger.LogError(ex, "Đăng nhập thất bại cho {Email}", email    );
+                _logger.LogError(ex, "Đăng nhập thất bại cho {Email}", email);
             }
             finally
             {
@@ -65,11 +65,11 @@ namespace cinema_project.UI.Forms.frmAuth
                 {
                     btnDangNhap.Enabled = true;
                     btnMoDangKy.Enabled = true;
-                    }
                 }
+            }
         }
 
-        private void btnMoDangKy_Click(object? sender, EventArgs e)
+        private void BtnMoDangKy_Click(object? sender, EventArgs e)
         {
             using var form = new frmDangKy(authDAL: _authDAL);
             if (form.ShowDialog(this) == DialogResult.OK)
@@ -81,7 +81,7 @@ namespace cinema_project.UI.Forms.frmAuth
             }
         }
 
-        private void chkHienMatKhau_CheckedChanged(object? sender, EventArgs e)
+        private void ChkHienMatKhau_CheckedChanged(object? sender, EventArgs e)
         {
             txtMatKhau.UseSystemPasswordChar = !chkHienMatKhau.Checked;
         }

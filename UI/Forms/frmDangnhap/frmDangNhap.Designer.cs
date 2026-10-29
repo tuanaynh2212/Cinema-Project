@@ -96,7 +96,7 @@ namespace cinema_project.UI.Forms.frmAuth
             chkHienMatKhau.Font = new Font("Segoe UI", 9F);
             chkHienMatKhau.Location = new Point(36, 305);
             chkHienMatKhau.Text = "Hiện mật khẩu";
-            chkHienMatKhau.CheckedChanged += chkHienMatKhau_CheckedChanged;
+            chkHienMatKhau.CheckedChanged += ChkHienMatKhau_CheckedChanged;
 
             btnDangNhap.BackColor = Color.FromArgb(231, 26, 15);
             btnDangNhap.FlatStyle = FlatStyle.Flat;
@@ -107,7 +107,7 @@ namespace cinema_project.UI.Forms.frmAuth
             btnDangNhap.Size = new Size(440, 45);
             btnDangNhap.Text = "ĐĂNG NHẬP";
             btnDangNhap.UseVisualStyleBackColor = false;
-            btnDangNhap.Click += btnDangNhap_Click;
+            btnDangNhap.Click += BtnDangNhap_Click;
             btnDangNhap.Cursor = Cursors.Hand;
 
             lblThongBao.AutoSize = false;
@@ -126,7 +126,7 @@ namespace cinema_project.UI.Forms.frmAuth
             btnMoDangKy.Location = new Point(36, 468);
             btnMoDangKy.Size = new Size(440, 40);
             btnMoDangKy.Text = "Chưa có tài khoản? Đăng ký";
-            btnMoDangKy.Click += btnMoDangKy_Click;
+            btnMoDangKy.Click += BtnMoDangKy_Click;
             btnMoDangKy.Cursor = Cursors.Hand;
 
             btnDong.FlatStyle = FlatStyle.Flat;
