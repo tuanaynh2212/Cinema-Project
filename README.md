@@ -44,6 +44,7 @@ Xác thực và dữ liệu được lưu trên Supabase, thông tin phim đư�
 
 **Quản trị viên**
 - Phân quyền hai vai trò `user` và `admin`
+- Màn hình quản trị tập trung, mở nhanh quản lý lịch chiếu và báo cáo doanh thu
 - Quản lý phim, phòng chiếu, suất chiếu
 - Theo dõi giao dịch bán vé (số lượng, đơn giá, tổng tiền, trạng thái thanh toán)
 

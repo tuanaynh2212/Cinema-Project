@@ -34,7 +34,6 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             lblMovieTitle.Text = _phim.Ten;
             Text = $"{_phim.Ten} – Chi Tiết & Trailer";
 
-            // Độ tuổi
             string doTuoi = string.IsNullOrWhiteSpace(_phim.DoTuoi) ? "P" : _phim.DoTuoi;
             lblAgeBadge.Text = doTuoi;
             lblAgeBadge.BackColor = doTuoi switch
@@ -45,7 +44,6 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 _     => Color.FromArgb(52, 199, 89)
             };
 
-            // Trạng thái phim
             string loaiPhim = string.IsNullOrWhiteSpace(_phim.LoaiPhim) ? "Đang chiếu" : _phim.LoaiPhim;
             lblStatusBadge.Text = loaiPhim;
             lblStatusBadge.BackColor = loaiPhim switch
@@ -55,19 +53,18 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 _          => Color.FromArgb(0, 122, 255)
             };
 
-            // Thông tin bên cột trái
+
             lblGenre.Text = $"🎭 Thể loại: {(string.IsNullOrWhiteSpace(_phim.TheLoai) ? "Đang cập nhật" : _phim.TheLoai)}";
             lblReleaseDate.Text = $"📅 Ngày chiếu: {_phim.NgayChieu ?? "Đang cập nhật"}";
             lblDuration.Text = $"⏱️ Thời lượng: {_phim.ThoiLuong}";
             lblRating.Text = $"⭐ Điểm TMDB: {_phim.VoteAverage?.ToString("0.0") ?? "Chưa đánh giá"} / 10";
             lblPrice.Text = $"💵 Giá vé: {_phim.GiaVe:#,##0} VNĐ";
 
-            // Mô tả nội dung
+
             txtOverview.Text = string.IsNullOrWhiteSpace(_phim.MoTa)
                 ? "Mô tả của bộ phim này hiện đang được cập nhật."
                 : _phim.MoTa;
 
-            // Tải ảnh Poster
             TaiAnhPoster();
         }
 
@@ -90,7 +87,6 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             }
             catch
             {
-                // Giữ nền trống nếu lỗi tải ảnh
             }
         }
 
@@ -103,14 +99,12 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 int targetId = _phim.TmdbId ?? _phim.MaPhim;
                 var (moTa, thoiLuong, trailerKey) = await _phimBLL.LayChiTietPhimBoSungAsync(targetId, _phim.Ten);
 
-                // Cập nhật mô tả nếu ban đầu chưa có hoặc ngắn
                 if (!string.IsNullOrWhiteSpace(moTa) && (string.IsNullOrWhiteSpace(_phim.MoTa) || _phim.MoTa.Length < moTa.Length))
                 {
                     _phim.MoTa = moTa;
                     txtOverview.Text = moTa;
                 }
 
-                // Cập nhật thời lượng nếu có
                 if (!string.IsNullOrWhiteSpace(thoiLuong) && (_phim.ThoiLuong == "120 phút" || string.IsNullOrWhiteSpace(_phim.ThoiLuong)))
                 {
                     _phim.ThoiLuong = thoiLuong;
@@ -174,7 +168,12 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
         {
             try
             {
-                using var frm = new frmLichChieu.frmLichChieu();
+                if(PhienDangNhap.NguoiDung == null)
+                {
+                    MessageBox.Show("Bạn cần đăng nhập để đặt vé.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                using var frm = new cinema_project.UI.Forms.frmDatVe.frmDatVe(_phim);
                 Hide();
                 frm.ShowDialog();
                 Close();

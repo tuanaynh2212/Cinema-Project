@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using cinema_project.DAL;
 
 namespace cinema_project.UI
 {
@@ -76,13 +77,16 @@ namespace cinema_project.UI
 
             pnlHeaderRight = new FlowLayoutPanel
             {
-                Size = new Size(330, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
+                Size = new Size(438, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
                 FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Padding = new Padding(0, 15, 0, 0)
             };
             btnLichChieu = CreateHeaderBtn("🎬 Lịch Chiếu", false, new Size(115, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormLichChieu());
             btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormVeCuaBan());
+            btnLichChieu.Visible = btnTicket.Visible = PhienDangNhap.NguoiDung?.LaAdmin == true;
+            btnAdmin = CreateHeaderBtn("Quản trị", false, new Size(102, 38), new Padding(0, 0, 8, 0), BtnAdmin_Click);
+            btnAdmin.Visible = PhienDangNhap.NguoiDung?.LaAdmin == true;
             btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, BtnLogin_Click);
-            pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnLogin });
+            pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnAdmin, btnLogin });
             pnlHeader.Controls.Add(pnlHeaderRight);
 
             pnlHeader.Resize += (s, e) => txtSearch.Location = new Point((pnlHeader.Width - txtSearch.Width) / 2, 18);
@@ -370,7 +374,7 @@ namespace cinema_project.UI
         private FlowLayoutPanel pnlHeaderRight = null!, pnlDots = null!, flpTenBadge = null!;
         private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblNavLichChieu = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblFooterText = null!;
         private TextBox         txtSearch = null!;
-        private Button          btnLichChieu = null!, btnTicket = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
+        private Button          btnLichChieu = null!, btnTicket = null!, btnAdmin = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
         private ComboBox        cmbGenre = null!;
         private PictureBox      picBanner = null!, picXaTrai = null!, picTrai = null!, picGiua = null!, picPhai = null!, picXaPhai = null!;
         private System.Windows.Forms.Timer tmrBanner = null!;

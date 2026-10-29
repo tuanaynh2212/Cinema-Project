@@ -45,7 +45,6 @@ namespace cinema_project.DAL
             PropertyNameCaseInsensitive = true
         };
 
-        // Chỉ tải ghế/vé thuộc tài khoản đang đăng nhập.
         public async Task<List<VeDaDatItem>> LayTatCaGheDaDatAsync()
         {
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
