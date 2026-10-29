@@ -15,6 +15,9 @@ namespace cinema_project.DAL
         [JsonPropertyName("ma_suat_chieu")]
         public int MaSuatChieu { get; set; }
 
+        [JsonPropertyName("user_id")]
+        public string UserId { get; set; } = "";
+
         [JsonPropertyName("ma_ghe")]
         public string MaGhe { get; set; } = "";
 
@@ -34,14 +37,30 @@ namespace cinema_project.DAL
             PropertyNameCaseInsensitive = true
         };
 
+        private static AuthLoginResult LayPhienDangNhap()
+        {
+            AuthLoginResult? phien = PhienDangNhap.NguoiDung;
+            if (phien == null || string.IsNullOrWhiteSpace(phien.UserId) ||
+                string.IsNullOrWhiteSpace(phien.AccessToken))
+            {
+                throw new UnauthorizedAccessException("Vui lòng đăng nhập trước khi đặt vé.");
+            }
+
+            return phien;
+        }
+
         public async Task<List<string>> LayGheDaDatAsync(int maSuatChieu)
         {
             if (maSuatChieu <= 0)
                 throw new ArgumentOutOfRangeException(nameof(maSuatChieu), "Mã suất chiếu không hợp lệ.");
 
+            AuthLoginResult phien = LayPhienDangNhap();
+            // Phải đọc trạng thái ghế của mọi người để tránh hai tài khoản cùng chọn một ghế.
+            // RLS của bảng cần cho phép người dùng đã xác thực đọc các ghế đã đặt.
             using HttpRequestMessage request = _supabase.CreateRequest(
                 HttpMethod.Get,
-                $"ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.{maSuatChieu}&trang_thai=eq.da_dat");
+                $"ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.{maSuatChieu}&trang_thai=eq.da_dat",
+                phien.AccessToken);
 
             using HttpResponseMessage response = await _http.SendAsync(request);
             string noiDung = await response.Content.ReadAsStringAsync();
@@ -62,11 +81,15 @@ namespace cinema_project.DAL
             if (danhSachGhe == null)
                 throw new ArgumentNullException(nameof(danhSachGhe));
 
+            AuthLoginResult phien = LayPhienDangNhap();
+
             List<GheSuatChieuDat> ds = danhSachGhe
                 .Where(x => x != null)
                 .Select(x => new GheSuatChieuDat
                 {
                     MaSuatChieu = x.MaSuatChieu,
+                    // Không lấy user_id từ form: luôn gán theo phiên đăng nhập tin cậy.
+                    UserId = phien.UserId,
                     MaGhe = (x.MaGhe ?? "").Trim().ToUpperInvariant(),
                     GiaGhe = x.GiaGhe,
                     TrangThai = "da_dat"
@@ -78,7 +101,8 @@ namespace cinema_project.DAL
             if (ds.Any(x => x.MaSuatChieu <= 0 || string.IsNullOrWhiteSpace(x.MaGhe) || x.GiaGhe < 0))
                 throw new InvalidOperationException("Thông tin ghế đặt không hợp lệ.");
 
-            using HttpRequestMessage request = _supabase.CreateRequest(HttpMethod.Post, "ghe_suat_chieu");
+            using HttpRequestMessage request = _supabase.CreateRequest(
+                HttpMethod.Post, "ghe_suat_chieu", phien.AccessToken);
             request.Headers.TryAddWithoutValidation("Prefer", "return=minimal");
             request.Content = new StringContent(JsonSerializer.Serialize(ds), Encoding.UTF8, "application/json");
 

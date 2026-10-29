@@ -33,7 +33,7 @@ namespace cinema_project.DAL
             _logger = logger ?? _defaultLoggerFactory.CreateLogger<SupabaseService>();
         }
 
-        public HttpRequestMessage CreateRequest(HttpMethod method, string path)
+        public HttpRequestMessage CreateRequest(HttpMethod method, string path, string? accessToken = null)
         {
             ArgumentNullException.ThrowIfNull(method);
             ArgumentNullException.ThrowIfNull(path);
@@ -44,8 +44,11 @@ namespace cinema_project.DAL
             _logger.LogInformation("Request: {Method} {Url}", method.Method, url);
 
             var req = new HttpRequestMessage(method, url);
-            req.Headers.Add("apikey", SupabaseKey);
-            req.Headers.Add("Authorization", $"Bearer {SupabaseKey}");
+            req.Headers.TryAddWithoutValidation("apikey", SupabaseKey);
+            // Dùng JWT của người dùng khi thao tác cần RLS; các request công khai
+            // cũ vẫn dùng anon key như trước.
+            string bearerToken = string.IsNullOrWhiteSpace(accessToken) ? SupabaseKey : accessToken;
+            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
             return req;
         }
 
