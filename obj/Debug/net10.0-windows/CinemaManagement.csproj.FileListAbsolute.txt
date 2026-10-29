@@ -1,0 +1,228 @@
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.AssemblyReference.cache
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.GeneratedMSBuildEditorConfig.editorconfig
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfoInputs.cache
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfo.cs
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.CoreCompileInputs.cache
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\appsettings.json
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.exe
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.deps.json
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.runtimeconfig.json
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.pdb
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Bcl.Cryptography.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Internal.Logging.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Memory.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Options.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Primitives.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Abstractions.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Logging.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Tokens.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.SqlServer.Server.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\System.IdentityModel.Tokens.Jwt.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\System.Threading.RateLimiting.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\cs\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\de\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\es\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\fr\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\it\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\ja\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\ko\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\pl\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\pt-BR\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\ru\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\tr\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+E:\cinema2\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaMa.F488B2C5.Up2Date
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.dll
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\refint\CinemaManagement.dll
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.pdb
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.genruntimeconfig.cache
+E:\cinema2\CinemaManagement\obj\Debug\net10.0-windows\ref\CinemaManagement.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\appsettings.json
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.exe
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.deps.json
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.runtimeconfig.json
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.pdb
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Bcl.Cryptography.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Internal.Logging.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Logging.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Tokens.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.SqlServer.Server.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.Threading.RateLimiting.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\cs\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\de\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\es\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\fr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\it\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ja\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ko\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pl\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pt-BR\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ru\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\tr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.AssemblyReference.cache
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfoInputs.cache
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfo.cs
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.CoreCompileInputs.cache
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaMa.F488B2C5.Up2Date
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\refint\CinemaManagement.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.pdb
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.genruntimeconfig.cache
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\ref\CinemaManagement.dll
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.CustomerMainForm.resources
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.Login.resources
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.RegisterForm.resources
+C:\Users\trongtin\Downloads\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.GenerateResource.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\appsettings.json
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.exe
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.deps.json
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.runtimeconfig.json
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.pdb
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Bcl.Cryptography.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Internal.Logging.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Logging.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Tokens.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.SqlServer.Server.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.Threading.RateLimiting.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\cs\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\de\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\es\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\fr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\it\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ja\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ko\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pl\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pt-BR\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ru\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\tr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.AssemblyReference.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.CustomerMainForm.resources
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.Login.resources
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.RegisterForm.resources
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.GenerateResource.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfoInputs.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfo.cs
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.CoreCompileInputs.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaMa.F488B2C5.Up2Date
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\refint\CinemaManagement.dll
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.pdb
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.genruntimeconfig.cache
+C:\Users\trongtin\OneDrive\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\ref\CinemaManagement.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\appsettings.json
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.exe
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.deps.json
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.runtimeconfig.json
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\CinemaManagement.pdb
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Bcl.Cryptography.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Extensions.Abstractions.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Data.SqlClient.Internal.Logging.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Caching.Memory.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Options.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.Extensions.Primitives.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Abstractions.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Logging.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.IdentityModel.Tokens.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\Microsoft.SqlServer.Server.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.IdentityModel.Tokens.Jwt.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\System.Threading.RateLimiting.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\cs\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\de\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\es\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\fr\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\it\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ja\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ko\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pl\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\pt-BR\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\ru\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\tr\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\unix\lib\net9.0\Microsoft.Data.SqlClient.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win\lib\net9.0\Microsoft.Data.SqlClient.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\CinemaManagement (1)\CinemaManagement\bin\Debug\net10.0-windows\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.AssemblyReference.cache
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.CustomerMainForm.resources
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.Login.resources
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.RegisterForm.resources
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.GenerateResource.cache
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.GeneratedMSBuildEditorConfig.editorconfig
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfoInputs.cache
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.AssemblyInfo.cs
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.csproj.CoreCompileInputs.cache
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaMa.F488B2C5.Up2Date
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.dll
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\refint\CinemaManagement.dll
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.pdb
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\CinemaManagement.genruntimeconfig.cache
+D:\CinemaManagement (1)\CinemaManagement\obj\Debug\net10.0-windows\ref\CinemaManagement.dll
