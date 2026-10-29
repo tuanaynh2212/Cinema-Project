@@ -1,13 +1,16 @@
-using CinemaManagement;
+using System;
+using System.Windows.Forms;
+using cinema_project.UI;
 
-namespace cinema_project;
-
-internal static class Program
+namespace cinema_project
 {
-    [STAThread]
-    private static void Main()
+    internal static class Program
     {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new Login());
+        [STAThread]
+        static void Main()
+        {
+            ApplicationConfiguration.Initialize();
+            Application.Run(new frmMain());
+        }
     }
 }

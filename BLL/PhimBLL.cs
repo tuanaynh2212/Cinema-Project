@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using cinema_project.DAL;
+using cinema_project.BLL.Services;
+
+namespace cinema_project.BLL
+{
+    public class PhimBLL
+    {
+        private readonly PhimDAL _phimDAL = new();
+        private readonly TmdbService _tmdbService = new();
+
+        public async Task<List<Phim>> DongBoVaLayPhimAsync()
+        {
+            List<Phim> dsTmdb = new();
+            try
+            {
+                dsTmdb = await _tmdbService.LayDanhSachPhimTuTmdbAsync();
+            }
+            catch
+            {
+            }
+
+            if (dsTmdb.Count > 0)
+            {
+                await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb);
+            }
+
+            var dsSupabase = await _phimDAL.LayPhimTuSupabaseAsync();
+
+            if (dsSupabase.Count == 0 && dsTmdb.Count > 0)
+            {
+                _phimDAL.CapNhatBoNhoTam(dsTmdb);
+                return dsTmdb;
+            }
+
+            return dsSupabase;
+        }
+
+        public List<Phim> LayPhimTheoLoai(string loaiPhim)
+        {
+            return _phimDAL.LayTheoLoai(loaiPhim);
+        }
+
+        public List<Phim> LayTatCaPhim()
+        {
+            return _phimDAL.LayTatCa();
+        }
+    }
+}
