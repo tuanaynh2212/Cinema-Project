@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -109,7 +111,56 @@ namespace cinema_project.DAL
             for (int i = 0; i < data.Count; i++) data[i].ChuanHoaThongTin(i);
             return data;
         }
+         public async Task<HttpResponseMessage> GuiAsync(
+     HttpMethod method, string path, object? body, string loi, string? accessToken = null)
+        {
+            if (string.IsNullOrWhiteSpace(SupabaseUrl) ||
+                string.IsNullOrWhiteSpace(SupabaseKey))
+            {
+                _logger.LogError("Thiếu cấu hình SupabaseUrl hoặc SupabaseKey");
+                throw new InvalidOperationException(
+                    "Bạn cần cấu hình SupabaseUrl và SupabaseKey trong SupabaseService.");
+            }
 
+            using var request = new HttpRequestMessage(
+                method, $"{SupabaseUrl.TrimEnd('/')}/{path}")
+            {
+                Content = body == null ? null : JsonContent.Create(body)
+            };
+            request.Headers.TryAddWithoutValidation("apikey", SupabaseKey);
+            if (accessToken != null)
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            _logger.LogDebug("Supabase {Method} {Path}", method, path);
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await _http.SendAsync(request);
+            }
+            catch (TaskCanceledException ex)
+            {
+                _logger.LogError(ex, "Supabase {Method} {Path} hết thời gian chờ", method, path);
+                throw new InvalidOperationException("Máy chủ phản hồi quá lâu, vui lòng thử lại.", ex);
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "Supabase {Method} {Path} không kết nối được", method, path);
+                throw new InvalidOperationException("Không kết nối được tới máy chủ. Kiểm tra mạng rồi thử lại.", ex);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogDebug("Supabase {Method} {Path} thành công: {Status}", method, path, (int)response.StatusCode);
+                return response;
+            }
+
+            string noiDung = await response.Content.ReadAsStringAsync();
+            _logger.LogWarning("Supabase {Method} {Path} lỗi {Status}: {Body}",
+                method, path, (int)response.StatusCode, noiDung);
+            response.Dispose();
+            throw new InvalidOperationException(loi);
+        }
 
         public Task<List<PhongChieu>> LayTatCaPhongChieuAsync() =>
             LayDanhSachAsync<PhongChieu>("phong_chieu?select=*&order=ma_phong.asc");
@@ -156,5 +207,7 @@ namespace cinema_project.DAL
 
         public Task<bool> XoaAsync(string table, string cot, int id) =>
             GuiAsync(CreateRequest(HttpMethod.Delete, $"{table}?{cot}=eq.{id}"), $"xóa {table} {id}");
+       
     }
 }
+

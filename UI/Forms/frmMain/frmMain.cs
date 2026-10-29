@@ -41,7 +41,6 @@ namespace cinema_project.UI
         }
 
 
-        // Mo man hinh xem cac ghe/ve da duoc luu trong Supabase.
         internal void MoFormVeCuaBan()
         {
             using var form = new frmVeCuaBan();

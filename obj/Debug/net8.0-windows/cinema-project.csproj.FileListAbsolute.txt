@@ -53,3 +53,6 @@ D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.Text.Encodings.
 D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\System.Text.Json.dll
 D:\cinema-project\cinema-project\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema_project.UI.frmThongKeBaoCao.resources
+D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema_project.UI.Forms.frmAuth.frmDangKy.resources
+D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema_project.UI.Forms.frmAuth.frmDangNhap.resources
+D:\cinema-project\cinema-project\obj\Debug\net8.0-windows\cinema_project.UI.Forms.frmDatVe.frmDatVe.resources

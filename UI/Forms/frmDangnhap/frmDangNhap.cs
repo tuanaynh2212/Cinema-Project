@@ -1,18 +1,32 @@
 ﻿using System;
 using System.Windows.Forms;
 using cinema_project.DAL;
+using Microsoft.Extensions.Logging;
 
 namespace cinema_project.UI.Forms.frmAuth
 {
     public partial class frmDangNhap : Form
     {
-        private readonly AuthDAL _authDAL = new AuthDAL();
+        private readonly AuthDAL _authDAL;
+        private readonly SupabaseService supabase;
+        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
+        {
+            b.AddConsole();
+            b.SetMinimumLevel(LogLevel.Debug);
+        });
+
+        private readonly ILogger<AuthDAL> _logger;
+
+
 
         public string EmailDangNhap { get; private set; } = "";
         public AuthLoginResult? KetQuaDangNhap { get; private set; }
 
-        public frmDangNhap()
+        public frmDangNhap(AuthDAL authDAL = null)
         {
+            _authDAL = authDAL ?? new AuthDAL(
+                supabaseServices: new SupabaseService(),
+                logger: _defaultLoggerFactory.CreateLogger<AuthDAL>());
             InitializeComponent();
             AcceptButton = btnDangNhap;
         }
@@ -43,6 +57,7 @@ namespace cinema_project.UI.Forms.frmAuth
             catch (Exception ex)
             {
                 HienThongBao(ex.Message);
+                _logger.LogError(ex, "Đăng nhập thất bại cho {Email}", email    );
             }
             finally
             {
@@ -50,13 +65,13 @@ namespace cinema_project.UI.Forms.frmAuth
                 {
                     btnDangNhap.Enabled = true;
                     btnMoDangKy.Enabled = true;
+                    }
                 }
-            }
         }
 
         private void btnMoDangKy_Click(object? sender, EventArgs e)
         {
-            using var form = new frmDangKy();
+            using var form = new frmDangKy(authDAL: _authDAL);
             if (form.ShowDialog(this) == DialogResult.OK)
             {
                 txtEmail.Text = form.EmailDangKy;

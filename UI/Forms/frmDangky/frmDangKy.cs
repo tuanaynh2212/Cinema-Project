@@ -7,12 +7,13 @@ namespace cinema_project.UI.Forms.frmAuth
 {
     public partial class frmDangKy : Form
     {
-        private readonly AuthDAL _authDAL = new AuthDAL();
+        private readonly AuthDAL _authDAL =null;
 
         public string EmailDangKy { get; private set; } = "";
 
-        public frmDangKy()
+        public frmDangKy(AuthDAL authDAL)
         {
+            _authDAL = authDAL ?? throw new ArgumentNullException(nameof(authDAL));
             InitializeComponent();
             AcceptButton = btnDangKy;
         }
