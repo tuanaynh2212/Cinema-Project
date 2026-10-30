@@ -5,29 +5,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace cinema_project.DAL
 {
-    public sealed class GheSuatChieuDat
-    {
-        [JsonPropertyName("ma_suat_chieu")]
-        public int MaSuatChieu { get; set; }
-
-        [JsonPropertyName("user_id")]
-        public string UserId { get; set; } = "";
-
-        [JsonPropertyName("ma_ghe")]
-        public string MaGhe { get; set; } = "";
-
-        [JsonPropertyName("gia_ghe")]
-        public decimal GiaGhe { get; set; }
-
-        [JsonPropertyName("trang_thai")]
-        public string TrangThai { get; set; } = "da_dat";
-    }
-
     public sealed class GheSuatChieuDAL
     {
         private readonly SupabaseService _supabase = new SupabaseService();
