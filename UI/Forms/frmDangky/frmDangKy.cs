@@ -7,7 +7,7 @@ namespace cinema_project.UI.Forms.frmAuth
 {
     public partial class frmDangKy : Form
     {
-        private readonly AuthDAL _authDAL =null;
+        private readonly AuthDAL _authDAL;
 
         public string EmailDangKy { get; private set; } = "";
 

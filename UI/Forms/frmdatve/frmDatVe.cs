@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using cinema_project.DAL;
 using cinema_project.DAL.DTO;
+using GheSuatChieuDatDal = cinema_project.DAL.GheSuatChieuDat;
 
 namespace cinema_project.UI.Forms.frmDatVe
 {
@@ -196,7 +197,7 @@ namespace cinema_project.UI.Forms.frmDatVe
 
             int maSuatChieu = _suatDangChon.MaSuatChieu;
             List<string> gheDaChon = GheDaChon.ToList();
-            var danhSachLuu = gheDaChon.Select(ghe => new GheSuatChieuDat
+            var danhSachLuu = gheDaChon.Select(ghe => new GheSuatChieuDatDal
             {
                 MaSuatChieu = maSuatChieu,
                 MaGhe = ghe,
