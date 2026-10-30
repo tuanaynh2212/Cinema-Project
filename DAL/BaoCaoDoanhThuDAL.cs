@@ -3,26 +3,34 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using cinema_project.DAL.DTO;
+using Microsoft.Extensions.Logging;
 
 namespace cinema_project.DAL
 {
     public class BaoCaoDoanhThuDAL
     {
         private readonly SupabaseService _supabase = new SupabaseService();
+        private readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+            builder.SetMinimumLevel(LogLevel.Warning);
+        });
+        private readonly ILogger<BaoCaoDoanhThuDAL> logger;
 
         private static readonly JsonSerializerOptions _json =
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-        // Chỉ lấy giao dịch đã thanh toán. Admin xem toàn bộ; người dùng thường chỉ xem giao dịch của mình.
-        // Quyền truy cập cuối cùng vẫn phải được bảo vệ bằng RLS ở Supabase.
         public async Task<List<BaoCaoDoanhThu>> LayDoanhThuDaThanhToanAsync()
         {
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
             if (phien == null || string.IsNullOrWhiteSpace(phien.UserId) ||
-                string.IsNullOrWhiteSpace(phien.AccessToken))
+                string.IsNullOrWhiteSpace(phien.AccessToken) || phien.LaAdmin == false)
             {
+                logger.LogWarning("Người dùng chưa đăng nhập hoặc không có quyền truy cập báo cáo doanh thu."); 
                 throw new UnauthorizedAccessException(
                     "Vui lòng đăng nhập trước khi xem báo cáo doanh thu.");
+             
             }
 
             string locNguoiDung = phien.LaAdmin

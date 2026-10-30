@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using cinema_project.BLL;
 using cinema_project.DAL;
+using cinema_project.DAL.DTO;
 using FormDatVe = cinema_project.UI.Forms.frmDatVe.frmDatVe;
 using cinema_project.UI.Forms.frmAuth;
 using FormAdmin = cinema_project.UI.Forms.frmAdmin.frmAdmin;

@@ -37,6 +37,8 @@ namespace cinema_project.BLL.Services
             [9648] = "Bí Ẩn", [10749] = "Tình Cảm, Lãng Mạn", [878] = "Khoa Học Viễn Tưởng",
             [53] = "Giật Gân", [10752] = "Chiến Tranh", [37] = "Miền Tây"
         };
+        public static IReadOnlyList<string> DanhSachTheLoai { get; } =
+            Array.AsReadOnly(_theLoaiMap.Values.Distinct(StringComparer.OrdinalIgnoreCase).ToArray());
 
         public async Task<List<Phim>> LayDanhSachPhimTuTmdbAsync()
         {

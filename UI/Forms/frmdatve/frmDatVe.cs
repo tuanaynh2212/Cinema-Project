@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using cinema_project.DAL;
+using cinema_project.DAL.DTO;
 
 namespace cinema_project.UI.Forms.frmDatVe
 {
@@ -241,8 +242,14 @@ namespace cinema_project.UI.Forms.frmDatVe
         {
             public SuatChieu Suat { get; }
             public int MaSuatChieu => Suat.MaSuatChieu;
-            public string NoiDung => $"{Suat.NgayChieu:dd/MM/yyyy} | {Suat.GioBatDau:hh\\:mm} | {Suat.TenPhong} | {Suat.DinhDang} | {Suat.GiaVe:N0} VNĐ";
-            public SuatChieuLuaChon(SuatChieu suat) => Suat = suat;
+            public string NoiDung { get; }
+
+            public SuatChieuLuaChon(SuatChieu suat)
+            {
+                Suat = suat ?? throw new ArgumentNullException(nameof(suat));
+                NoiDung = $"{Suat.NgayChieu:dd/MM/yyyy} • {Suat.GioBatDau:hh\\:mm} | " +
+                          $"{Suat.TenPhong} | {Suat.DinhDang}";
+            }
         }
     }
 }

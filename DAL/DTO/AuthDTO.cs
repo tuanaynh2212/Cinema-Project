@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace cinema_project.DAL
+namespace cinema_project.DAL.DTO
 {
     public class AuthResponse
     {

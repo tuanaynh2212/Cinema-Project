@@ -2,7 +2,9 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
+using cinema_project.BLL.Services;
 using cinema_project.DAL;
 
 namespace cinema_project.UI
@@ -91,7 +93,7 @@ namespace cinema_project.UI
 
             pnlHeader.Resize += (s, e) => txtSearch.Location = new Point((pnlHeader.Width - txtSearch.Width) / 2, 18);
 
-            pnlBanner = new Panel { Dock = DockStyle.Top, Height = 220, BackColor = Color.FromArgb(40, 20, 20), Padding = new Padding(16, 8, 16, 0) };
+            pnlBanner = new Panel { Dock = DockStyle.Top, Height = 180, BackColor = Color.FromArgb(40, 20, 20), Padding = new Padding(16, 8, 16, 0) };
             picBanner = new PictureBox { Dock = DockStyle.Fill, SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.Transparent, ErrorImage = null };
             picBanner.Paint += (s, e) =>
             {
@@ -122,7 +124,9 @@ namespace cinema_project.UI
                 DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 9.5f), FlatStyle = FlatStyle.Flat,
                 Size = new Size(160, 30), Anchor = AnchorStyles.Right | AnchorStyles.Top
             };
-            cmbGenre.Items.AddRange(new object[] { "Tất cả thể loại", "Hành Động", "Tình Cảm", "Kinh Dị", "Hoạt Hình" });
+            cmbGenre.Items.AddRange(new object[] { "Tất cả thể loại" }
+                .Concat(TmdbService.DanhSachTheLoai.Cast<object>())
+                .ToArray());
             cmbGenre.SelectedIndex = 0;
             cmbGenre.SelectedIndexChanged += (_, _) => LocPhim();
 
@@ -141,7 +145,7 @@ namespace cinema_project.UI
                 btnXemTatCa.Location = new Point(pnlTabBar.Width - 126, 14);
             };
 
-            pnlCarouselOuter = new Panel { Dock = DockStyle.Top, Height = 310, BackColor = C_BG, Padding = new Padding(0, 10, 0, 6) };
+            pnlCarouselOuter = new Panel { Dock = DockStyle.Top, Height = 350, BackColor = C_BG, Padding = new Padding(0, 10, 0, 6) };
             pnlPosters = new Panel { Dock = DockStyle.Fill, BackColor = Color.Transparent };
 
             btnPrev = CreateNavBtn("‹", AnchorStyles.Left | AnchorStyles.Top, () => DiChuyen(-1));
@@ -328,16 +332,16 @@ namespace cinema_project.UI
             if (W <= 0 || H <= 0) return;
             int cX = W / 2, cY = H / 2;
 
-            picGiua.Size = new Size(160, 230);
-            picGiua.Location = new Point(cX - 80, cY - 115);
+            picGiua.Size = new Size(190, 285);
+            picGiua.Location = new Point(cX - picGiua.Width / 2, cY - picGiua.Height / 2);
 
-            picTrai.Size = picPhai.Size = new Size(125, 180);
-            picTrai.Location = new Point(picGiua.Left - 139, cY - 90);
-            picPhai.Location = new Point(picGiua.Right + 14, cY - 90);
+            picTrai.Size = picPhai.Size = new Size(140, 210);
+            picTrai.Location = new Point(picGiua.Left - picTrai.Width - 16, cY - picTrai.Height / 2);
+            picPhai.Location = new Point(picGiua.Right + 16, cY - picPhai.Height / 2);
 
-            picXaTrai.Size = picXaPhai.Size = new Size(100, 145);
-            picXaTrai.Location = new Point(picTrai.Left - 112, cY - 72);
-            picXaPhai.Location = new Point(picPhai.Right + 12, cY - 72);
+            picXaTrai.Size = picXaPhai.Size = new Size(108, 162);
+            picXaTrai.Location = new Point(picTrai.Left - picXaTrai.Width - 12, cY - picXaTrai.Height / 2);
+            picXaPhai.Location = new Point(picPhai.Right + 12, cY - picXaPhai.Height / 2);
 
             btnPrev.Location = new Point(24, Math.Max(10, (pnlCarouselOuter.Height - btnPrev.Height) / 2));
             btnNext.Location = new Point(pnlCarouselOuter.Width - btnNext.Width - 24, btnPrev.Top);

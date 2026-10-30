@@ -1,3 +1,5 @@
+using cinema_project.DAL.DTO;
+
 namespace cinema_project.DAL
 {
     public static class PhienDangNhap

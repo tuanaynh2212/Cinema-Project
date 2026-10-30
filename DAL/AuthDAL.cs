@@ -7,11 +7,18 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using cinema_project.DAL.DTO;
 using Microsoft.Extensions.Logging;
 
 namespace cinema_project.DAL
 {
-    public  class AuthDAL
+    public interface IAuthDAL
+    {
+        Task DangKyAsync(string hoTen, string email, string matKhau);
+        Task<AuthLoginResult> DangNhapAsync(string email, string matKhau);
+    }
+
+    public class AuthDAL : IAuthDAL
     {
         private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(20) };
         private readonly SupabaseService supabase;

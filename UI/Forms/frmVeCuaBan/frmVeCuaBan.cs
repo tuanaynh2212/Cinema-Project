@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using cinema_project.DAL;
+using cinema_project.DAL.DTO;
 
 namespace cinema_project.UI.Forms.frmVeCuaBan
 {
@@ -63,7 +64,7 @@ namespace cinema_project.UI.Forms.frmVeCuaBan
             Label note = new Label
             {
                 AutoSize = false,
-                Text = "Lưu ý: CSDL hiện chưa lưu mã tài khoản người đặt, nên danh sách này là các ghế đã đặt trong hệ thống, chưa riêng theo từng khách.",
+                Text = "Danh sách chỉ hiển thị các ghế đã đặt bằng tài khoản đang đăng nhập.",
                 ForeColor = Color.FromArgb(120, 65, 0),
                 BackColor = Color.FromArgb(255, 244, 214),
                 Padding = new Padding(10, 8, 10, 8),

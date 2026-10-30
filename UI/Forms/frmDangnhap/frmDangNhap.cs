@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using cinema_project.DAL;
+using cinema_project.DAL.DTO;
 using Microsoft.Extensions.Logging;
 
 namespace cinema_project.UI.Forms.frmAuth

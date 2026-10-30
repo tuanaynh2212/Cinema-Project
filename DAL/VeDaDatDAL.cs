@@ -6,32 +6,11 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using cinema_project.DAL.DTO;
 
 namespace cinema_project.DAL
 {
-    public sealed class VeDaDatItem
-    {
-        [JsonPropertyName("id")]
-        public long Id { get; set; }
 
-        [JsonPropertyName("ma_suat_chieu")]
-        public int MaSuatChieu { get; set; }
-
-        [JsonPropertyName("user_id")]
-        public string UserId { get; set; } = "";
-
-        [JsonPropertyName("ma_ghe")]
-        public string MaGhe { get; set; } = "";
-
-        [JsonPropertyName("gia_ghe")]
-        public decimal GiaGhe { get; set; }
-
-        [JsonPropertyName("trang_thai")]
-        public string TrangThai { get; set; } = "";
-
-        [JsonPropertyName("ngay_dat")]
-        public DateTime NgayDat { get; set; }
-    }
 
     public sealed class VeDaDatDAL
     {

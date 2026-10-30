@@ -131,6 +131,8 @@ Truy cập dữ liệu được kiểm soát bằng Row Level Security: mỗi ng
 Cinema-Project/
 ├── BLL/                    Lớp nghiệp vụ
 ├── DAL/                    Lớp truy cập dữ liệu (Supabase, TMDB)
+│   ├── DTO/                Các model trao đổi dữ liệu
+│   └── PhienDangNhap.cs    Trạng thái phiên đăng nhập
 ├── UI/
 │   └── Forms/              Các form giao diện
 ├── Program.cs              Điểm khởi chạy
@@ -143,8 +145,8 @@ Cinema-Project/
 - [x] Hồ sơ người dùng và phân quyền `user` / `admin`
 - [x] Tích hợp TMDB
 - [x] Logging cho tầng DAL
-- [ ] Gắn `user_id` cho vé đã đặt
-- [ ] Màn hình lịch sử vé của người dùng
+- [x] Gắn `user_id` cho vé đã đặt
+- [x] Màn hình lịch sử vé của người dùng
 - [ ] Làm mới token khi phiên đăng nhập hết hạn
 - [ ] Trang quản trị và báo cáo doanh thu
 - [ ] Unit test cho BLL
