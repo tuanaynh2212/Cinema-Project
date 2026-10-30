@@ -64,7 +64,7 @@ namespace cinema_project.UI.Forms.frmVeCuaBan
             Label note = new Label
             {
                 AutoSize = false,
-                Text = "Danh sách chỉ hiển thị các ghế đã đặt bằng tài khoản đang đăng nhập.",
+                Text = "Danh sách chỉ hiển thị các ghế đã đặt thuộc tài khoản đang đăng nhập.",
                 ForeColor = Color.FromArgb(120, 65, 0),
                 BackColor = Color.FromArgb(255, 244, 214),
                 Padding = new Padding(10, 8, 10, 8),

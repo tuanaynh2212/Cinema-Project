@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL.DTO;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.DAL
 {
@@ -16,11 +17,16 @@ namespace cinema_project.DAL
             builder.AddConsole();
             builder.SetMinimumLevel(LogLevel.Warning);
         });
-        private readonly ILogger<BaoCaoDoanhThuDAL> logger;
+        private readonly ILogger<BaoCaoDoanhThuDAL> logger = NullLogger<BaoCaoDoanhThuDAL>.Instance;
 
         private static readonly JsonSerializerOptions _json =
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(20)
+        };
 
+        // Chỉ admin được tải giao dịch đã thanh toán để lập báo cáo. RLS vẫn phải bảo vệ dữ liệu ở Supabase.
         public async Task<List<BaoCaoDoanhThu>> LayDoanhThuDaThanhToanAsync()
         {
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
@@ -33,19 +39,18 @@ namespace cinema_project.DAL
              
             }
 
-            string locNguoiDung = phien.LaAdmin
-                ? string.Empty
-                : "&user_id=eq." + Uri.EscapeDataString(phien.UserId);
+            if (!phien.LaAdmin)
+                throw new UnauthorizedAccessException(
+                    "Chỉ tài khoản quản trị viên mới được xem thống kê doanh thu.");
 
             string path =
                 "ticket_sales?select=id,user_id,movie_id,movie_title,quantity,unit_price,total_amount,payment_status,purchased_at" +
-                "&payment_status=eq.paid" + locNguoiDung +
+                "&payment_status=eq.paid" +
                 "&order=purchased_at.desc";
 
             using HttpRequestMessage request =
                 _supabase.CreateRequest(HttpMethod.Get, path, phien.AccessToken);
-            using HttpResponseMessage response =
-                await new HttpClient { Timeout = TimeSpan.FromSeconds(20) }.SendAsync(request);
+            using HttpResponseMessage response = await _http.SendAsync(request);
 
             string noiDung = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
