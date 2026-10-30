@@ -65,8 +65,7 @@ namespace cinema_project.UI
 
             _emailDangNhap = session.Email;
             bool laAdmin = session.LaAdmin;
-            btnLogin.Text = laAdmin ? "Tài khoản (Quản trị)" : "Tài khoản";
-            btnLichChieu.Visible = btnTicket.Visible = btnAdmin.Visible = laAdmin;
+            CapNhatTrangThaiTaiKhoan();
 
             MessageBox.Show(
                 "Đăng nhập thành công: " + _emailDangNhap,
@@ -97,7 +96,14 @@ namespace cinema_project.UI
             btnLogin.Text = daDangNhap
                 ? (laAdmin ? "Tài khoản (Quản trị)" : "Tài khoản")
                 : "Đăng nhập";
-            btnLichChieu.Visible = btnTicket.Visible = btnAdmin.Visible = laAdmin;
+
+            // Vé và Lịch chiếu được hiển thị lại cho cả Admin và người dùng đã đăng nhập.
+            // Nút Đặt vé vẫn dành cho khách hàng; Admin quản lý vé qua màn hình Vé.
+            lblNavLichChieu.Visible = true;
+            btnLichChieu.Visible = daDangNhap;
+            btnTicket.Visible = daDangNhap;
+            btnDatVe.Visible = !laAdmin;
+            btnAdmin.Visible = laAdmin;
         }
 
         private void BtnAdmin_Click(object? sender, EventArgs e)
@@ -120,11 +126,26 @@ namespace cinema_project.UI
 
         internal void MoFormVeCuaBan()
         {
+            if (!PhienDangNhap.DaDangNhap)
+            {
+                MessageBox.Show(
+                    this,
+                    "Vui lòng đăng nhập để xem danh sách vé.",
+                    "Yêu cầu đăng nhập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
             using var form = new frmVeCuaBan();
             form.ShowDialog(this);
         }
 
-        public frmMain() => InitializeComponent();
+        public frmMain()
+        {
+            InitializeComponent();
+            CapNhatTrangThaiTaiKhoan();
+        }
 
         private async void FrmMain_Load(object? sender, EventArgs e)
         {
@@ -245,6 +266,9 @@ namespace cinema_project.UI
 
         private void BtnDatVe_Click(object? sender, EventArgs e)
         {
+            if (PhienDangNhap.NguoiDung?.LaAdmin == true)
+                return;
+
             if (!PhienDangNhap.DaDangNhap)
             {
                 MessageBox.Show("Vui lòng đăng nhập trước khi đặt vé để lưu vé theo tài khoản của bạn.",

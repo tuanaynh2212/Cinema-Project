@@ -17,8 +17,10 @@ namespace cinema_project.UI.Forms.frmAdmin
         private Label _lblEmailAdmin = null!;
         private Label _lblTieuDeTrang = null!;
         private Button _btnLichChieu = null!;
+        private Button _btnVe = null!;
         private Button _btnBaoCao = null!;
         private Button _btnSidebarLichChieu = null!;
+        private Button _btnSidebarVe = null!;
         private Button _btnSidebarBaoCao = null!;
 
         private void InitializeComponent()
@@ -71,16 +73,16 @@ namespace cinema_project.UI.Forms.frmAdmin
             };
             sidebar.Controls.Add(separator);
 
-            Button overview = TaoNutSidebar("Tổng quan", selected: true);
-            overview.Location = new Point(12, 112);
-            sidebar.Controls.Add(overview);
-
             _btnSidebarLichChieu = TaoNutSidebar("Lịch chiếu");
-            _btnSidebarLichChieu.Location = new Point(12, 160);
+            _btnSidebarLichChieu.Location = new Point(12, 112);
             sidebar.Controls.Add(_btnSidebarLichChieu);
 
-            _btnSidebarBaoCao = TaoNutSidebar("Thống kê & báo cáo");
-            _btnSidebarBaoCao.Location = new Point(12, 208);
+            _btnSidebarVe = TaoNutSidebar("Vé");
+            _btnSidebarVe.Location = new Point(12, 158);
+            sidebar.Controls.Add(_btnSidebarVe);
+
+            _btnSidebarBaoCao = TaoNutSidebar("Thống kê & báo cáo", selected: true);
+            _btnSidebarBaoCao.Location = new Point(12, 204);
             sidebar.Controls.Add(_btnSidebarBaoCao);
 
             var adminLabel = new Label
@@ -122,7 +124,7 @@ namespace cinema_project.UI.Forms.frmAdmin
             _lblTieuDeTrang = new Label
             {
                 AutoSize = true,
-                Text = "Tổng quan",
+                Text = "Thống kê & báo cáo",
                 Font = new Font("Segoe UI", 16F, FontStyle.Bold),
                 ForeColor = MauChu,
                 Location = new Point(28, 22)
@@ -152,7 +154,7 @@ namespace cinema_project.UI.Forms.frmAdmin
             var greeting = new Label
             {
                 AutoSize = true,
-                Text = "Không gian quản trị",
+                Text = "Quản lý rạp phim",
                 Font = new Font("Segoe UI", 20F, FontStyle.Bold),
                 ForeColor = MauChu,
                 Location = new Point(0, 0)
@@ -162,7 +164,7 @@ namespace cinema_project.UI.Forms.frmAdmin
             var description = new Label
             {
                 AutoSize = true,
-                Text = "Chọn khu vực bạn muốn quản lý.",
+                Text = "Quản lý lịch chiếu, theo dõi vé và thống kê doanh thu.",
                 Font = new Font("Segoe UI", 10F),
                 ForeColor = MauPhu,
                 Location = new Point(2, 40)
@@ -171,18 +173,27 @@ namespace cinema_project.UI.Forms.frmAdmin
 
             Panel scheduleCard = TaoTheModule(
                 "Lịch chiếu",
-                "Quản lý phim, phòng chiếu, suất chiếu và trạng thái lịch.",
+                "Xem, thêm, cập nhật và xóa suất chiếu; lọc theo ngày, phim và phòng chiếu.",
                 "Mở quản lý lịch chiếu");
             scheduleCard.Location = new Point(0, 94);
             scheduleCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _btnLichChieu = (Button)scheduleCard.Controls["moduleAction"]!;
             content.Controls.Add(scheduleCard);
 
+            Panel ticketCard = TaoTheModule(
+                "Vé",
+                "Xem danh sách ghế đã đặt gắn với tài khoản đang đăng nhập.",
+                "Mở danh sách vé");
+            ticketCard.Location = new Point(0, 264);
+            ticketCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            _btnVe = (Button)ticketCard.Controls["moduleAction"]!;
+            content.Controls.Add(ticketCard);
+
             Panel reportCard = TaoTheModule(
                 "Thống kê & báo cáo",
-                "Theo dõi giao dịch đã thanh toán và doanh thu theo khoảng ngày.",
+                "Theo dõi tổng doanh thu, số vé đã thanh toán và chi tiết giao dịch theo khoảng ngày.",
                 "Mở báo cáo doanh thu");
-            reportCard.Location = new Point(0, 264);
+            reportCard.Location = new Point(0, 434);
             reportCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _btnBaoCao = (Button)reportCard.Controls["moduleAction"]!;
             content.Controls.Add(reportCard);
@@ -190,11 +201,11 @@ namespace cinema_project.UI.Forms.frmAdmin
             var note = new Label
             {
                 AutoSize = false,
-                Text = "Dữ liệu hiển thị trong từng khu vực được tải từ hệ thống khi bạn mở màn hình.",
+                Text = "Báo cáo doanh thu chỉ dành cho tài khoản quản trị viên. Danh sách vé tuân theo user_id của phiên đăng nhập.",
                 Font = new Font("Segoe UI", 9F),
                 ForeColor = MauPhu,
-                Location = new Point(2, 448),
-                Size = new Size(760, 24),
+                Location = new Point(2, 604),
+                Size = new Size(760, 38),
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
             content.Controls.Add(note);
@@ -204,6 +215,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 int width = Math.Max(0, content.ClientSize.Width - content.Padding.Horizontal -
                     SystemInformation.VerticalScrollBarWidth - 8);
                 scheduleCard.Width = width;
+                ticketCard.Width = width;
                 reportCard.Width = width;
                 note.Width = width;
             };

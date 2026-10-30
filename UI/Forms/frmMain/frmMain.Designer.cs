@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -82,7 +82,7 @@ namespace cinema_project.UI
             };
             btnLichChieu = CreateHeaderBtn("🎬 Lịch Chiếu", false, new Size(115, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormLichChieu());
             btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormVeCuaBan());
-            btnLichChieu.Visible = btnTicket.Visible = PhienDangNhap.NguoiDung?.LaAdmin == true;
+            btnLichChieu.Visible = btnTicket.Visible = false;
             btnAdmin = CreateHeaderBtn("Quản trị", false, new Size(102, 38), new Padding(0, 0, 8, 0), BtnAdmin_Click);
             btnAdmin.Visible = PhienDangNhap.NguoiDung?.LaAdmin == true;
             btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, BtnLogin_Click);

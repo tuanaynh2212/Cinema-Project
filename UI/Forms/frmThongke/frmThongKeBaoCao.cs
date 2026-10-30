@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -23,8 +23,20 @@ namespace cinema_project.UI
             Load += frmThongKeBaoCao_Load;
         }
 
-        private async void frmThongKeBaoCao_Load(object sender, EventArgs e)
+        private async void frmThongKeBaoCao_Load(object? sender, EventArgs e)
         {
+            if (PhienDangNhap.NguoiDung?.LaAdmin != true)
+            {
+                MessageBox.Show(
+                    this,
+                    "Chỉ tài khoản quản trị viên mới được xem thống kê doanh thu.",
+                    "Không có quyền truy cập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                Close();
+                return;
+            }
+
             await TaiDuLieuAsync();
         }
 
@@ -64,7 +76,7 @@ namespace cinema_project.UI
                 .ToList();
         }
 
-        private void btnThongKe_Click(object sender, EventArgs e)
+        private void btnThongKe_Click(object? sender, EventArgs e)
         {
             ThongKe();
         }
@@ -98,7 +110,7 @@ namespace cinema_project.UI
                 : "Đã thống kê " + ds.Count + " giao dịch đã thanh toán.";
         }
 
-        private void btnXuat_Click(object sender, EventArgs e)
+        private void btnXuat_Click(object? sender, EventArgs e)
         {
             List<BaoCaoDoanhThu> ds = LayDuLieuTheoNgay();
             if (ds.Count == 0)

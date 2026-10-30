@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
@@ -12,9 +12,12 @@ namespace cinema_project.DAL
 
         private static readonly JsonSerializerOptions _json =
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        private static readonly HttpClient _http = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(20)
+        };
 
-        // Chỉ lấy giao dịch đã thanh toán. Admin xem toàn bộ; người dùng thường chỉ xem giao dịch của mình.
-        // Quyền truy cập cuối cùng vẫn phải được bảo vệ bằng RLS ở Supabase.
+        // Chỉ admin được tải giao dịch đã thanh toán để lập báo cáo. RLS vẫn phải bảo vệ dữ liệu ở Supabase.
         public async Task<List<BaoCaoDoanhThu>> LayDoanhThuDaThanhToanAsync()
         {
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
@@ -25,19 +28,18 @@ namespace cinema_project.DAL
                     "Vui lòng đăng nhập trước khi xem báo cáo doanh thu.");
             }
 
-            string locNguoiDung = phien.LaAdmin
-                ? string.Empty
-                : "&user_id=eq." + Uri.EscapeDataString(phien.UserId);
+            if (!phien.LaAdmin)
+                throw new UnauthorizedAccessException(
+                    "Chỉ tài khoản quản trị viên mới được xem thống kê doanh thu.");
 
             string path =
                 "ticket_sales?select=id,user_id,movie_id,movie_title,quantity,unit_price,total_amount,payment_status,purchased_at" +
-                "&payment_status=eq.paid" + locNguoiDung +
+                "&payment_status=eq.paid" +
                 "&order=purchased_at.desc";
 
             using HttpRequestMessage request =
                 _supabase.CreateRequest(HttpMethod.Get, path, phien.AccessToken);
-            using HttpResponseMessage response =
-                await new HttpClient { Timeout = TimeSpan.FromSeconds(20) }.SendAsync(request);
+            using HttpResponseMessage response = await _http.SendAsync(request);
 
             string noiDung = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
