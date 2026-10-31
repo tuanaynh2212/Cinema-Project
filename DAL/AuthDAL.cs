@@ -1,122 +1,145 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using cinema_project.DAL.DTO;
-using Microsoft.Extensions.Logging;
 
 namespace cinema_project.DAL
 {
-    public interface IAuthDAL
+    public sealed class AuthLoginResult
     {
-        Task DangKyAsync(string hoTen, string email, string matKhau);
-        Task<AuthLoginResult> DangNhapAsync(string email, string matKhau);
+        public string UserId { get; init; } = "";
+        public string Email { get; init; } = "";
+        public string AccessToken { get; init; } = "";
+        public string RefreshToken { get; init; } = "";
     }
 
-    public class AuthDAL : IAuthDAL
+    // Chỉ xử lý Supabase Auth đăng ký/đăng nhập, không làm phân quyền.
+    public sealed class AuthDAL
     {
-        private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(20) };
-        private readonly SupabaseService supabase;
-        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
+        private static readonly HttpClient _http = new()
         {
-            b.AddConsole();
-            b.SetMinimumLevel(LogLevel.Debug);
-        });
+            Timeout = TimeSpan.FromSeconds(20)
+        };
 
-        private readonly ILogger<AuthDAL> _logger;
-
-        public AuthDAL(SupabaseService? supabaseServices, ILogger<AuthDAL>? logger = null)
+        private static readonly JsonSerializerOptions _json = new()
         {
-            _logger = logger ?? _defaultLoggerFactory.CreateLogger<AuthDAL>();
-            supabase = supabaseServices ?? throw new ArgumentNullException(nameof(supabaseServices));
-        }
+            PropertyNameCaseInsensitive = true
+        };
 
         public async Task DangKyAsync(string hoTen, string email, string matKhau)
         {
-            using var _ = await supabase.GuiAsync(HttpMethod.Post, "auth/v1/signup",
-                new { email = email.Trim(), password = matKhau, data = new { full_name = hoTen.Trim() } },
-                "Đăng ký không thành công.");
+            var body = new
+            {
+                email = email.Trim(),
+                password = matKhau,
+                data = new { full_name = hoTen.Trim() }
+            };
 
-            _logger.LogInformation("Đăng ký thành công: {Email}", email.Trim());
-        
+            using var request = TaoRequest("signup");
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
+
+            using HttpResponseMessage response = await _http.SendAsync(request);
+            string noiDung = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new InvalidOperationException(
+                    DocLoi(noiDung, "Đăng ký không thành công."));
         }
 
         public async Task<AuthLoginResult> DangNhapAsync(string email, string matKhau)
         {
-            using var response = await supabase.GuiAsync(HttpMethod.Post, "auth/v1/token?grant_type=password",
-                new { email = email.Trim(), password = matKhau },
-                "Email hoặc mật khẩu không chính xác.");
+            var body = new
+            {
+                email = email.Trim(),
+                password = matKhau
+            };
 
-            AuthResponse? result;
-            try
-            {
-                result = await response.Content.ReadFromJsonAsync<AuthResponse>();
-            }
-            catch (JsonException ex)
-            {
-                _logger.LogError(ex, "Phản hồi đăng nhập của {Email} không đúng định dạng JSON", email.Trim());
-                throw new InvalidOperationException("Phản hồi từ máy chủ không hợp lệ.", ex);
-            }
+            using var request = TaoRequest("token?grant_type=password");
+            request.Content = new StringContent(
+                JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
 
-            if (result?.User?.Id == null || string.IsNullOrWhiteSpace(result.AccessToken))
-            {
-                _logger.LogWarning("Đăng nhập {Email}: Supabase không trả về phiên đăng nhập", email.Trim());
+            using HttpResponseMessage response = await _http.SendAsync(request);
+            string noiDung = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+                throw new InvalidOperationException(
+                    DocLoi(noiDung, "Email hoặc mật khẩu không chính xác."));
+
+            AuthResponse? result = JsonSerializer.Deserialize<AuthResponse>(noiDung, _json);
+
+            if (result?.User == null || string.IsNullOrWhiteSpace(result.AccessToken))
                 throw new InvalidOperationException(
                     "Supabase chưa trả về phiên đăng nhập. Nếu vừa đăng ký, hãy xác minh email rồi thử lại.");
-            }
-
-            string vaiTro = await LayVaiTroAsync(result.User.Id, result.AccessToken);
-            _logger.LogInformation("Đăng nhập thành công: {Email}, vai trò {VaiTro}", email.Trim(), vaiTro);
-             PhienDangNhap.Luu(new AuthLoginResult
-            {
-                UserId = result.User.Id,
-                Email = result.User.Email ?? email.Trim(),
-                AccessToken = result.AccessToken,
-                RefreshToken = result.RefreshToken ?? "",
-                VaiTro = vaiTro
-            });   
 
             return new AuthLoginResult
             {
-                UserId = result.User.Id,
+                UserId = result.User.Id ?? "",
                 Email = result.User.Email ?? email.Trim(),
-                AccessToken = result.AccessToken,
-                RefreshToken = result.RefreshToken ?? "",
-                VaiTro = vaiTro
+                AccessToken = result.AccessToken ?? "",
+                RefreshToken = result.RefreshToken ?? ""
             };
-             
         }
 
-        private async Task<string> LayVaiTroAsync(string userId, string accessToken)
+        private static HttpRequestMessage TaoRequest(string path)
+        {
+            if (string.IsNullOrWhiteSpace(SupabaseService.SupabaseUrl) ||
+                string.IsNullOrWhiteSpace(SupabaseService.SupabaseKey))
+            {
+                throw new InvalidOperationException(
+                    "Bạn cần cấu hình SupabaseUrl và SupabaseKey trong SupabaseService.");
+            }
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{SupabaseService.SupabaseUrl.TrimEnd('/')}/auth/v1/{path}");
+
+            request.Headers.TryAddWithoutValidation("apikey", SupabaseService.SupabaseKey);
+            return request;
+        }
+
+        private static string DocLoi(string json, string macDinh)
         {
             try
             {
-                using var response = await supabase.GuiAsync(HttpMethod.Get, $"rest/v1/profiles?id=eq.{userId}&select=role",
-                    null, "Không lấy được quyền người dùng.", accessToken);
-
-                var rows = await response.Content.ReadFromJsonAsync<List<RoleRow>>();
-                string? role = rows?.FirstOrDefault()?.Role;
-
-                if (role == null)
-                    _logger.LogWarning("Không có profile cho {UserId}, dùng vai trò mặc định", userId);
-
-                return role ?? "user";
+                using JsonDocument doc = JsonDocument.Parse(json);
+                foreach (string key in new[] { "msg", "message", "error_description", "error" })
+                {
+                    if (doc.RootElement.TryGetProperty(key, out JsonElement value) &&
+                        value.ValueKind == JsonValueKind.String &&
+                        !string.IsNullOrWhiteSpace(value.GetString()))
+                        return value.GetString()!;
+                }
             }
-            catch (InvalidOperationException)
+            catch
             {
-                return "user";
+                // Nếu response không phải JSON thì dùng thông báo mặc định.
             }
-            catch (JsonException ex)
-            {
-                _logger.LogError(ex, "Dữ liệu profile của {UserId} không đúng định dạng", userId);
-                return "user";
-            }
+
+            return string.IsNullOrWhiteSpace(json) ? macDinh : $"{macDinh}\n{json}";
         }
 
+        private sealed class AuthResponse
+        {
+            [JsonPropertyName("access_token")]
+            public string? AccessToken { get; set; }
+
+            [JsonPropertyName("refresh_token")]
+            public string? RefreshToken { get; set; }
+
+            [JsonPropertyName("user")]
+            public AuthUser? User { get; set; }
+        }
+
+        private sealed class AuthUser
+        {
+            [JsonPropertyName("id")]
+            public string? Id { get; set; }
+
+            [JsonPropertyName("email")]
+            public string? Email { get; set; }
+        }
     }
 }
