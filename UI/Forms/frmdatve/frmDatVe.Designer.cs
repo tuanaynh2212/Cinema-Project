@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -19,9 +19,7 @@ namespace cinema_project.UI.Forms.frmDatVe
         private Panel pnlSoDoGhe = null!;
         private Panel pnlTongKet = null!;
         private Label lblSuatDaChon = null!;
-        private Label lblSoNguoiDat = null!;
-        private ComboBox cmbSoNguoi = null!;
-        private Label lblSoNguoiHuongDan = null!;
+        private Label lblHuongDanChonGhe = null!;
         private Label lblSoGhe = null!;
         private Label lblDanhSachGhe = null!;
         private Label lblGiaLoaiTitle = null!;
@@ -59,9 +57,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             pnlSoDoGhe = new Panel();
             pnlTongKet = new Panel();
             lblSuatDaChon = new Label();
-            lblSoNguoiDat = new Label();
-            cmbSoNguoi = new ComboBox();
-            lblSoNguoiHuongDan = new Label();
+            lblHuongDanChonGhe = new Label();
             lblSoGhe = new Label();
             lblDanhSachGhe = new Label();
             lblGiaLoaiTitle = new Label();
@@ -194,9 +190,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             pnlTongKet.Size = new Size(350, 592);
             pnlTongKet.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             pnlTongKet.Controls.Add(lblSuatDaChon);
-            pnlTongKet.Controls.Add(lblSoNguoiDat);
-            pnlTongKet.Controls.Add(cmbSoNguoi);
-            pnlTongKet.Controls.Add(lblSoNguoiHuongDan);
+            pnlTongKet.Controls.Add(lblHuongDanChonGhe);
             pnlTongKet.Controls.Add(lblSoGhe);
             pnlTongKet.Controls.Add(lblDanhSachGhe);
             pnlTongKet.Controls.Add(lblGiaLoaiTitle);
@@ -215,69 +209,57 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblSuatDaChon.Size = new Size(310, 58);
             lblSuatDaChon.Text = "Chưa chọn suất chiếu";
 
-            lblSoNguoiDat.AutoSize = true;
-            lblSoNguoiDat.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            lblSoNguoiDat.Location = new Point(16, 83);
-            lblSoNguoiDat.Text = "Số người đặt:";
-
-            cmbSoNguoi.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbSoNguoi.Font = new Font("Segoe UI", 10F);
-            cmbSoNguoi.Items.AddRange(new object[] { "1 người", "4 người" });
-            cmbSoNguoi.Location = new Point(16, 106);
-            cmbSoNguoi.Size = new Size(310, 30);
-            cmbSoNguoi.SelectedIndex = 0;
-
-            lblSoNguoiHuongDan.AutoSize = false;
-            lblSoNguoiHuongDan.Font = new Font("Segoe UI", 8.5F);
-            lblSoNguoiHuongDan.ForeColor = Color.FromArgb(110, 110, 120);
-            lblSoNguoiHuongDan.Location = new Point(16, 138);
-            lblSoNguoiHuongDan.Size = new Size(310, 24);
-            lblSoNguoiHuongDan.Text = "Chọn đúng 1 ghế để tiếp tục.";
+            lblHuongDanChonGhe.AutoSize = false;
+            lblHuongDanChonGhe.Font = new Font("Segoe UI", 8.5F);
+            lblHuongDanChonGhe.ForeColor = Color.FromArgb(110, 110, 120);
+            lblHuongDanChonGhe.Location = new Point(16, 82);
+            lblHuongDanChonGhe.Size = new Size(310, 26);
+            lblHuongDanChonGhe.Text = "Chọn một hoặc nhiều ghế để tiếp tục.";
 
             lblSoGhe.AutoSize = true;
             lblSoGhe.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblSoGhe.Location = new Point(16, 170);
-            lblSoGhe.Text = "Số ghế đã chọn: 0/1";
+            lblSoGhe.Location = new Point(16, 116);
+            lblSoGhe.Text = "Số ghế đã chọn: 0";
 
             lblDanhSachGhe.AutoSize = false;
             lblDanhSachGhe.Font = new Font("Segoe UI", 9.5F);
             lblDanhSachGhe.ForeColor = Color.FromArgb(85, 85, 95);
-            lblDanhSachGhe.Location = new Point(16, 198);
+            lblDanhSachGhe.Location = new Point(16, 144);
             lblDanhSachGhe.Size = new Size(310, 48);
             lblDanhSachGhe.Text = "Chưa chọn ghế";
 
             lblGiaLoaiTitle.AutoSize = true;
             lblGiaLoaiTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblGiaLoaiTitle.Location = new Point(16, 254);
+            lblGiaLoaiTitle.Location = new Point(16, 204);
             lblGiaLoaiTitle.Text = "GIÁ THEO LOẠI GHẾ";
 
             lblGiaThuong.AutoSize = true;
             lblGiaThuong.Font = new Font("Segoe UI", 9.5F);
             lblGiaThuong.ForeColor = Color.FromArgb(119, 43, 191);
-            lblGiaThuong.Location = new Point(16, 282);
+            lblGiaThuong.Location = new Point(16, 232);
             lblGiaThuong.Text = "Ghế thường: 0 VNĐ";
 
             lblGiaVIP.AutoSize = true;
             lblGiaVIP.Font = new Font("Segoe UI", 9.5F);
             lblGiaVIP.ForeColor = Color.FromArgb(220, 35, 55);
-            lblGiaVIP.Location = new Point(16, 308);
+            lblGiaVIP.Location = new Point(16, 258);
             lblGiaVIP.Text = "Ghế VIP: 0 VNĐ";
 
             lblGiaDoi.AutoSize = true;
             lblGiaDoi.Font = new Font("Segoe UI", 9.5F);
             lblGiaDoi.ForeColor = Color.FromArgb(205, 30, 125);
-            lblGiaDoi.Location = new Point(16, 334);
+            lblGiaDoi.Location = new Point(16, 284);
             lblGiaDoi.Text = "Ghế đôi (mỗi chỗ): 0 VNĐ";
 
             lblTongTienTitle.AutoSize = true;
             lblTongTienTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblTongTienTitle.Location = new Point(16, 379);
+            lblTongTienTitle.Location = new Point(16, 330);
             lblTongTienTitle.Text = "TỔNG TẠM TÍNH";
 
             lblTongTien.AutoSize = false;
             lblTongTien.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
             lblTongTien.ForeColor = Color.FromArgb(231, 26, 15);
-            lblTongTien.Location = new Point(16, 406);
+            lblTongTien.Location = new Point(16, 357);
             lblTongTien.Size = new Size(310, 42);
             lblTongTien.Text = "0 VNĐ";
 
@@ -286,7 +268,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             btnXacNhan.FlatAppearance.BorderSize = 0;
             btnXacNhan.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnXacNhan.ForeColor = Color.White;
-            btnXacNhan.Location = new Point(16, 466);
+            btnXacNhan.Location = new Point(16, 425);
             btnXacNhan.Size = new Size(310, 42);
             btnXacNhan.Text = "XÁC NHẬN GHẾ";
             btnXacNhan.UseVisualStyleBackColor = false;
@@ -299,7 +281,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             btnHuy.FlatAppearance.BorderColor = Color.FromArgb(210, 210, 218);
             btnHuy.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnHuy.ForeColor = Color.FromArgb(70, 70, 80);
-            btnHuy.Location = new Point(16, 519);
+            btnHuy.Location = new Point(16, 478);
             btnHuy.Size = new Size(310, 36);
             btnHuy.Text = "HỦY";
             btnHuy.Click += btnHuy_Click;
@@ -324,6 +306,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             Name = "frmDatVe";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Đặt vé - CGV Cinemas";
+            Load += frmDatVe_Load;
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlTongKet.ResumeLayout(false);

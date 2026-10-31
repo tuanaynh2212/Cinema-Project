@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -6,8 +6,11 @@ using System.Linq;
 using System.Windows.Forms;
 using cinema_project.BLL;
 using cinema_project.DAL;
+using cinema_project.DAL.DTO;
 using FormDatVe = cinema_project.UI.Forms.frmDatVe.frmDatVe;
 using cinema_project.UI.Forms.frmAuth;
+using FormAdmin = cinema_project.UI.Forms.frmAdmin.frmAdmin;
+using cinema_project.UI.Forms.frmTaiKhoan;
 using cinema_project.UI.Forms.frmVeCuaBan;
 
 namespace cinema_project.UI
@@ -27,28 +30,123 @@ namespace cinema_project.UI
 
         private void BtnLogin_Click(object? sender, EventArgs e)
         {
-            using var form = new frmDangNhap();
-            if (form.ShowDialog(this) == DialogResult.OK)
+            if (PhienDangNhap.DaDangNhap)
             {
-                _emailDangNhap = form.EmailDangNhap;
-                btnLogin.Text = "Tài khoản";
+                using var accountForm = new frmTaiKhoan();
+                accountForm.ShowDialog(this);
+                CapNhatTrangThaiTaiKhoan();
+                return;
+            }
+
+            using var form = new frmDangNhap();
+            DialogResult loginResult = form.ShowDialog(this);
+            if (loginResult != DialogResult.OK)
+            {
+                if (loginResult == DialogResult.Cancel)
+                {
+                    MessageBox.Show(
+                        "Đăng nhập bị hủy.",
+                        "CGV Cinemas",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                return;
+            }
+
+            AuthLoginResult? session = PhienDangNhap.NguoiDung;
+            if (session == null || string.IsNullOrWhiteSpace(session.Email))
+            {
                 MessageBox.Show(
-                    "Đăng nhập thành công: " + _emailDangNhap,
+                    "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
                     "CGV Cinemas",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            _emailDangNhap = session.Email;
+            bool laAdmin = session.LaAdmin;
+            CapNhatTrangThaiTaiKhoan();
+
+            MessageBox.Show(
+                "Đăng nhập thành công: " + _emailDangNhap,
+                "CGV Cinemas",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            if (laAdmin)
+            {
+                using var adminForm = new FormAdmin();
+                adminForm.ShowDialog(this);
+                CapNhatTrangThaiTaiKhoan();
+            }
+            else
+            {
+                using var accountForm = new frmTaiKhoan();
+                accountForm.ShowDialog(this);
+                CapNhatTrangThaiTaiKhoan();
             }
         }
 
+        private void CapNhatTrangThaiTaiKhoan()
+        {
+            AuthLoginResult? session = PhienDangNhap.NguoiDung;
+            bool daDangNhap = session != null;
+            bool laAdmin = session?.LaAdmin == true;
 
-        // Mo man hinh xem cac ghe/ve da duoc luu trong Supabase.
+            btnLogin.Text = daDangNhap
+                ? (laAdmin ? "Tài khoản (Quản trị)" : "Tài khoản")
+                : "Đăng nhập";
+
+            // Vé và Lịch chiếu được hiển thị lại cho cả Admin và người dùng đã đăng nhập.
+            // Nút Đặt vé vẫn dành cho khách hàng; Admin quản lý vé qua màn hình Vé.
+            lblNavLichChieu.Visible = true;
+            btnLichChieu.Visible = daDangNhap;
+            btnTicket.Visible = daDangNhap;
+            btnDatVe.Visible = !laAdmin;
+            btnAdmin.Visible = laAdmin;
+        }
+
+        private void BtnAdmin_Click(object? sender, EventArgs e)
+        {
+            if (PhienDangNhap.NguoiDung?.LaAdmin != true)
+            {
+                MessageBox.Show(
+                    this,
+                    "Chỉ tài khoản quản trị viên mới có thể mở khu vực này.",
+                    "Không có quyền truy cập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            using var form = new FormAdmin();
+            form.ShowDialog(this);
+        }
+
+
         internal void MoFormVeCuaBan()
         {
+            if (!PhienDangNhap.DaDangNhap)
+            {
+                MessageBox.Show(
+                    this,
+                    "Vui lòng đăng nhập để xem danh sách vé.",
+                    "Yêu cầu đăng nhập",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
             using var form = new frmVeCuaBan();
             form.ShowDialog(this);
         }
 
-        public frmMain() => InitializeComponent();
+        public frmMain()
+        {
+            InitializeComponent();
+            CapNhatTrangThaiTaiKhoan();
+        }
 
         private async void FrmMain_Load(object? sender, EventArgs e)
         {
@@ -64,8 +162,8 @@ namespace cinema_project.UI
         {
             _selectedTab = idx;
             StylePillTab(btnTabDangChieu, "Đang Chiếu", idx == 0);
-            StylePillTab(btnTabDacBiet,   "Đặc Biệt",   idx == 1);
-            StylePillTab(btnTabSapChieu,  "Sắp Chiếu",  idx == 2);
+            StylePillTab(btnTabDacBiet, "Đặc Biệt", idx == 1);
+            StylePillTab(btnTabSapChieu, "Sắp Chiếu", idx == 2);
             TaiDanhSachPhim();
         }
 
@@ -123,7 +221,7 @@ namespace cinema_project.UI
                 "T18" => C_RED,
                 "T16" => Color.FromArgb(255, 149, 0),
                 "T13" => Color.FromArgb(255, 204, 0),
-                _     => Color.FromArgb(52, 199, 89)
+                _ => Color.FromArgb(52, 199, 89)
             };
 
             lblMeta.Text = $"⭐ {phim.VoteAverage?.ToString("0.0") ?? "8.0"}  |  ⏱️ {phim.ThoiLuong}  |  📅 {phim.NgayChieu ?? "Đang cập nhật"}";
@@ -169,13 +267,22 @@ namespace cinema_project.UI
 
         private void BtnDatVe_Click(object? sender, EventArgs e)
         {
+            if (PhienDangNhap.NguoiDung?.LaAdmin == true)
+                return;
+
+            if (!PhienDangNhap.DaDangNhap)
+            {
+                MessageBox.Show("Vui lòng đăng nhập trước khi đặt vé để lưu vé theo tài khoản của bạn.",
+                    "Yêu cầu đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             if (_danhSachPhim.Count == 0)
             {
                 MessageBox.Show("Hiện chưa có phim để đặt vé.", "CGV Cinemas", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            // Lấy đúng phim đang được chọn trên frmMain và mở form đặt vé.
             Phim phim = _danhSachPhim[_idx];
             using var formDatVe = new FormDatVe(phim);
             DialogResult ketQua = formDatVe.ShowDialog(this);
@@ -195,11 +302,17 @@ namespace cinema_project.UI
             }
         }
 
+        internal void MoChiTietPhim()
+        {
+            if (_danhSachPhim.Count == 0 || _idx < 0 || _idx >= _danhSachPhim.Count) return;
+            Phim phim = _danhSachPhim[_idx];
+            using var f = new Forms.frmChiTietPhim.frmChiTietPhim(phim);
+            f.ShowDialog(this);
+        }
+
         private void BtnTrailer_Click(object? sender, EventArgs e)
         {
-            if (_danhSachPhim.Count == 0) return;
-            Phim phim = _danhSachPhim[_idx];
-            MessageBox.Show($"Xem trailer: {phim.Ten}", "CGV Trailer", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MoChiTietPhim();
         }
 
         internal void MoFormLichChieu()

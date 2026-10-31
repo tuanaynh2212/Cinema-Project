@@ -1,8 +1,11 @@
-﻿#nullable enable
+#nullable enable
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
+using cinema_project.BLL.Services;
+using cinema_project.DAL;
 
 namespace cinema_project.UI
 {
@@ -76,18 +79,21 @@ namespace cinema_project.UI
 
             pnlHeaderRight = new FlowLayoutPanel
             {
-                Size = new Size(330, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
+                Size = new Size(438, 70), Dock = DockStyle.Right, BackColor = Color.Transparent,
                 FlowDirection = FlowDirection.LeftToRight, WrapContents = false, Padding = new Padding(0, 15, 0, 0)
             };
             btnLichChieu = CreateHeaderBtn("🎬 Lịch Chiếu", false, new Size(115, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormLichChieu());
             btnTicket = CreateHeaderBtn("🎫 Vé", false, new Size(72, 38), new Padding(0, 0, 8, 0), (s, e) => MoFormVeCuaBan());
+            btnLichChieu.Visible = btnTicket.Visible = false;
+            btnAdmin = CreateHeaderBtn("Quản trị", false, new Size(102, 38), new Padding(0, 0, 8, 0), BtnAdmin_Click);
+            btnAdmin.Visible = PhienDangNhap.NguoiDung?.LaAdmin == true;
             btnLogin = CreateHeaderBtn("Đăng nhập", true, new Size(100, 38), Padding.Empty, BtnLogin_Click);
-            pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnLogin });
+            pnlHeaderRight.Controls.AddRange(new Control[] { btnLichChieu, btnTicket, btnAdmin, btnLogin });
             pnlHeader.Controls.Add(pnlHeaderRight);
 
             pnlHeader.Resize += (s, e) => txtSearch.Location = new Point((pnlHeader.Width - txtSearch.Width) / 2, 18);
 
-            pnlBanner = new Panel { Dock = DockStyle.Top, Height = 220, BackColor = Color.FromArgb(40, 20, 20), Padding = new Padding(16, 8, 16, 0) };
+            pnlBanner = new Panel { Dock = DockStyle.Top, Height = 180, BackColor = Color.FromArgb(40, 20, 20), Padding = new Padding(16, 8, 16, 0) };
             picBanner = new PictureBox { Dock = DockStyle.Fill, SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.Transparent, ErrorImage = null };
             picBanner.Paint += (s, e) =>
             {
@@ -118,7 +124,9 @@ namespace cinema_project.UI
                 DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 9.5f), FlatStyle = FlatStyle.Flat,
                 Size = new Size(160, 30), Anchor = AnchorStyles.Right | AnchorStyles.Top
             };
-            cmbGenre.Items.AddRange(new object[] { "Tất cả thể loại", "Hành Động", "Tình Cảm", "Kinh Dị", "Hoạt Hình" });
+            cmbGenre.Items.AddRange(new object[] { "Tất cả thể loại" }
+                .Concat(TmdbService.DanhSachTheLoai.Cast<object>())
+                .ToArray());
             cmbGenre.SelectedIndex = 0;
             cmbGenre.SelectedIndexChanged += (_, _) => LocPhim();
 
@@ -137,7 +145,7 @@ namespace cinema_project.UI
                 btnXemTatCa.Location = new Point(pnlTabBar.Width - 126, 14);
             };
 
-            pnlCarouselOuter = new Panel { Dock = DockStyle.Top, Height = 310, BackColor = C_BG, Padding = new Padding(0, 10, 0, 6) };
+            pnlCarouselOuter = new Panel { Dock = DockStyle.Top, Height = 350, BackColor = C_BG, Padding = new Padding(0, 10, 0, 6) };
             pnlPosters = new Panel { Dock = DockStyle.Fill, BackColor = Color.Transparent };
 
             btnPrev = CreateNavBtn("‹", AnchorStyles.Left | AnchorStyles.Top, () => DiChuyen(-1));
@@ -166,8 +174,10 @@ namespace cinema_project.UI
             lblTenPhim = new Label
             {
                 AutoSize = true, Text = "Chọn phim", Font = new Font("Segoe UI", 17f, FontStyle.Bold),
-                ForeColor = C_TEXT, BackColor = Color.Transparent, Margin = new Padding(0, 2, 10, 0)
+                ForeColor = C_TEXT, BackColor = Color.Transparent, Margin = new Padding(0, 2, 10, 0),
+                Cursor = Cursors.Hand
             };
+            lblTenPhim.Click += (_, _) => MoChiTietPhim();
             lblDoTuoi = new Label
             {
                 Size = new Size(42, 24), TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
@@ -199,7 +209,7 @@ namespace cinema_project.UI
 
             btnTrailer = new Button
             {
-                Text = "▶  Trailer", Font = new Font("Segoe UI", 10f, FontStyle.Bold), ForeColor = C_RED, BackColor = Color.White,
+                Text = "▶  Trailer & Chi Tiết", Font = new Font("Segoe UI", 10f, FontStyle.Bold), ForeColor = C_RED, BackColor = Color.White,
                 FlatStyle = FlatStyle.Flat, Size = new Size(200, 40), Location = new Point(0, 70), Cursor = Cursors.Hand
             };
             btnTrailer.FlatAppearance.BorderColor = C_RED;
@@ -293,6 +303,7 @@ namespace cinema_project.UI
         {
             var p = new PictureBox { SizeMode = PictureBoxSizeMode.Zoom, BackColor = Color.FromArgb(210, 210, 218), Cursor = Cursors.Hand, ErrorImage = null };
             if (delta != 0) p.Click += (_, _) => DiChuyen(delta);
+            else p.Click += (_, _) => MoChiTietPhim();
             return p;
         }
 
@@ -321,16 +332,16 @@ namespace cinema_project.UI
             if (W <= 0 || H <= 0) return;
             int cX = W / 2, cY = H / 2;
 
-            picGiua.Size = new Size(160, 230);
-            picGiua.Location = new Point(cX - 80, cY - 115);
+            picGiua.Size = new Size(190, 285);
+            picGiua.Location = new Point(cX - picGiua.Width / 2, cY - picGiua.Height / 2);
 
-            picTrai.Size = picPhai.Size = new Size(125, 180);
-            picTrai.Location = new Point(picGiua.Left - 139, cY - 90);
-            picPhai.Location = new Point(picGiua.Right + 14, cY - 90);
+            picTrai.Size = picPhai.Size = new Size(140, 210);
+            picTrai.Location = new Point(picGiua.Left - picTrai.Width - 16, cY - picTrai.Height / 2);
+            picPhai.Location = new Point(picGiua.Right + 16, cY - picPhai.Height / 2);
 
-            picXaTrai.Size = picXaPhai.Size = new Size(100, 145);
-            picXaTrai.Location = new Point(picTrai.Left - 112, cY - 72);
-            picXaPhai.Location = new Point(picPhai.Right + 12, cY - 72);
+            picXaTrai.Size = picXaPhai.Size = new Size(108, 162);
+            picXaTrai.Location = new Point(picTrai.Left - picXaTrai.Width - 12, cY - picXaTrai.Height / 2);
+            picXaPhai.Location = new Point(picPhai.Right + 12, cY - picXaPhai.Height / 2);
 
             btnPrev.Location = new Point(24, Math.Max(10, (pnlCarouselOuter.Height - btnPrev.Height) / 2));
             btnNext.Location = new Point(pnlCarouselOuter.Width - btnNext.Width - 24, btnPrev.Top);
@@ -367,7 +378,7 @@ namespace cinema_project.UI
         private FlowLayoutPanel pnlHeaderRight = null!, pnlDots = null!, flpTenBadge = null!;
         private Label           lblLogo = null!, lblNavPhim = null!, lblNavRap = null!, lblNavLichChieu = null!, lblBannerTitle = null!, lblTenPhim = null!, lblDoTuoi = null!, lblMeta = null!, lblMoTa = null!, lblFooterText = null!;
         private TextBox         txtSearch = null!;
-        private Button          btnLichChieu = null!, btnTicket = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
+        private Button          btnLichChieu = null!, btnTicket = null!, btnAdmin = null!, btnLogin = null!, btnTabDangChieu = null!, btnTabDacBiet = null!, btnTabSapChieu = null!, btnXemTatCa = null!, btnPrev = null!, btnNext = null!, btnDatVe = null!, btnTrailer = null!;
         private ComboBox        cmbGenre = null!;
         private PictureBox      picBanner = null!, picXaTrai = null!, picTrai = null!, picGiua = null!, picPhai = null!, picXaPhai = null!;
         private System.Windows.Forms.Timer tmrBanner = null!;
