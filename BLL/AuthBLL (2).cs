@@ -52,5 +52,20 @@ namespace cinema_project.BLL
                 throw;
             }
         }
+        public async Task DoiMatKhauAsync(string matKhauHienTai, string matKhauMoi)
+        {
+            _logger.LogInformation("Yêu cầu đổi mật khẩu cho tài khoản đang đăng nhập");
+            try
+            {
+                await _authDAL.DoiMatKhauAsync(matKhauHienTai, matKhauMoi);
+                _logger.LogInformation("Đổi mật khẩu thành công");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Đổi mật khẩu thất bại");
+                throw;
+            }
+        }
+
     }
 }

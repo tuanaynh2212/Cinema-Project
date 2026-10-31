@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="UI\Forms\frmAdmin\frmAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmChiTietPhim\frmChiTietPhim.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmDangky\frmDangKy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmDangnhap\frmDangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmdatve\frmDatVe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmdatve\frmDatVe.Ghe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmLichChieu\frmLichChieu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmMain\frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmTaiKhoan\frmTaiKhoan %282%29.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmTaiKhoan\frmTaiKhoan.Designer %282%29.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmThongke\frmThongKeBaoCao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\Forms\frmVeCuaBan\frmVeCuaBan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

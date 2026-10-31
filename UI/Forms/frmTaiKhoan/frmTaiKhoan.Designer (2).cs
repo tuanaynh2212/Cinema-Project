@@ -21,6 +21,10 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
         private Label _lblHoTenTaiKhoan = null!;
         private Label _lblEmailTaiKhoan = null!;
         private Control _txtEmail = null!;
+        private TextBox _txtMatKhauHienTai = null!;
+        private TextBox _txtMatKhauMoi = null!;
+        private TextBox _txtXacNhanMatKhauMoi = null!;
+        private Button _btnDoiMatKhau = null!;
 
         private void InitializeComponent()
         {
@@ -326,16 +330,16 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             passwordFields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             for (int i = 0; i < 3; i++)
                 passwordFields.RowStyles.Add(new RowStyle(SizeType.Percent, 33.33F));
-            passwordFields.Controls.Add(TaoTruongMatKhau("Mật khẩu hiện tại"), 0, 0);
-            passwordFields.Controls.Add(TaoTruongMatKhau("Mật khẩu mới"), 0, 1);
-            passwordFields.Controls.Add(TaoTruongMatKhau("Nhập lại mật khẩu mới"), 0, 2);
+            passwordFields.Controls.Add(TaoTruongMatKhau("Mật khẩu hiện tại", out _txtMatKhauHienTai), 0, 0);
+            passwordFields.Controls.Add(TaoTruongMatKhau("Mật khẩu mới", out _txtMatKhauMoi), 0, 1);
+            passwordFields.Controls.Add(TaoTruongMatKhau("Nhập lại mật khẩu mới", out _txtXacNhanMatKhauMoi), 0, 2);
             security.Resize += (_, _) => passwordFields.Width = Math.Max(0, security.ClientSize.Width - 44);
             security.Controls.Add(passwordFields);
 
-            var updatePassword = TaoNut("Cập nhật mật khẩu", primary: true);
-            updatePassword.Location = new Point(22, 246);
-            updatePassword.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            security.Controls.Add(updatePassword);
+            _btnDoiMatKhau = TaoNut("Cập nhật mật khẩu", primary: true);
+            _btnDoiMatKhau.Location = new Point(22, 246);
+            _btnDoiMatKhau.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            security.Controls.Add(_btnDoiMatKhau);
             sections.Controls.Add(security);
 
             Panel preferences = TaoThe(116);
@@ -513,7 +517,7 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             return field;
         }
 
-        private static Control TaoTruongMatKhau(string label)
+        private static Control TaoTruongMatKhau(string label, out TextBox textBox)
         {
             var field = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(0, 0, 12, 4) };
             field.Controls.Add(new Label
@@ -524,7 +528,7 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 ForeColor = MauChu,
                 Location = new Point(0, 0)
             });
-            field.Controls.Add(new TextBox
+            textBox = new TextBox
             {
                 UseSystemPasswordChar = true,
                 Font = new Font("Segoe UI", 9.5F),
@@ -533,7 +537,8 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 Height = 28,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 Width = Math.Max(80, field.ClientSize.Width - 12)
-            });
+            };
+            field.Controls.Add(textBox);
             field.Resize += (_, _) =>
             {
                 if (field.Controls.Count > 1)
