@@ -26,7 +26,6 @@ namespace cinema_project.DAL
             Timeout = TimeSpan.FromSeconds(20)
         };
 
-        // Chỉ admin được tải giao dịch đã thanh toán để lập báo cáo. RLS vẫn phải bảo vệ dữ liệu ở Supabase.
         public async Task<List<BaoCaoDoanhThu>> LayDoanhThuDaThanhToanAsync()
         {
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
