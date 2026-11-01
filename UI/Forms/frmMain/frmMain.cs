@@ -97,13 +97,6 @@ namespace cinema_project.UI
             btnLogin.Text = daDangNhap
                 ? (laAdmin ? "Tài khoản (Quản trị)" : "Tài khoản")
                 : "Đăng nhập";
-
-            // Vé và Lịch chiếu được hiển thị lại cho cả Admin và người dùng đã đăng nhập.
-            // Nút Đặt vé vẫn dành cho khách hàng; Admin quản lý vé qua màn hình Vé.
-            lblNavLichChieu.Visible = true;
-            btnLichChieu.Visible = daDangNhap;
-            btnTicket.Visible = daDangNhap;
-            btnDatVe.Visible = !laAdmin;
             btnAdmin.Visible = laAdmin;
         }
 

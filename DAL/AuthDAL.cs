@@ -16,6 +16,7 @@ namespace cinema_project.DAL
     {
         Task DangKyAsync(string hoTen, string email, string matKhau);
         Task<AuthLoginResult> DangNhapAsync(string email, string matKhau);
+        Task ChangePasswordAsync(string email, string oldPassword, string newPassword);
     }
 
     public class AuthDAL : IAuthDAL
@@ -43,7 +44,7 @@ namespace cinema_project.DAL
                 "Đăng ký không thành công.");
 
             _logger.LogInformation("Đăng ký thành công: {Email}", email.Trim());
-        
+
         }
 
         public async Task<AuthLoginResult> DangNhapAsync(string email, string matKhau)
@@ -72,14 +73,14 @@ namespace cinema_project.DAL
 
             string vaiTro = await LayVaiTroAsync(result.User.Id, result.AccessToken);
             _logger.LogInformation("Đăng nhập thành công: {Email}, vai trò {VaiTro}", email.Trim(), vaiTro);
-             PhienDangNhap.Luu(new AuthLoginResult
+            PhienDangNhap.Luu(new AuthLoginResult
             {
                 UserId = result.User.Id,
                 Email = result.User.Email ?? email.Trim(),
                 AccessToken = result.AccessToken,
                 RefreshToken = result.RefreshToken ?? "",
                 VaiTro = vaiTro
-            });   
+            });
 
             return new AuthLoginResult
             {
@@ -89,7 +90,7 @@ namespace cinema_project.DAL
                 RefreshToken = result.RefreshToken ?? "",
                 VaiTro = vaiTro
             };
-             
+
         }
 
         private async Task<string> LayVaiTroAsync(string userId, string accessToken)
@@ -116,6 +117,22 @@ namespace cinema_project.DAL
                 _logger.LogError(ex, "Dữ liệu profile của {UserId} không đúng định dạng", userId);
                 return "user";
             }
+        }
+        public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword)
+        {
+            using var loginRes = await supabase.GuiAsync(HttpMethod.Post, "auth/v1/token?grant_type=password",
+                new { email = email.Trim(), password = oldPassword },
+                "Mật khẩu hiện tại không đúng.");
+
+            using var doc = JsonDocument.Parse(await loginRes.Content.ReadAsStringAsync());
+            var token = doc.RootElement.GetProperty("access_token").GetString();
+
+            using var _ = await supabase.GuiAsync(HttpMethod.Put, "auth/v1/user",
+                new { password = newPassword },
+                "Đổi mật khẩu không thành công.",
+                token);
+
+            _logger.LogInformation("Đổi mật khẩu thành công: {Email}", email.Trim());
         }
 
     }

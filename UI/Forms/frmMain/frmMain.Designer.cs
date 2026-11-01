@@ -66,6 +66,8 @@ namespace cinema_project.UI
                 pnlHeader.Controls.Add(lbl);
                 navX += lbl.PreferredWidth + 24;
             }
+            lblNavRap.Visible = false;
+            lblNavLichChieu.Visible = false;
             lblNavLichChieu.Click += (s, e) => MoFormLichChieu();
 
             txtSearch = new TextBox

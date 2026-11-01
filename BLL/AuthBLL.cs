@@ -52,5 +52,32 @@ namespace cinema_project.BLL
                 throw;
             }
         }
+        public async Task ChangePasswordAsync(string email, string oldPassword, string newPassword)
+        {
+            email = email?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentException("Email không được để trống.");
+            if (string.IsNullOrEmpty(oldPassword))
+                throw new ArgumentException("Vui lòng nhập mật khẩu hiện tại.");
+            if (string.IsNullOrEmpty(newPassword))
+                throw new ArgumentException("Vui lòng nhập mật khẩu mới.");
+            if (newPassword.Length < 6)
+                throw new ArgumentException("Mật khẩu mới phải có ít nhất 6 ký tự.");
+            if (newPassword == oldPassword)
+                throw new ArgumentException("Mật khẩu mới phải khác mật khẩu hiện tại.");
+
+            _logger.LogInformation("Đổi mật khẩu: {Email}", email);
+            try
+            {
+                await _authDAL.ChangePasswordAsync(email, oldPassword, newPassword);
+                _logger.LogInformation("Đổi mật khẩu thành công: {Email}", email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Đổi mật khẩu thất bại: {Email}", email);
+                throw;
+            }
+        }
     }
 }
