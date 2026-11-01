@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace cinema_project.DAL.DTO
 {
-    public sealed class GheSuatChieuDat
+    public class GheSuatChieuDat
     {
         [JsonPropertyName("ma_suat_chieu")]
         public int MaSuatChieu { get; set; }
