@@ -1,7 +1,7 @@
 using cinema_project.DAL;
 using cinema_project.DAL.DTO;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.BLL
 {
@@ -11,14 +11,17 @@ namespace cinema_project.BLL
         private readonly ILogger<AuthBLL> _logger;
 
         public AuthBLL(SupabaseService supabaseService, ILoggerFactory? loggerFactory = null)
-            : this(new AuthDAL(supabaseService, loggerFactory?.CreateLogger<AuthDAL>()), loggerFactory)
+            : this(
+                new AuthDAL(
+                    supabaseService,
+                    loggerFactory?.CreateLogger<AuthDAL>() ?? AppLogging.CreateLogger<AuthDAL>()),
+                loggerFactory)
         {
         }
 
         public AuthBLL(IAuthDAL authDAL, ILoggerFactory? loggerFactory = null)
         {
-            loggerFactory ??= NullLoggerFactory.Instance;
-            _logger = loggerFactory.CreateLogger<AuthBLL>();
+            _logger = loggerFactory?.CreateLogger<AuthBLL>() ?? AppLogging.CreateLogger<AuthBLL>();
             _authDAL = authDAL ?? throw new ArgumentNullException(nameof(authDAL));
         }
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using cinema_project.DAL;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.BLL
 {
@@ -15,7 +15,7 @@ namespace cinema_project.BLL
 
         public SuatChieuBLL(ILogger<SuatChieuBLL>? logger = null)
         {
-            _logger = logger ?? NullLogger<SuatChieuBLL>.Instance;
+            _logger = logger ?? AppLogging.CreateLogger<SuatChieuBLL>();
         }
 
         public List<SuatChieu> LayTatCa()

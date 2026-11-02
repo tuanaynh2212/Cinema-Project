@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using cinema_project.DAL;
 using cinema_project.DAL.DTO;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace cinema_project.UI.Forms.frmAuth
@@ -9,12 +10,6 @@ namespace cinema_project.UI.Forms.frmAuth
     public partial class frmDangNhap : Form
     {
         private readonly AuthDAL _authDAL;
-        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
-        {
-            b.AddConsole();
-            b.SetMinimumLevel(LogLevel.Debug);
-        });
-
         private readonly ILogger<frmDangNhap> _logger;
 
 
@@ -24,10 +19,10 @@ namespace cinema_project.UI.Forms.frmAuth
 
         public frmDangNhap(AuthDAL? authDAL = null)
         {
-            _logger = _defaultLoggerFactory.CreateLogger<frmDangNhap>();
+            _logger = AppLogging.CreateLogger<frmDangNhap>();
             _authDAL = authDAL ?? new AuthDAL(
                 supabaseServices: new SupabaseService(),
-                logger: _defaultLoggerFactory.CreateLogger<AuthDAL>());
+                logger: AppLogging.CreateLogger<AuthDAL>());
             InitializeComponent();
             AcceptButton = btnDangNhap;
         }

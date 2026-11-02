@@ -4,20 +4,15 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL.DTO;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.DAL
 {
     public class BaoCaoDoanhThuDAL
     {
         private readonly SupabaseService _supabase = new SupabaseService();
-        private readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-            builder.SetMinimumLevel(LogLevel.Warning);
-        });
-        private readonly ILogger<BaoCaoDoanhThuDAL> logger = NullLogger<BaoCaoDoanhThuDAL>.Instance;
+        private readonly ILogger<BaoCaoDoanhThuDAL> logger = AppLogging.CreateLogger<BaoCaoDoanhThuDAL>();
 
         private static readonly JsonSerializerOptions _json =
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

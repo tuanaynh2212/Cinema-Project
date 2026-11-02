@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL.DTO;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.DAL
 {
@@ -37,7 +38,7 @@ namespace cinema_project.DAL
             ILogger<AuthDAL>? logger = null)
         {
             _supabase = supabaseServices ?? new SupabaseService();
-            _logger = logger ?? NullLogger<AuthDAL>.Instance;
+            _logger = logger ?? AppLogging.CreateLogger<AuthDAL>();
         }
 
         public async Task DangKyAsync(string hoTen, string email, string matKhau)
@@ -186,18 +187,39 @@ namespace cinema_project.DAL
             HttpRequestMessage request,
             string thaoTac)
         {
+            var stopwatch = Stopwatch.StartNew();
+            _logger.LogDebug(
+                "Bắt đầu {ThaoTac}: {Method} {Path}",
+                thaoTac,
+                request.Method.Method,
+                request.RequestUri?.AbsolutePath);
+
             try
             {
-                return await _http.SendAsync(request);
+                HttpResponseMessage response = await _http.SendAsync(request);
+                _logger.LogDebug(
+                    "Hoàn tất {ThaoTac}: HTTP {Status} trong {ElapsedMilliseconds} ms",
+                    thaoTac,
+                    (int)response.StatusCode,
+                    stopwatch.ElapsedMilliseconds);
+                return response;
             }
             catch (HttpRequestException ex)
             {
-                _logger.LogError(ex, "Không thể gửi yêu cầu Supabase khi {ThaoTac}", thaoTac);
+                _logger.LogError(
+                    ex,
+                    "Không thể gửi yêu cầu Supabase khi {ThaoTac} sau {ElapsedMilliseconds} ms",
+                    thaoTac,
+                    stopwatch.ElapsedMilliseconds);
                 throw;
             }
             catch (TaskCanceledException ex)
             {
-                _logger.LogError(ex, "Yêu cầu Supabase hết thời gian chờ khi {ThaoTac}", thaoTac);
+                _logger.LogError(
+                    ex,
+                    "Yêu cầu Supabase hết thời gian chờ khi {ThaoTac} sau {ElapsedMilliseconds} ms",
+                    thaoTac,
+                    stopwatch.ElapsedMilliseconds);
                 throw;
             }
         }

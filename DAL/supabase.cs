@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace cinema_project.DAL
@@ -20,17 +22,11 @@ namespace cinema_project.DAL
         private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
         private static readonly JsonSerializerOptions _json = new() { PropertyNameCaseInsensitive = true };
 
-        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
-        {
-            b.AddConsole();
-            b.SetMinimumLevel(LogLevel.Debug);
-        });
-
         private readonly ILogger<SupabaseService> _logger;
 
         public SupabaseService(ILogger<SupabaseService>? logger = null)
         {
-            _logger = logger ?? _defaultLoggerFactory.CreateLogger<SupabaseService>();
+            _logger = logger ?? AppLogging.CreateLogger<SupabaseService>();
         }
 
         public HttpRequestMessage CreateRequest(HttpMethod method, string path, string? accessToken = null)
@@ -45,8 +41,6 @@ namespace cinema_project.DAL
 
             var req = new HttpRequestMessage(method, url);
             req.Headers.TryAddWithoutValidation("apikey", SupabaseKey);
-            // Dùng JWT của người dùng khi thao tác cần RLS; các request công khai
-            // cũ vẫn dùng anon key như trước.
             string bearerToken = string.IsNullOrWhiteSpace(accessToken) ? SupabaseKey : accessToken;
             req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
             return req;
@@ -54,39 +48,63 @@ namespace cinema_project.DAL
 
         private async Task<List<T>> LayDanhSachAsync<T>(string path)
         {
+            var stopwatch = Stopwatch.StartNew();
+            _logger.LogDebug("Bắt đầu tải dữ liệu Supabase: {Path}", path);
             try
             {
                 var res = await _http.SendAsync(CreateRequest(HttpMethod.Get, path));
                 string body = await res.Content.ReadAsStringAsync();
                 if (!res.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning("Lỗi tải {Path}: {Status} - {Body}", path, (int)res.StatusCode, body);
+                    _logger.LogWarning(
+                        "Tải {Path} thất bại với HTTP {Status} sau {ElapsedMilliseconds} ms: {Body}",
+                        path, (int)res.StatusCode, stopwatch.ElapsedMilliseconds, body);
                     return new();
                 }
 
                 var data = JsonSerializer.Deserialize<List<T>>(body, _json) ?? new();
-                _logger.LogInformation("Tải thành công {Count} bản ghi từ {Path}.", data.Count, path);
+                _logger.LogInformation(
+                    "Tải thành công {Count} bản ghi từ {Path} trong {ElapsedMilliseconds} ms.",
+                    data.Count, path, stopwatch.ElapsedMilliseconds);
                 return data;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception khi tải {Path}: {Message}", path, ex.Message);
+                _logger.LogError(
+                    ex,
+                    "Lỗi tải dữ liệu Supabase từ {Path} sau {ElapsedMilliseconds} ms.",
+                    path, stopwatch.ElapsedMilliseconds);
                 return new();
             }
         }
 
         private async Task<bool> GuiAsync(HttpRequestMessage req, string action)
         {
+            var stopwatch = Stopwatch.StartNew();
             try
             {
                 var res = await _http.SendAsync(req);
                 if (!res.IsSuccessStatusCode)
-                    _logger.LogWarning("Lỗi {Action}: {Status} - {Body}", action, (int)res.StatusCode, await res.Content.ReadAsStringAsync());
+                {
+                    _logger.LogWarning(
+                        "Thao tác {Action} thất bại với HTTP {Status} sau {ElapsedMilliseconds} ms: {Body}",
+                        action, (int)res.StatusCode, stopwatch.ElapsedMilliseconds,
+                        await res.Content.ReadAsStringAsync());
+                }
+                else
+                {
+                    _logger.LogInformation(
+                        "Thao tác {Action} thành công với HTTP {Status} trong {ElapsedMilliseconds} ms.",
+                        action, (int)res.StatusCode, stopwatch.ElapsedMilliseconds);
+                }
                 return res.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Exception khi {Action}: {Message}", action, ex.Message);
+                _logger.LogError(
+                    ex,
+                    "Lỗi khi thực hiện {Action} sau {ElapsedMilliseconds} ms.",
+                    action, stopwatch.ElapsedMilliseconds);
                 return false;
             }
         }
@@ -134,7 +152,8 @@ namespace cinema_project.DAL
             if (accessToken != null)
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            _logger.LogDebug("Supabase {Method} {Path}", method, path);
+            var stopwatch = Stopwatch.StartNew();
+            _logger.LogDebug("Gửi yêu cầu Supabase {Method} {Path}", method, path);
 
             HttpResponseMessage response;
             try
@@ -143,24 +162,33 @@ namespace cinema_project.DAL
             }
             catch (TaskCanceledException ex)
             {
-                _logger.LogError(ex, "Supabase {Method} {Path} hết thời gian chờ", method, path);
+                _logger.LogError(
+                    ex,
+                    "Supabase {Method} {Path} hết thời gian chờ sau {ElapsedMilliseconds} ms",
+                    method, path, stopwatch.ElapsedMilliseconds);
                 throw new InvalidOperationException("Máy chủ phản hồi quá lâu, vui lòng thử lại.", ex);
             }
             catch (HttpRequestException ex)
             {
-                _logger.LogError(ex, "Supabase {Method} {Path} không kết nối được", method, path);
+                _logger.LogError(
+                    ex,
+                    "Không kết nối được Supabase {Method} {Path} sau {ElapsedMilliseconds} ms",
+                    method, path, stopwatch.ElapsedMilliseconds);
                 throw new InvalidOperationException("Không kết nối được tới máy chủ. Kiểm tra mạng rồi thử lại.", ex);
             }
 
             if (response.IsSuccessStatusCode)
             {
-                _logger.LogDebug("Supabase {Method} {Path} thành công: {Status}", method, path, (int)response.StatusCode);
+                _logger.LogDebug(
+                    "Supabase {Method} {Path} thành công: HTTP {Status} trong {ElapsedMilliseconds} ms",
+                    method, path, (int)response.StatusCode, stopwatch.ElapsedMilliseconds);
                 return response;
             }
 
             string noiDung = await response.Content.ReadAsStringAsync();
-            _logger.LogWarning("Supabase {Method} {Path} lỗi {Status}: {Body}",
-                method, path, (int)response.StatusCode, noiDung);
+            _logger.LogWarning(
+                "Supabase {Method} {Path} thất bại: HTTP {Status} sau {ElapsedMilliseconds} ms: {Body}",
+                method, path, (int)response.StatusCode, stopwatch.ElapsedMilliseconds, noiDung);
             response.Dispose();
             throw new InvalidOperationException(loi);
         }
@@ -213,4 +241,3 @@ namespace cinema_project.DAL
        
     }
 }
-

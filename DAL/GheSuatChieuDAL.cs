@@ -6,8 +6,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL.DTO;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace cinema_project.DAL
 {
@@ -23,7 +23,7 @@ namespace cinema_project.DAL
 
         public GheSuatChieuDAL(ILogger<GheSuatChieuDAL>? logger = null)
         {
-            _logger = logger ?? NullLogger<GheSuatChieuDAL>.Instance;
+            _logger = logger ?? AppLogging.CreateLogger<GheSuatChieuDAL>();
         }
 
         private AuthLoginResult LayPhienDangNhap()

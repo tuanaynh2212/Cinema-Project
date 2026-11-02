@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using cinema_project.DAL;
+using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace cinema_project.BLL.Services
@@ -16,17 +18,11 @@ namespace cinema_project.BLL.Services
         private const string BaseImageUrl = "https://image.tmdb.org/t/p/w500";
         public static string ApiKey { get; set; } = "93e884c92367fcd34e9a974accfb4f3b";
 
-        private static readonly ILoggerFactory _defaultLoggerFactory = LoggerFactory.Create(b =>
-        {
-            b.AddConsole();
-            b.SetMinimumLevel(LogLevel.Debug);
-        });
-
         private readonly ILogger<TmdbService> _logger;
 
         public TmdbService(ILogger<TmdbService>? logger = null)
         {
-            _logger = logger ?? _defaultLoggerFactory.CreateLogger<TmdbService>();
+            _logger = logger ?? AppLogging.CreateLogger<TmdbService>();
         }
 
         private static readonly Dictionary<int, string> _theLoaiMap = new()
@@ -43,20 +39,31 @@ namespace cinema_project.BLL.Services
 
         private async Task<JsonElement?> GetJsonAsync(string path, string query = "")
         {
+            var stopwatch = Stopwatch.StartNew();
+            _logger.LogDebug("Bắt đầu gọi TMDB: {Path}", path);
             try
             {
-                var res = await _http.GetAsync($"{BaseApiUrl}/{path}?api_key={ApiKey.Trim()}{query}");
-                if (!res.IsSuccessStatusCode)
+                using var response = await _http.GetAsync($"{BaseApiUrl}/{path}?api_key={ApiKey.Trim()}{query}");
+                if (!response.IsSuccessStatusCode)
                 {
-                    _logger.LogWarning("TMDB {Path}: {Status}", path, res.StatusCode);
+                    _logger.LogWarning(
+                        "TMDB {Path} trả về HTTP {Status} sau {ElapsedMilliseconds} ms",
+                        path, (int)response.StatusCode, stopwatch.ElapsedMilliseconds);
                     return null;
                 }
-                using var doc = JsonDocument.Parse(await res.Content.ReadAsStringAsync());
+                string content = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(content);
+                _logger.LogDebug(
+                    "TMDB {Path} thành công: {ContentCharacters} ký tự trong {ElapsedMilliseconds} ms",
+                    path, content.Length, stopwatch.ElapsedMilliseconds);
                 return doc.RootElement.Clone();
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Lỗi gọi TMDB {Path}", path);
+                _logger.LogWarning(
+                    ex,
+                    "Lỗi gọi TMDB {Path} sau {ElapsedMilliseconds} ms",
+                    path, stopwatch.ElapsedMilliseconds);
                 return null;
             }
         }

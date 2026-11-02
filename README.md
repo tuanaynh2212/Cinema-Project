@@ -51,7 +51,7 @@ Xác thực và dữ liệu được lưu trên Supabase, thông tin phim đư�
 **Kỹ thuật**
 - Tích hợp TMDB để lấy dữ liệu phim
 - Bảo mật dữ liệu bằng Row Level Security của Supabase
-- Ghi log lỗi và sự kiện bằng `Microsoft.Extensions.Logging`
+- Ghi log lỗi và sự kiện ra file bằng `Microsoft.Extensions.Logging`
 
 ## Kiến trúc
 
@@ -77,6 +77,12 @@ flowchart LR
 | Backend | Supabase: Auth, PostgreSQL, PostgREST |
 | Nguồn dữ liệu phim | The Movie Database (TMDB) API |
 | Logging | Microsoft.Extensions.Logging |
+
+Log từ mức `Information` trở lên được ghi theo ngày vào thư mục `logs` trong thư mục làm việc của dự án, ví dụ `cinema-project\logs\cinema-project-yyyyMMdd.log`.
+
+### Debug trong VS Code
+
+Chọn cấu hình **Cinema Project (.NET)** trong tab **Run and Debug** rồi nhấn **F5**. Debugger dừng tại entry point trước khi chạy `Main`; sau đó có thể đặt breakpoint dòng bằng **F9**. Các điểm dừng được quản lý bởi debugger, không chèn `Debugger.Break()` vào luồng chạy của ứng dụng.
 
 ## Bắt đầu
 
