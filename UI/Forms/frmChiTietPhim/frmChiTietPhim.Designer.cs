@@ -26,7 +26,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             ClientSize = new Size(1180, 760);
             MinimumSize = new Size(1000, 680);
             StartPosition = FormStartPosition.CenterParent;
-            BackColor = Color.FromArgb(18, 18, 24);
+            BackColor = Color.FromArgb(16, 16, 20);
             ForeColor = Color.White;
             Font = new Font("Segoe UI", 9.5f, FontStyle.Regular, GraphicsUnit.Point);
             Text = "Chi Tiết Phim & Trailer";
@@ -37,7 +37,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             {
                 Dock = DockStyle.Top,
                 Height = 65,
-                BackColor = Color.FromArgb(24, 24, 34),
+                BackColor = Color.FromArgb(27, 27, 34),
                 Padding = new Padding(24, 0, 24, 0)
             };
 
@@ -69,15 +69,16 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             {
                 Text = "↗ Mở trên YouTube",
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
-                ForeColor = Color.White,
-                BackColor = Color.FromArgb(200, 30, 30),
+                ForeColor = Color.FromArgb(232, 226, 232),
+                BackColor = Color.FromArgb(38, 37, 45),
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(165, 38),
                 Anchor = AnchorStyles.Right | AnchorStyles.Top,
                 Cursor = Cursors.Hand
             };
-            btnOpenBrowser.FlatAppearance.BorderSize = 0;
-            btnOpenBrowser.FlatAppearance.MouseOverBackColor = Color.FromArgb(231, 26, 15);
+            btnOpenBrowser.FlatAppearance.BorderColor = Color.FromArgb(75, 70, 80);
+            btnOpenBrowser.FlatAppearance.BorderSize = 1;
+            btnOpenBrowser.FlatAppearance.MouseOverBackColor = Color.FromArgb(52, 50, 59);
             btnOpenBrowser.Click += BtnOpenBrowser_Click;
 
             pnlHeader.Controls.AddRange(new Control[] { btnBack, lblHeaderTitle, btnOpenBrowser });
@@ -91,12 +92,13 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             {
                 Dock = DockStyle.Left,
                 Width = 340,
-                BackColor = Color.FromArgb(24, 24, 34),
+                BackColor = Color.FromArgb(27, 27, 34),
                 Padding = new Padding(20, 16, 20, 16)
             };
 
             picPoster = new PictureBox
             {
+                Name = "picMoviePoster",
                 Dock = DockStyle.Top,
                 Height = 360,
                 SizeMode = PictureBoxSizeMode.Zoom,
@@ -118,7 +120,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 Height = 36,
                 Font = new Font("Segoe UI", 9.5f),
                 ForeColor = Color.FromArgb(200, 200, 215),
-                Text = "🎭 Thể loại: "
+                Text = "Thể loại: "
             };
 
             lblReleaseDate = new Label
@@ -127,7 +129,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 Height = 30,
                 Font = new Font("Segoe UI", 9.5f),
                 ForeColor = Color.FromArgb(200, 200, 215),
-                Text = "📅 Ngày chiếu: "
+                Text = "Ngày chiếu: "
             };
 
             lblDuration = new Label
@@ -136,7 +138,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 Height = 30,
                 Font = new Font("Segoe UI", 9.5f),
                 ForeColor = Color.FromArgb(200, 200, 215),
-                Text = "⏱️ Thời lượng: "
+                Text = "Thời lượng: "
             };
 
             lblRating = new Label
@@ -145,7 +147,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 Height = 30,
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 193, 7),
-                Text = "⭐ Đánh giá: "
+                Text = "Đánh giá: "
             };
 
             lblPrice = new Label
@@ -153,15 +155,15 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 Dock = DockStyle.Top,
                 Height = 34,
                 Font = new Font("Segoe UI", 10f, FontStyle.Bold),
-                ForeColor = Color.FromArgb(76, 217, 100),
-                Text = "💵 Giá vé dự kiến: "
+                ForeColor = Color.FromArgb(232, 226, 232),
+                Text = "Giá vé dự kiến: "
             };
 
             btnBookTicket = new Button
             {
                 Dock = DockStyle.Bottom,
                 Height = 50,
-                Text = "🎟️ ĐẶT VÉ NGAY",
+                Text = "Đặt vé ngay",
                 Font = new Font("Segoe UI", 12f, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(231, 26, 15),
@@ -179,7 +181,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             pnlRight = new Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = Color.FromArgb(18, 18, 24),
+                BackColor = Color.FromArgb(16, 16, 20),
                 Padding = new Padding(20, 16, 20, 16)
             };
 
@@ -220,7 +222,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
                 ForeColor = Color.White,
-                BackColor = Color.FromArgb(50, 120, 220),
+                BackColor = Color.FromArgb(57, 55, 64),
                 Text = "Đang Chiếu",
                 Margin = new Padding(0, 4, 0, 0)
             };
@@ -230,6 +232,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             // Video Player Container
             pnlVideoContainer = new Panel
             {
+                Name = "pnlVideoContainer",
                 Dock = DockStyle.Top,
                 Height = 360,
                 BackColor = Color.Black,
@@ -238,6 +241,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
 
             picTrailerThumbnail = new PictureBox
             {
+                Name = "picTrailerThumbnail",
                 Dock = DockStyle.Fill,
                 SizeMode = PictureBoxSizeMode.Zoom,
                 BackColor = Color.FromArgb(16, 16, 22),
@@ -247,16 +251,17 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
 
             btnPlayVideo = new Button
             {
-                Text = "▶  XEM TRAILER TRÊN YOUTUBE",
+                Text = "Xem trailer trên YouTube",
                 Font = new Font("Segoe UI", 12f, FontStyle.Bold),
-                ForeColor = Color.White,
-                BackColor = Color.FromArgb(231, 26, 15),
+                ForeColor = Color.FromArgb(232, 226, 232),
+                BackColor = Color.FromArgb(38, 37, 45),
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(270, 50),
                 Cursor = Cursors.Hand
             };
-            btnPlayVideo.FlatAppearance.BorderSize = 0;
-            btnPlayVideo.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 30, 20);
+            btnPlayVideo.FlatAppearance.BorderColor = Color.FromArgb(75, 70, 80);
+            btnPlayVideo.FlatAppearance.BorderSize = 1;
+            btnPlayVideo.FlatAppearance.MouseOverBackColor = Color.FromArgb(52, 50, 59);
             btnPlayVideo.Click += BtnPlayVideo_Click;
 
             lblVideoStatus = new Label
@@ -280,8 +285,9 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             // Description / Storyline Section
             pnlOverview = new Panel
             {
+                Name = "pnlOverview",
                 Dock = DockStyle.Fill,
-                BackColor = Color.FromArgb(24, 24, 34),
+                BackColor = Color.FromArgb(27, 27, 34),
                 Padding = new Padding(18),
                 Margin = new Padding(0, 10, 0, 0)
             };
@@ -316,6 +322,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
 
             Load += FrmChiTietPhim_Load;
 
+            cinema_project.UI.CinemaFormTheme.Apply(this);
             ResumeLayout(false);
         }
 

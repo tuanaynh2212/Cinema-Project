@@ -217,7 +217,7 @@ namespace cinema_project.UI
                 _ => Color.FromArgb(52, 199, 89)
             };
 
-            lblMeta.Text = $"⭐ {phim.VoteAverage?.ToString("0.0") ?? "8.0"}  |  ⏱️ {phim.ThoiLuong}  |  📅 {phim.NgayChieu ?? "Đang cập nhật"}";
+            lblMeta.Text = $"Đánh giá {phim.VoteAverage?.ToString("0.0") ?? "8.0"}/10  ·  {phim.ThoiLuong}  ·  {phim.NgayChieu ?? "Đang cập nhật"}";
             lblMoTa.Text = string.IsNullOrWhiteSpace(phim.MoTa) ? "Mô tả phim đang được cập nhật." : phim.MoTa;
 
             // Hiển thị poster theo vòng tròn, không để trống hai bên

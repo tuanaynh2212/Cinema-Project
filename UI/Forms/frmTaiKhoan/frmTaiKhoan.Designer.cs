@@ -7,11 +7,11 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
 {
     partial class frmTaiKhoan
     {
-        private static readonly Color MauNen = Color.FromArgb(245, 246, 250);
-        private static readonly Color MauChu = Color.FromArgb(35, 35, 42);
-        private static readonly Color MauPhu = Color.FromArgb(105, 105, 116);
-        private static readonly Color MauVien = Color.FromArgb(226, 227, 233);
-        private static readonly Color MauDo = Color.FromArgb(231, 26, 15);
+        private static readonly Color MauNen = Color.FromArgb(247, 246, 248);
+        private static readonly Color MauChu = Color.FromArgb(39, 37, 43);
+        private static readonly Color MauPhu = Color.FromArgb(117, 112, 121);
+        private static readonly Color MauVien = Color.FromArgb(231, 228, 233);
+        private static readonly Color MauDo = Color.FromArgb(215, 25, 32);
 
         private readonly Panel _noiDung = new();
         private readonly Button[] _nutDieuHuong = new Button[3];
@@ -125,18 +125,18 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             {
                 Location = new Point(20, 22),
                 Size = new Size(46, 46),
-                BackColor = Color.FromArgb(240, 249, 255)
+                BackColor = Color.FromArgb(57, 34, 39)
             };
             avatar.Paint += (_, e) =>
             {
                 e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                using var brush = new SolidBrush(Color.FromArgb(240, 249, 255));
+                using var brush = new SolidBrush(Color.FromArgb(57, 34, 39));
                 e.Graphics.FillEllipse(brush, 1, 1, avatar.Width - 3, avatar.Height - 3);
-                using var pen = new Pen(Color.FromArgb(184, 230, 254));
+                using var pen = new Pen(Color.FromArgb(120, 55, 62));
                 e.Graphics.DrawEllipse(pen, 1, 1, avatar.Width - 3, avatar.Height - 3);
                 using var font = new Font("Segoe UI", 14F, FontStyle.Bold);
                 TextRenderer.DrawText(e.Graphics, "N", font,
-                    avatar.ClientRectangle, Color.FromArgb(0, 105, 168),
+                    avatar.ClientRectangle, Color.FromArgb(255, 142, 145),
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
             };
             navigation.Controls.Add(avatar);
@@ -232,6 +232,8 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 page.Visible = false;
                 _noiDung.Controls.Add(page);
             }
+
+            cinema_project.UI.CinemaFormTheme.Apply(this);
         }
 
         private Panel TaoTrangHoSo()

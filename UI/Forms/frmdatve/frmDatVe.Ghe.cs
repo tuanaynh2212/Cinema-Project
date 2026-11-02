@@ -18,7 +18,7 @@ namespace cinema_project.UI.Forms.frmDatVe
 
         private static readonly string[] CacHangGhe = { "A", "B", "C", "D", "E", "F", "G", "H" };
         private static readonly int[] SoGheMoiHang = { 14, 15, 15, 13, 14, 14, 15, 12 };
-        private static readonly Color MauNenBanDo = Color.FromArgb(37, 37, 43);
+        private static readonly Color MauNenBanDo = Color.FromArgb(250, 249, 251);
         private static readonly Color MauThuong = Color.FromArgb(119, 43, 191);
         private static readonly Color MauVIP = Color.FromArgb(239, 35, 55);
         private static readonly Color MauGheDoi = Color.FromArgb(226, 38, 145);

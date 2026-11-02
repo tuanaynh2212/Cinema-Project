@@ -7,12 +7,12 @@ namespace cinema_project.UI.Forms.frmAdmin
 {
     partial class frmAdmin
     {
-        private static readonly Color MauNen = Color.FromArgb(245, 246, 250);
-        private static readonly Color MauChu = Color.FromArgb(35, 35, 42);
-        private static readonly Color MauPhu = Color.FromArgb(105, 105, 116);
-        private static readonly Color MauVien = Color.FromArgb(226, 227, 233);
-        private static readonly Color MauDo = Color.FromArgb(231, 26, 15);
-        private static readonly Color MauSidebar = Color.FromArgb(28, 28, 35);
+        private static readonly Color MauNen = Color.FromArgb(247, 246, 248);
+        private static readonly Color MauChu = Color.FromArgb(39, 37, 43);
+        private static readonly Color MauPhu = Color.FromArgb(117, 112, 121);
+        private static readonly Color MauVien = Color.FromArgb(231, 228, 233);
+        private static readonly Color MauDo = Color.FromArgb(215, 25, 32);
+        private static readonly Color MauSidebar = Color.White;
 
         private Label _lblEmailAdmin = null!;
         private Label _lblTieuDeTrang = null!;
@@ -112,7 +112,7 @@ namespace cinema_project.UI.Forms.frmAdmin
             {
                 Dock = DockStyle.Top,
                 Height = 76,
-                BackColor = Color.White,
+                BackColor = Color.FromArgb(27, 27, 34),
                 Padding = new Padding(28, 0, 28, 0)
             };
             header.Paint += (_, e) =>
@@ -175,7 +175,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 "Lịch chiếu",
                 "Xem, thêm, cập nhật và xóa suất chiếu; lọc theo ngày, phim và phòng chiếu.",
                 "Mở quản lý lịch chiếu");
-            scheduleCard.Location = new Point(0, 94);
+            scheduleCard.Location = new Point(0, 96);
             scheduleCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _btnLichChieu = (Button)scheduleCard.Controls["moduleAction"]!;
             content.Controls.Add(scheduleCard);
@@ -184,7 +184,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 "Vé",
                 "Xem danh sách ghế đã đặt gắn với tài khoản đang đăng nhập.",
                 "Mở danh sách vé");
-            ticketCard.Location = new Point(0, 264);
+            ticketCard.Location = new Point(0, 240);
             ticketCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _btnVe = (Button)ticketCard.Controls["moduleAction"]!;
             content.Controls.Add(ticketCard);
@@ -193,7 +193,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 "Thống kê & báo cáo",
                 "Theo dõi tổng doanh thu, số vé đã thanh toán và chi tiết giao dịch theo khoảng ngày.",
                 "Mở báo cáo doanh thu");
-            reportCard.Location = new Point(0, 434);
+            reportCard.Location = new Point(0, 384);
             reportCard.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _btnBaoCao = (Button)reportCard.Controls["moduleAction"]!;
             content.Controls.Add(reportCard);
@@ -204,7 +204,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 Text = "Báo cáo doanh thu chỉ dành cho tài khoản quản trị viên. Danh sách vé tuân theo user_id của phiên đăng nhập.",
                 Font = new Font("Segoe UI", 9F),
                 ForeColor = MauPhu,
-                Location = new Point(2, 604),
+                Location = new Point(2, 528),
                 Size = new Size(760, 38),
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
@@ -224,6 +224,7 @@ namespace cinema_project.UI.Forms.frmAdmin
             Controls.Add(header);
             Controls.Add(sidebar);
 
+            cinema_project.UI.CinemaFormTheme.Apply(this);
             ResumeLayout(false);
         }
 
@@ -231,6 +232,7 @@ namespace cinema_project.UI.Forms.frmAdmin
         {
             var button = new Button
             {
+                Name = selected ? "btnSidebarSelected" : "btnSidebar",
                 Text = text,
                 Size = new Size(198, 40),
                 FlatStyle = FlatStyle.Flat,
@@ -238,11 +240,11 @@ namespace cinema_project.UI.Forms.frmAdmin
                 TextAlign = ContentAlignment.MiddleLeft,
                 Padding = new Padding(10, 0, 0, 0),
                 ForeColor = selected ? Color.White : Color.FromArgb(190, 190, 202),
-                BackColor = selected ? Color.FromArgb(49, 49, 59) : MauSidebar,
+                BackColor = selected ? Color.FromArgb(49, 47, 55) : MauSidebar,
                 Cursor = Cursors.Hand
             };
             button.FlatAppearance.BorderSize = 0;
-            button.FlatAppearance.MouseOverBackColor = Color.FromArgb(49, 49, 59);
+            button.FlatAppearance.MouseOverBackColor = Color.FromArgb(49, 47, 55);
             return button;
         }
 
@@ -251,9 +253,9 @@ namespace cinema_project.UI.Forms.frmAdmin
             var card = new Panel
             {
                 Name = "moduleCard",
-                Size = new Size(860, 150),
-                BackColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle,
+                Size = new Size(860, 132),
+                BackColor = Color.FromArgb(27, 27, 34),
+                BorderStyle = BorderStyle.None,
                 Padding = new Padding(20)
             };
             card.Resize += (_, _) =>
@@ -278,13 +280,13 @@ namespace cinema_project.UI.Forms.frmAdmin
                 Text = description,
                 Font = new Font("Segoe UI", 9.5F),
                 ForeColor = MauPhu,
-                Location = new Point(22, 52),
-                Size = new Size(810, 28),
+                Location = new Point(22, 50),
+                Size = new Size(810, 32),
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             });
             Button actionButton = TaoNutModule(actionText);
             actionButton.Name = "moduleAction";
-            actionButton.Location = new Point(20, 94);
+            actionButton.Location = new Point(20, 76);
             actionButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             card.Controls.Add(actionButton);
             return card;
@@ -299,7 +301,7 @@ namespace cinema_project.UI.Forms.frmAdmin
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 ForeColor = MauChu,
-                BackColor = Color.White,
+                BackColor = Color.FromArgb(37, 36, 44),
                 Cursor = Cursors.Hand
             };
             button.FlatAppearance.BorderColor = MauVien;

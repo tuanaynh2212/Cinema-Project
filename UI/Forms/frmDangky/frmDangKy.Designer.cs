@@ -50,8 +50,10 @@ namespace cinema_project.UI.Forms.frmAuth
             pnlHeader.SuspendLayout();
             SuspendLayout();
 
-            pnlHeader.BackColor = Color.FromArgb(26, 26, 34);
-            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.BackColor = Color.White;
+            pnlHeader.Location = new Point(10, 10);
+            pnlHeader.Size = new Size(492, 115);
+            pnlHeader.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlHeader.Height = 115;
             pnlHeader.Controls.Add(lblLogo);
             pnlHeader.Controls.Add(lblTieuDe);
@@ -158,7 +160,7 @@ namespace cinema_project.UI.Forms.frmAuth
 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(248, 248, 250);
+            BackColor = Color.FromArgb(16, 16, 20);
             ClientSize = new Size(512, 605);
             Controls.Add(btnHuy);
             Controls.Add(lblThongBao);
@@ -182,6 +184,7 @@ namespace cinema_project.UI.Forms.frmAuth
             Text = "Đăng ký - CGV Cinemas";
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
+            cinema_project.UI.CinemaFormTheme.Apply(this);
             ResumeLayout(false);
             PerformLayout();
         }
