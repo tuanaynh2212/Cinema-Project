@@ -130,6 +130,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblTrangThai.Text = "Đang tải suất chiếu...";
 
             lblManHinh.BackColor = Color.FromArgb(52, 58, 70);
+            lblManHinh.Name = "lblManHinh";
             lblManHinh.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblManHinh.ForeColor = Color.White;
             lblManHinh.Location = new Point(40, 211);
@@ -138,12 +139,15 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblManHinh.TextAlign = ContentAlignment.MiddleCenter;
 
             pnlSoDoGhe.BackColor = Color.FromArgb(37, 37, 43);
-            pnlSoDoGhe.BorderStyle = BorderStyle.FixedSingle;
+            pnlSoDoGhe.BorderStyle = BorderStyle.None;
+            pnlSoDoGhe.Name = "pnlSoDoGhe";
+            pnlSoDoGhe.Padding = new Padding(6);
             pnlSoDoGhe.Location = new Point(25, 244);
             pnlSoDoGhe.Size = new Size(800, 348);
             pnlSoDoGhe.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
 
             pnlLegend.BackColor = Color.FromArgb(37, 37, 43);
+            pnlLegend.Name = "pnlLegend";
             pnlLegend.Location = new Point(25, 599);
             pnlLegend.Size = new Size(800, 87);
             pnlLegend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
@@ -185,7 +189,8 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblLegendDaDat.Text = "■ Đã đặt";
 
             pnlTongKet.BackColor = Color.White;
-            pnlTongKet.BorderStyle = BorderStyle.FixedSingle;
+            pnlTongKet.BorderStyle = BorderStyle.None;
+            pnlTongKet.Name = "pnlTongKet";
             pnlTongKet.Location = new Point(845, 94);
             pnlTongKet.Size = new Size(350, 592);
             pnlTongKet.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
@@ -288,8 +293,8 @@ namespace cinema_project.UI.Forms.frmDatVe
 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(248, 248, 250);
-            ClientSize = new Size(1220, 710);
+            BackColor = Color.FromArgb(16, 16, 20);
+            ClientSize = new Size(1280, 780);
             Controls.Add(pnlTongKet);
             Controls.Add(pnlLegend);
             Controls.Add(pnlSoDoGhe);
@@ -302,7 +307,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             Controls.Add(pnlHeader);
             Font = new Font("Segoe UI", 9F);
             FormBorderStyle = FormBorderStyle.Sizable;
-            MinimumSize = new Size(1160, 750);
+            MinimumSize = new Size(1240, 760);
             Name = "frmDatVe";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Đặt vé - CGV Cinemas";
@@ -313,6 +318,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             pnlTongKet.PerformLayout();
             pnlLegend.ResumeLayout(false);
             pnlLegend.PerformLayout();
+            cinema_project.UI.CinemaFormTheme.Apply(this);
             ResumeLayout(false);
             PerformLayout();
         }

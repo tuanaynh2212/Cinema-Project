@@ -29,8 +29,8 @@ namespace cinema_project.UI.Forms.frmLichChieu
             MinimumSize = new Size(1100, 700);
             StartPosition = FormStartPosition.CenterScreen;
             Font = new Font("Segoe UI", 9.5f, FontStyle.Regular, GraphicsUnit.Point);
-            BackColor = Color.FromArgb(245, 246, 250);
-            ForeColor = Color.FromArgb(26, 26, 34);
+            BackColor = Color.FromArgb(16, 16, 20);
+            ForeColor = Color.FromArgb(244, 241, 245);
             Text = "CGV Cinemas – Quản Lý Lịch Chiếu & Suất Chiếu";
 
             // 1. HEADER PANEL
@@ -148,7 +148,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             // Tìm kiếm nhanh
             txtTimKiem = new TextBox
             {
-                PlaceholderText = "🔍 Tìm phim, phòng, định dạng...",
+                PlaceholderText = "Tìm phim, phòng, định dạng...",
                 Location = new Point(750, 18),
                 Size = new Size(200, 26),
                 Font = new Font("Segoe UI", 9.5f)
@@ -158,7 +158,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             // Nút đặt lại bộ lọc
             btnDatLaiBoLoc = new Button
             {
-                Text = "🔄 Đặt lại",
+                Text = "Đặt lại",
                 Location = new Point(960, 16),
                 Size = new Size(85, 29),
                 Font = new Font("Segoe UI", 9f, FontStyle.Regular),
@@ -182,21 +182,18 @@ namespace cinema_project.UI.Forms.frmLichChieu
             {
                 Dock = DockStyle.Fill,
                 Padding = new Padding(24, 16, 24, 16),
-                BackColor = Color.FromArgb(245, 246, 250)
+                BackColor = Color.FromArgb(16, 16, 20)
             };
 
             // DETAIL PANEL (RIGHT)
             pnlDetail = new Panel
             {
+                Name = "pnlDetail",
                 Dock = DockStyle.Right,
                 Width = 420,
                 BackColor = Color.White,
-                Padding = new Padding(20, 20, 20, 20)
-            };
-            pnlDetail.Paint += (s, e) =>
-            {
-                using var pen = new Pen(Color.FromArgb(226, 232, 240), 1);
-                e.Graphics.DrawRectangle(pen, 0, 0, pnlDetail.Width - 1, pnlDetail.Height - 1);
+                Padding = new Padding(22, 20, 22, 20),
+                BorderStyle = BorderStyle.None
             };
 
             InitDetailControls();
@@ -219,6 +216,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             Load += FrmLichChieu_Load;
             Resize += (s, e) => btnDong.Location = new Point(ClientSize.Width - 114, 16);
 
+            cinema_project.UI.CinemaFormTheme.Apply(this);
             ResumeLayout(false);
         }
 
@@ -233,7 +231,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             lblTableTitle = new Label
             {
-                Text = "📋 Danh sách suất chiếu",
+                Text = "Danh sách suất chiếu",
                 Font = new Font("Segoe UI", 11f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(26, 26, 34),
                 Location = new Point(0, 6),
@@ -449,7 +447,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             y += 55;
             btnThem = new Button
             {
-                Text = "➕  Thêm Suất",
+                Text = "Thêm suất",
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(231, 26, 15),
@@ -464,7 +462,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             btnCapNhat = new Button
             {
-                Text = "💾  Cập Nhật",
+                Text = "Cập nhật",
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(37, 99, 235),
@@ -480,7 +478,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             y += 50;
             btnXoa = new Button
             {
-                Text = "🗑️  Xóa Suất",
+                Text = "Xóa suất",
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(239, 68, 68),
@@ -495,7 +493,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             btnLamMoi = new Button
             {
-                Text = "🔄  Làm Mới Form",
+                Text = "Làm mới biểu mẫu",
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
                 ForeColor = Color.FromArgb(55, 65, 81),
                 BackColor = Color.FromArgb(243, 244, 246),

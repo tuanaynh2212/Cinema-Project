@@ -28,36 +28,50 @@ namespace cinema_project.UI.Forms.frmVeCuaBan
         {
             Text = "CGV Cinemas - Vé của bạn";
             StartPosition = FormStartPosition.CenterParent;
-            Size = new Size(950, 600);
-            MinimumSize = new Size(780, 480);
-            BackColor = Color.FromArgb(248, 248, 250);
-            Font = new Font("Segoe UI", 10F);
+            Size = new Size(1040, 680);
+            MinimumSize = new Size(820, 540);
+            BackColor = Color.FromArgb(247, 246, 248);
+            Font = new Font("Segoe UI", 9.5F);
+
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4,
+                Padding = new Padding(24),
+                BackColor = BackColor,
+                Margin = Padding.Empty
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 72));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 60));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
 
             Panel header = new Panel
             {
-                Dock = DockStyle.Top,
-                Height = 105,
-                BackColor = Color.FromArgb(28, 28, 35)
+                Dock = DockStyle.Fill,
+                BackColor = Color.White,
+                Margin = new Padding(0, 0, 0, 12),
+                Padding = new Padding(18, 8, 18, 8)
             };
-            Controls.Add(header);
 
             Label logo = new Label
             {
                 AutoSize = true,
                 Text = "CGV CINEMAS",
-                ForeColor = Color.FromArgb(231, 26, 15),
-                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
-                Location = new Point(24, 12)
+                ForeColor = Color.FromArgb(215, 25, 32),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
+                Location = new Point(18, 10)
             };
             header.Controls.Add(logo);
 
             Label title = new Label
             {
                 AutoSize = true,
-                Text = "VÉ / GHẾ ĐÃ ĐẶT",
-                ForeColor = Color.White,
-                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
-                Location = new Point(24, 39)
+                Text = "Vé đã đặt",
+                ForeColor = Color.FromArgb(39, 37, 43),
+                Font = new Font("Segoe UI", 17F, FontStyle.Bold),
+                Location = new Point(18, 31)
             };
             header.Controls.Add(title);
 
@@ -65,18 +79,15 @@ namespace cinema_project.UI.Forms.frmVeCuaBan
             {
                 AutoSize = false,
                 Text = "Danh sách chỉ hiển thị các ghế đã đặt thuộc tài khoản đang đăng nhập.",
-                ForeColor = Color.FromArgb(120, 65, 0),
-                BackColor = Color.FromArgb(255, 244, 214),
-                Padding = new Padding(10, 8, 10, 8),
-                Location = new Point(22, 120),
-                Size = new Size(880, 45),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+                ForeColor = Color.FromArgb(85, 81, 90),
+                BackColor = Color.White,
+                Padding = new Padding(16, 8, 16, 8),
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 0, 12),
+                TextAlign = ContentAlignment.MiddleLeft
             };
-            Controls.Add(note);
 
-            _grid.Location = new Point(22, 180);
-            _grid.Size = new Size(880, 310);
-            _grid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            _grid.Dock = DockStyle.Fill;
             _grid.ReadOnly = true;
             _grid.AllowUserToAddRows = false;
             _grid.AllowUserToDeleteRows = false;
@@ -86,41 +97,63 @@ namespace cinema_project.UI.Forms.frmVeCuaBan
             _grid.RowHeadersVisible = false;
             _grid.BackgroundColor = Color.White;
             _grid.BorderStyle = BorderStyle.None;
+            _grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             _grid.EnableHeadersVisualStyles = false;
-            _grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(231, 26, 15);
-            _grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            _grid.GridColor = Color.FromArgb(231, 228, 233);
+            _grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(246, 245, 247);
+            _grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(39, 37, 43);
             _grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            _grid.ColumnHeadersHeight = 42;
+            _grid.RowTemplate.Height = 40;
+            _grid.DefaultCellStyle.Padding = new Padding(6, 4, 6, 4);
             _grid.Columns.Add("MaSuat", "Mã suất chiếu");
             _grid.Columns.Add("MaGhe", "Ghế");
             _grid.Columns.Add("LoaiGhe", "Loại ghế");
             _grid.Columns.Add("GiaGhe", "Giá ghế (VNĐ)");
             _grid.Columns.Add("TrangThai", "Trạng thái");
             _grid.Columns.Add("NgayDat", "Ngày đặt");
-            Controls.Add(_grid);
 
             _lblCount.AutoSize = true;
-            _lblCount.Location = new Point(24, 510);
-            _lblCount.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            _lblCount.Dock = DockStyle.Fill;
+            _lblCount.TextAlign = ContentAlignment.MiddleCenter;
             _lblCount.Text = "Tổng số ghế: 0";
-            Controls.Add(_lblCount);
 
             _lblStatus.AutoSize = false;
-            _lblStatus.Location = new Point(24, 535);
-            _lblStatus.Size = new Size(620, 25);
-            _lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            _lblStatus.ForeColor = Color.DimGray;
-            Controls.Add(_lblStatus);
+            _lblStatus.Dock = DockStyle.Fill;
+            _lblStatus.ForeColor = Color.FromArgb(117, 112, 121);
+            _lblStatus.TextAlign = ContentAlignment.MiddleLeft;
 
             _btnReload.Text = "↻ Tải lại";
-            _btnReload.Location = new Point(770, 510);
-            _btnReload.Size = new Size(132, 42);
-            _btnReload.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            _btnReload.BackColor = Color.FromArgb(231, 26, 15);
+            _btnReload.Size = new Size(132, 40);
+            _btnReload.Anchor = AnchorStyles.Right;
+            _btnReload.BackColor = Color.FromArgb(215, 25, 32);
             _btnReload.ForeColor = Color.White;
             _btnReload.FlatStyle = FlatStyle.Flat;
             _btnReload.FlatAppearance.BorderSize = 0;
             _btnReload.Click += async (_, _) => await TaiDuLieuAsync();
-            Controls.Add(_btnReload);
+
+            var footer = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 3,
+                RowCount = 1,
+                BackColor = Color.Transparent,
+                Margin = Padding.Empty
+            };
+            footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
+            footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 142F));
+            footer.Controls.Add(_lblStatus, 0, 0);
+            footer.Controls.Add(_lblCount, 1, 0);
+            footer.Controls.Add(_btnReload, 2, 0);
+
+            layout.Controls.Add(header, 0, 0);
+            layout.Controls.Add(note, 0, 1);
+            layout.Controls.Add(_grid, 0, 2);
+            layout.Controls.Add(footer, 0, 3);
+            Controls.Add(layout);
+
+            cinema_project.UI.CinemaFormTheme.Apply(this);
         }
 
         private async Task TaiDuLieuAsync()

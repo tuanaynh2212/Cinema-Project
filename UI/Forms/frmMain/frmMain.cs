@@ -97,13 +97,6 @@ namespace cinema_project.UI
             btnLogin.Text = daDangNhap
                 ? (laAdmin ? "Tài khoản (Quản trị)" : "Tài khoản")
                 : "Đăng nhập";
-
-            // Vé và Lịch chiếu được hiển thị lại cho cả Admin và người dùng đã đăng nhập.
-            // Nút Đặt vé vẫn dành cho khách hàng; Admin quản lý vé qua màn hình Vé.
-            lblNavLichChieu.Visible = true;
-            btnLichChieu.Visible = daDangNhap;
-            btnTicket.Visible = daDangNhap;
-            btnDatVe.Visible = !laAdmin;
             btnAdmin.Visible = laAdmin;
         }
 
@@ -224,7 +217,7 @@ namespace cinema_project.UI
                 _ => Color.FromArgb(52, 199, 89)
             };
 
-            lblMeta.Text = $"⭐ {phim.VoteAverage?.ToString("0.0") ?? "8.0"}  |  ⏱️ {phim.ThoiLuong}  |  📅 {phim.NgayChieu ?? "Đang cập nhật"}";
+            lblMeta.Text = $"Đánh giá {phim.VoteAverage?.ToString("0.0") ?? "8.0"}/10  ·  {phim.ThoiLuong}  ·  {phim.NgayChieu ?? "Đang cập nhật"}";
             lblMoTa.Text = string.IsNullOrWhiteSpace(phim.MoTa) ? "Mô tả phim đang được cập nhật." : phim.MoTa;
 
             // Hiển thị poster theo vòng tròn, không để trống hai bên

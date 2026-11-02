@@ -54,11 +54,11 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
             };
 
 
-            lblGenre.Text = $"🎭 Thể loại: {(string.IsNullOrWhiteSpace(_phim.TheLoai) ? "Đang cập nhật" : _phim.TheLoai)}";
-            lblReleaseDate.Text = $"📅 Ngày chiếu: {_phim.NgayChieu ?? "Đang cập nhật"}";
-            lblDuration.Text = $"⏱️ Thời lượng: {_phim.ThoiLuong}";
-            lblRating.Text = $"⭐ Điểm TMDB: {_phim.VoteAverage?.ToString("0.0") ?? "Chưa đánh giá"} / 10";
-            lblPrice.Text = $"💵 Giá vé: {_phim.GiaVe:#,##0} VNĐ";
+            lblGenre.Text = $"Thể loại: {(string.IsNullOrWhiteSpace(_phim.TheLoai) ? "Đang cập nhật" : _phim.TheLoai)}";
+            lblReleaseDate.Text = $"Ngày chiếu: {_phim.NgayChieu ?? "Đang cập nhật"}";
+            lblDuration.Text = $"Thời lượng: {_phim.ThoiLuong}";
+            lblRating.Text = $"Điểm TMDB: {_phim.VoteAverage?.ToString("0.0") ?? "Chưa đánh giá"} / 10";
+            lblPrice.Text = $"Giá vé: {_phim.GiaVe:#,##0} VNĐ";
 
 
             txtOverview.Text = string.IsNullOrWhiteSpace(_phim.MoTa)
@@ -108,7 +108,7 @@ namespace cinema_project.UI.Forms.frmChiTietPhim
                 if (!string.IsNullOrWhiteSpace(thoiLuong) && (_phim.ThoiLuong == "120 phút" || string.IsNullOrWhiteSpace(_phim.ThoiLuong)))
                 {
                     _phim.ThoiLuong = thoiLuong;
-                    lblDuration.Text = $"⏱️ Thời lượng: {_phim.ThoiLuong}";
+                    lblDuration.Text = $"Thời lượng: {_phim.ThoiLuong}";
                 }
 
                 _trailerKey = trailerKey;
