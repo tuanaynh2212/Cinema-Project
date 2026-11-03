@@ -12,6 +12,8 @@ namespace cinema_project.UI.Forms.frmDatVe
         private Label lblTieuDe = null!;
         private Label lblTenPhim = null!;
         private Label lblThongTinPhim = null!;
+        private Label lblLabelRap = null!;
+        private ComboBox cmbRap = null!;
         private Label lblLabelSuatChieu = null!;
         private ComboBox cmbSuatChieu = null!;
         private Label lblTrangThai = null!;
@@ -50,6 +52,8 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblTieuDe = new Label();
             lblTenPhim = new Label();
             lblThongTinPhim = new Label();
+            lblLabelRap = new Label();
+            cmbRap = new ComboBox();
             lblLabelSuatChieu = new Label();
             cmbSuatChieu = new ComboBox();
             lblTrangThai = new Label();
@@ -111,21 +115,32 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblThongTinPhim.Size = new Size(790, 23);
             lblThongTinPhim.Text = "Thông tin phim";
 
+            lblLabelRap.AutoSize = true;
+            lblLabelRap.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblLabelRap.Location = new Point(25, 157);
+            lblLabelRap.Text = "Chọn rạp:";
+
+            cmbRap.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbRap.Font = new Font("Segoe UI", 9.5F);
+            cmbRap.Location = new Point(145, 152);
+            cmbRap.Size = new Size(630, 29);
+            cmbRap.SelectedIndexChanged += cmbRap_SelectedIndexChanged;
+
             lblLabelSuatChieu.AutoSize = true;
             lblLabelSuatChieu.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            lblLabelSuatChieu.Location = new Point(25, 157);
+            lblLabelSuatChieu.Location = new Point(25, 194);
             lblLabelSuatChieu.Text = "Chọn suất chiếu:";
 
             cmbSuatChieu.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbSuatChieu.Font = new Font("Segoe UI", 9.5F);
-            cmbSuatChieu.Location = new Point(145, 152);
+            cmbSuatChieu.Location = new Point(145, 189);
             cmbSuatChieu.Size = new Size(630, 29);
             cmbSuatChieu.SelectedIndexChanged += cmbSuatChieu_SelectedIndexChanged;
 
             lblTrangThai.AutoSize = false;
             lblTrangThai.Font = new Font("Segoe UI", 8.5F);
             lblTrangThai.ForeColor = Color.FromArgb(110, 110, 120);
-            lblTrangThai.Location = new Point(25, 183);
+            lblTrangThai.Location = new Point(25, 220);
             lblTrangThai.Size = new Size(790, 23);
             lblTrangThai.Text = "Đang tải suất chiếu...";
 
@@ -133,7 +148,7 @@ namespace cinema_project.UI.Forms.frmDatVe
             lblManHinh.Name = "lblManHinh";
             lblManHinh.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblManHinh.ForeColor = Color.White;
-            lblManHinh.Location = new Point(40, 211);
+            lblManHinh.Location = new Point(40, 248);
             lblManHinh.Size = new Size(770, 28);
             lblManHinh.Text = "MÀN HÌNH";
             lblManHinh.TextAlign = ContentAlignment.MiddleCenter;
@@ -142,13 +157,13 @@ namespace cinema_project.UI.Forms.frmDatVe
             pnlSoDoGhe.BorderStyle = BorderStyle.None;
             pnlSoDoGhe.Name = "pnlSoDoGhe";
             pnlSoDoGhe.Padding = new Padding(6);
-            pnlSoDoGhe.Location = new Point(25, 244);
+            pnlSoDoGhe.Location = new Point(25, 281);
             pnlSoDoGhe.Size = new Size(800, 348);
             pnlSoDoGhe.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
 
             pnlLegend.BackColor = Color.FromArgb(37, 37, 43);
             pnlLegend.Name = "pnlLegend";
-            pnlLegend.Location = new Point(25, 599);
+            pnlLegend.Location = new Point(25, 636);
             pnlLegend.Size = new Size(800, 87);
             pnlLegend.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pnlLegend.Controls.Add(lblLegendThuong);
@@ -300,6 +315,8 @@ namespace cinema_project.UI.Forms.frmDatVe
             Controls.Add(pnlSoDoGhe);
             Controls.Add(lblManHinh);
             Controls.Add(lblTrangThai);
+            Controls.Add(cmbRap);
+            Controls.Add(lblLabelRap);
             Controls.Add(cmbSuatChieu);
             Controls.Add(lblLabelSuatChieu);
             Controls.Add(lblThongTinPhim);

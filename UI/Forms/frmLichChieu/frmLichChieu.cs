@@ -16,10 +16,23 @@ namespace cinema_project.UI.Forms.frmLichChieu
         private readonly PhimBLL _phimBLL = new();
         private readonly SupabaseService supabaseService = new();
         private List<Phim> _danhSachPhim = new();
+        private List<Rap> _danhSachRap = new();
         private List<SuatChieu> _danhSachHienThi = new();
         private bool _isBinding = false;
         private List<PhongChieu> _danhSachPhong = [];
 
+
+        private async Task LoadDanhSachRapAsync()
+        {
+            try
+            {
+                _danhSachRap = await supabaseService.LayTatCaRapAsync();
+            }
+            catch
+            {
+                _danhSachRap = new List<Rap>();
+            }
+        }
 
         public async Task LoadDanhSachPhongAsync()
         {
@@ -79,7 +92,12 @@ namespace cinema_project.UI.Forms.frmLichChieu
         {
             _isBinding = true;
 
+            await LoadDanhSachRapAsync();
             await LoadDanhSachPhongAsync();
+
+            cmbRap.Items.Clear();
+            foreach (var rap in _danhSachRap) cmbRap.Items.Add(rap);
+            if (cmbRap.Items.Count > 0) cmbRap.SelectedIndex = 0;
 
             cmbLocPhong.Items.Clear();
             cmbLocPhong.Items.Add("Tất cả phòng");
@@ -111,6 +129,13 @@ namespace cinema_project.UI.Forms.frmLichChieu
             catch
             {
                 _danhSachPhim = _phimBLL.LayTatCaPhim();
+            }
+
+            if (_danhSachRap.Count == 0)
+            {
+                MessageBox.Show(
+                    "Chưa có danh sách rạp. Hãy chạy file SQL_MultiCinema.sql trong Supabase SQL Editor trước.",
+                    "Thiếu dữ liệu rạp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             if (_danhSachPhim.Count == 0)
@@ -184,6 +209,12 @@ namespace cinema_project.UI.Forms.frmLichChieu
                     if (p != null) sc.TenPhim = p.Ten;
                 }
 
+                if (string.IsNullOrWhiteSpace(sc.TenRap) && sc.MaRap > 0)
+                {
+                    var rap = _danhSachRap.FirstOrDefault(x => x.MaRap == sc.MaRap);
+                    if (rap != null) sc.TenRap = rap.TenRap;
+                }
+
                 if (string.IsNullOrWhiteSpace(sc.TenPhong) && sc.MaPhong > 0)
                 {
                     var r = _danhSachPhong.FirstOrDefault(x => x.MaPhong == sc.MaPhong);
@@ -242,6 +273,8 @@ namespace cinema_project.UI.Forms.frmLichChieu
             else if (cmbPhim.Items.Count > 0)
                 cmbPhim.SelectedIndex = 0;
 
+            if (sc.MaRap > 0) cmbRap.SelectedItem = _danhSachRap.FirstOrDefault(r => r.MaRap == sc.MaRap);
+
             var phong = _danhSachPhong.FirstOrDefault(p => (sc.MaPhong > 0 && p.MaPhong == sc.MaPhong) || p.TenPhong.Equals(sc.TenPhong, StringComparison.OrdinalIgnoreCase));
             if (phong != null)
                 cmbPhong.SelectedItem = phong;
@@ -273,6 +306,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             txtMaSC.Text = "(Tự động sinh mã)";
             if (cmbPhim.Items.Count > 0) cmbPhim.SelectedIndex = 0;
+            if (cmbRap.Items.Count > 0) cmbRap.SelectedIndex = 0;
             if (cmbPhong.Items.Count > 0) cmbPhong.SelectedIndex = 0;
             dtpNgay.Value = DateTime.Today;
 
@@ -327,6 +361,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
         private void BtnThem_Click(object? sender, EventArgs e)
         {
+            var rapChon = cmbRap.SelectedItem as Rap;
             var phongChon = cmbPhong.SelectedItem as PhongChieu;
             string tenPhimChon = cmbPhim.SelectedItem?.ToString() ?? cmbPhim.Text.Trim();
             var phim = _danhSachPhim.FirstOrDefault(p => p.Ten.Equals(tenPhimChon, StringComparison.OrdinalIgnoreCase));
@@ -335,6 +370,8 @@ namespace cinema_project.UI.Forms.frmLichChieu
             {
                 MaPhim = phim?.MaPhim ?? phim?.TmdbId ?? 0,
                 MaPhong = phongChon?.MaPhong ?? 0,
+                MaRap = rapChon?.MaRap ?? 0,
+                TenRap = rapChon?.TenRap ?? "",
                 TenPhim = tenPhimChon,
                 TenPhong = phongChon?.TenPhong ?? cmbPhong.Text,
                 NgayChieu = dtpNgay.Value.Date,
@@ -364,6 +401,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 return;
             }
 
+            var rapChon = cmbRap.SelectedItem as Rap;
             var phongChon = cmbPhong.SelectedItem as PhongChieu;
             string tenPhimChon = cmbPhim.SelectedItem?.ToString() ?? cmbPhim.Text.Trim();
             var phim = _danhSachPhim.FirstOrDefault(p => p.Ten.Equals(tenPhimChon, StringComparison.OrdinalIgnoreCase));
@@ -373,6 +411,8 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 MaSuatChieu = maSC,
                 MaPhim = phim?.MaPhim ?? phim?.TmdbId ?? 0,
                 MaPhong = phongChon?.MaPhong ?? 0,
+                MaRap = rapChon?.MaRap ?? 0,
+                TenRap = rapChon?.TenRap ?? "",
                 TenPhim = tenPhimChon,
                 TenPhong = phongChon?.TenPhong ?? cmbPhong.Text,
                 NgayChieu = dtpNgay.Value.Date,

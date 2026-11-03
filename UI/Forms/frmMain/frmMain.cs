@@ -285,6 +285,7 @@ namespace cinema_project.UI
                 string danhSachGhe = string.Join(", ", formDatVe.GheDaChon);
                 MessageBox.Show(
                     $"Đã lưu ghế cho phim: {phim.Ten}\n" +
+                    $"Rạp: {formDatVe.SuatChieuDaChon?.TenRap}\n" +
                     $"Suất chiếu: {formDatVe.SuatChieuDaChon?.NgayChieu:dd/MM/yyyy} " +
                     $"{formDatVe.SuatChieuDaChon?.GioBatDau:hh\\:mm}\n" +
                     $"Ghế: {danhSachGhe}\n" +

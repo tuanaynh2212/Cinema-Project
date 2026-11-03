@@ -193,10 +193,14 @@ namespace cinema_project.DAL
             throw new InvalidOperationException(loi);
         }
 
+        public Task<List<Rap>> LayTatCaRapAsync() =>
+            LayDanhSachAsync<Rap>("rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc");
+
         public Task<List<PhongChieu>> LayTatCaPhongChieuAsync() =>
             LayDanhSachAsync<PhongChieu>("phong_chieu?select=*&order=ma_phong.asc");
+
         public Task<List<SuatChieu>> LayTatCaSuatChieuAsync() =>
-            LayDanhSachAsync<SuatChieu>("suat_chieu?select=*,phong_chieu(*),movies(*)&order=ngay_chieu.asc,gio_bat_dau.asc");
+            LayDanhSachAsync<SuatChieu>("suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc");
 
         public Task<bool> ThemSuatChieuAsync(SuatChieu sc)
         {
@@ -204,6 +208,7 @@ namespace cinema_project.DAL
             {
                 ma_phim = sc.MaPhim,
                 ma_phong = sc.MaPhong,
+                ma_rap = sc.MaRap,
                 ngay_chieu = sc.NgayChieu.ToString("yyyy-MM-dd"),
                 gio_bat_dau = sc.GioBatDau.ToString(@"hh\:mm\:ss"),
                 gio_ket_thuc = sc.GioKetThuc.ToString(@"hh\:mm\:ss"),
@@ -221,6 +226,7 @@ namespace cinema_project.DAL
             {
                 ma_phim = sc.MaPhim,
                 ma_phong = sc.MaPhong,
+                ma_rap = sc.MaRap,
                 ngay_chieu = sc.NgayChieu.ToString("yyyy-MM-dd"),
                 gio_bat_dau = sc.GioBatDau.ToString(@"hh\:mm\:ss"),
                 gio_ket_thuc = sc.GioKetThuc.ToString(@"hh\:mm\:ss"),
