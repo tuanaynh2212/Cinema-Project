@@ -16,8 +16,11 @@ namespace cinema_project.UI.Forms.frmDatVe
         private readonly SupabaseService _supabase = new();
         private readonly GheSuatChieuDAL _gheDAL = new();
         private readonly List<SuatChieu> _cacSuat = new();
+        private List<Rap> _danhSachRap = new();
         private SuatChieu? _suatDangChon;
         private int _lanTaiGhe;
+        private int _lanTaiSuat;
+        private bool _dangNapRap;
 
         public IReadOnlyList<string> GheDaChon => SapXepMaGhe(_gheDangChon);
         public SuatChieu? SuatChieuDaChon => _suatDangChon;
@@ -43,19 +46,67 @@ namespace cinema_project.UI.Forms.frmDatVe
             Text = $"Đặt vé - {_phim.Ten}";
         }
 
-        private async void frmDatVe_Load(object? sender, EventArgs e) => await TaiSuatChieuAsync();
+        private async void frmDatVe_Load(object? sender, EventArgs e)
+        {
+            cmbRap.Enabled = cmbSuatChieu.Enabled = btnXacNhan.Enabled = false;
+            lblTrangThai.Text = "Đang tải danh sách rạp...";
+            try
+            {
+                _dangNapRap = true;
+                _danhSachRap = await _supabase.LayTatCaRapAsync();
+                cmbRap.DisplayMember = nameof(Rap.TenRap);
+                cmbRap.ValueMember = nameof(Rap.MaRap);
+                cmbRap.DataSource = _danhSachRap;
+                cmbRap.Enabled = _danhSachRap.Count > 0;
+                _dangNapRap = false;
+
+                if (_danhSachRap.Count == 0)
+                {
+                    lblTrangThai.Text = "Chưa có rạp. Vui lòng báo quản trị viên cấu hình danh sách rạp.";
+                    return;
+                }
+
+                await TaiSuatChieuAsync();
+            }
+            catch (Exception ex)
+            {
+                _dangNapRap = false;
+                lblTrangThai.Text = "Không tải được danh sách rạp.";
+                MessageBox.Show("Không tải được danh sách rạp từ Supabase.\n\n" + ex.Message,
+                    "Lỗi tải rạp", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private async void cmbRap_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (!_dangNapRap && IsHandleCreated) await TaiSuatChieuAsync();
+        }
 
         private async Task TaiSuatChieuAsync()
         {
+            int lanTai = ++_lanTaiSuat;
+            ++_lanTaiGhe;
+            _suatDangChon = null;
+            _gheDangChon.Clear();
+            _gheDaDat.Clear();
+            _dangTaiGhe = false;
+            _loiTaiGhe = false;
             cmbSuatChieu.Enabled = btnXacNhan.Enabled = false;
-            lblTrangThai.Text = "Đang tải suất chiếu...";
+            int maRap = (cmbRap.SelectedItem as Rap)?.MaRap ?? 0;
+            if (maRap <= 0)
+            {
+                lblTrangThai.Text = "Vui lòng chọn rạp để xem suất chiếu.";
+                return;
+            }
+            lblTrangThai.Text = "Đang tải suất chiếu của rạp đã chọn...";
 
             try
             {
                 DateTime now = DateTime.Now;
                 List<SuatChieu> tatCa = await _supabase.LayTatCaSuatChieuAsync();
+                if (lanTai != _lanTaiSuat || IsDisposed) return;
                 _cacSuat.Clear();
-                _cacSuat.AddRange(tatCa.Where(s => LaPhimCanDat(s) &&
+                _cacSuat.AddRange(tatCa.Where(s => s.MaRap == maRap && LaPhimCanDat(s) &&
                     !string.Equals(s.TrangThai, "Đã hủy", StringComparison.OrdinalIgnoreCase) &&
                     !string.Equals(s.TrangThai, "Hoàn tất", StringComparison.OrdinalIgnoreCase) &&
                     (s.NgayChieu.Date > now.Date ||
@@ -77,15 +128,19 @@ namespace cinema_project.UI.Forms.frmDatVe
 
                 _suatDangChon = null;
                 _gheDangChon.Clear();
+                _gheDaDat.Clear();
                 TaoSoDoGhe();
                 CapNhatTongTien();
                 lblSuatDaChon.Text = "Chưa có suất chiếu";
-                lblTrangThai.Text = "Chưa có suất chiếu phù hợp cho phim này. Kiểm tra mục Lịch chiếu.";
+                string tenRap = (cmbRap.SelectedItem as Rap)?.TenRap ?? "rạp đã chọn";
+                lblTrangThai.Text = $"Chưa có suất chiếu phù hợp cho phim này tại {tenRap}.";
             }
             catch (Exception ex)
             {
+                if (lanTai != _lanTaiSuat || IsDisposed) return;
                 _suatDangChon = null;
                 _gheDangChon.Clear();
+                _gheDaDat.Clear();
                 TaoSoDoGhe();
                 CapNhatTongTien();
                 lblTrangThai.Text = "Không tải được suất chiếu.";

@@ -82,6 +82,7 @@ namespace cinema_project.BLL
                     s.MaSuatChieu.ToString().Contains(kw) ||
                     s.TenPhim.ToLowerInvariant().Contains(kw) ||
                     s.TenPhong.ToLowerInvariant().Contains(kw) ||
+                    s.TenRap.ToLowerInvariant().Contains(kw) ||
                     s.MaPhong.ToString().Contains(kw) ||
                     s.DinhDang.ToLowerInvariant().Contains(kw));
             }
@@ -127,6 +128,7 @@ namespace cinema_project.BLL
                     s.MaSuatChieu.ToString().Contains(kw) ||
                     s.TenPhim.ToLowerInvariant().Contains(kw) ||
                     s.TenPhong.ToLowerInvariant().Contains(kw) ||
+                    s.TenRap.ToLowerInvariant().Contains(kw) ||
                     s.MaPhong.ToString().Contains(kw) ||
                     s.DinhDang.ToLowerInvariant().Contains(kw));
             }
@@ -147,11 +149,12 @@ namespace cinema_project.BLL
             {
                 if (existing.MaSuatChieu == sc.MaSuatChieu) continue;
 
+                bool cungRap = sc.MaRap > 0 && existing.MaRap == sc.MaRap;
                 bool cungPhong = (sc.MaPhong > 0 && existing.MaPhong > 0)
                     ? existing.MaPhong == sc.MaPhong
                     : existing.TenPhong.Equals(sc.TenPhong, StringComparison.OrdinalIgnoreCase);
 
-                if (cungPhong && existing.NgayChieu.Date == sc.NgayChieu.Date)
+                if (cungRap && cungPhong && existing.NgayChieu.Date == sc.NgayChieu.Date)
                 {
                     if (sc.GioBatDau < existing.GioKetThuc && sc.GioKetThuc > existing.GioBatDau)
                     {
@@ -254,6 +257,10 @@ namespace cinema_project.BLL
             if (string.IsNullOrWhiteSpace(sc.TenPhim))
             {
                 thongBaoLoi = "Vui lòng chọn hoặc nhập tên phim.";
+            }
+            else if (sc.MaRap <= 0)
+            {
+                thongBaoLoi = "Vui lòng chọn rạp chiếu.";
             }
             else if (string.IsNullOrWhiteSpace(sc.TenPhong))
             {

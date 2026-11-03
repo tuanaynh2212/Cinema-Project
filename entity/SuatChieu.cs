@@ -11,6 +11,12 @@ namespace cinema_project.DAL
         [JsonPropertyName("ma_phong")]
         public int MaPhong { get; set; }
 
+        [JsonPropertyName("ma_rap")]
+        public int MaRap { get; set; }
+
+        [JsonPropertyName("rap")]
+        public Rap? RapThongTin { get; set; }
+
         [JsonPropertyName("ma_phim")]
         public int MaPhim { get; set; }
 
@@ -31,6 +37,14 @@ namespace cinema_project.DAL
                 return "";
             }
             set => _tenPhim = value;
+        }
+
+        private string _tenRap = "";
+        [JsonPropertyName("ten_rap")]
+        public string TenRap
+        {
+            get => !string.IsNullOrWhiteSpace(_tenRap) ? _tenRap : RapThongTin?.TenRap ?? "";
+            set => _tenRap = value;
         }
 
         private string _tenPhong = "";

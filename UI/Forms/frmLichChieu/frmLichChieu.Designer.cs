@@ -311,6 +311,14 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             dgvSuatChieu.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "TenRap",
+                HeaderText = "Rạp",
+                Width = 125,
+                DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleLeft }
+            });
+
+            dgvSuatChieu.Columns.Add(new DataGridViewTextBoxColumn
+            {
                 DataPropertyName = "TenPhong",
                 HeaderText = "Phòng Chiếu",
                 Width = 145,
@@ -387,7 +395,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             int labelWidth = 100;
             int inputLeft = 120;
             int inputWidth = 270;
-            int rowSpacing = 42;
+            int rowSpacing = 37;
 
             // Mã suất chiếu
             lblMaSC = new Label { Text = "Mã suất:", Location = new Point(20, y + 4), Width = labelWidth, ForeColor = Color.FromArgb(60, 60, 70), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
@@ -398,6 +406,11 @@ namespace cinema_project.UI.Forms.frmLichChieu
             lblPhim = new Label { Text = "Phim (*):", Location = new Point(20, y + 4), Width = labelWidth, ForeColor = Color.FromArgb(60, 60, 70), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
             cmbPhim = new ComboBox { Location = new Point(inputLeft, y), Width = inputWidth, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 9.5f) };
             cmbPhim.SelectedIndexChanged += CmbPhim_SelectedIndexChanged;
+
+            // Rạp chiếu
+            y += rowSpacing;
+            lblRap = new Label { Text = "Rạp (*):", Location = new Point(20, y + 4), Width = labelWidth, ForeColor = Color.FromArgb(60, 60, 70), Font = new Font("Segoe UI", 9f, FontStyle.Bold) };
+            cmbRap = new ComboBox { Location = new Point(inputLeft, y), Width = inputWidth, DropDownStyle = ComboBoxStyle.DropDownList, Font = new Font("Segoe UI", 9.5f) };
 
             // Phòng chiếu
             y += rowSpacing;
@@ -511,6 +524,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 lblDetailTitle, lblDetailSub,
                 lblMaSC, txtMaSC,
                 lblPhim, cmbPhim,
+                lblRap, cmbRap,
                 lblPhong, cmbPhong,
                 lblNgay, dtpNgay,
                 lblGioBD, dtpGioBD, lblGioKT, dtpGioKT,
@@ -525,11 +539,11 @@ namespace cinema_project.UI.Forms.frmLichChieu
         private Panel pnlHeader = null!, pnlFilter = null!, pnlBody = null!, pnlTable = null!, pnlDetail = null!, pnlTableHeader = null!;
         private Label lblHeaderTitle = null!, lblHeaderSubtitle = null!, lblLocNgay = null!, lblLocPhim = null!, lblLocPhong = null!;
         private Label lblTableTitle = null!, lblSoLuongSuat = null!, lblDetailTitle = null!, lblDetailSub = null!;
-        private Label lblMaSC = null!, lblPhim = null!, lblPhong = null!, lblNgay = null!, lblGioBD = null!, lblGioKT = null!, lblDinhDang = null!, lblGiaVe = null!, lblTrangThai = null!;
+        private Label lblMaSC = null!, lblPhim = null!, lblRap = null!, lblPhong = null!, lblNgay = null!, lblGioBD = null!, lblGioKT = null!, lblDinhDang = null!, lblGiaVe = null!, lblTrangThai = null!;
         private Button btnDong = null!, btnDatLaiBoLoc = null!, btnThem = null!, btnCapNhat = null!, btnXoa = null!, btnLamMoi = null!;
         private DateTimePicker dtpLocNgay = null!, dtpNgay = null!, dtpGioBD = null!, dtpGioKT = null!;
         private CheckBox chkTatCaNgay = null!;
-        private ComboBox cmbLocPhim = null!, cmbLocPhong = null!, cmbPhim = null!, cmbPhong = null!, cmbDinhDang = null!, cmbTrangThai = null!;
+        private ComboBox cmbLocPhim = null!, cmbLocPhong = null!, cmbRap = null!, cmbPhim = null!, cmbPhong = null!, cmbDinhDang = null!, cmbTrangThai = null!;
         private TextBox txtTimKiem = null!, txtMaSC = null!;
         private NumericUpDown nudGiaVe = null!;
         private DataGridView dgvSuatChieu = null!;
