@@ -23,6 +23,7 @@ namespace cinema_project.DAL
 
         public async Task<List<BaoCaoDoanhThu>> LayDoanhThuDaThanhToanAsync()
         {
+
             AuthLoginResult? phien = PhienDangNhap.NguoiDung;
             if (phien == null || string.IsNullOrWhiteSpace(phien.UserId) ||
                 string.IsNullOrWhiteSpace(phien.AccessToken) || phien.LaAdmin == false)
@@ -32,6 +33,7 @@ namespace cinema_project.DAL
                     "Vui lòng đăng nhập trước khi xem báo cáo doanh thu.");
              
             }
+            logger.LogInformation("Bắt đầu tải dữ liệu báo cáo doanh thu.");
 
             if (!phien.LaAdmin)
                 throw new UnauthorizedAccessException(
