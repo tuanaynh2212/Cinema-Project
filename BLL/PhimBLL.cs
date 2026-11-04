@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using cinema_project.DAL;
 using cinema_project.BLL.Services;
+using cinema_project.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace cinema_project.BLL
 {
@@ -9,11 +11,23 @@ namespace cinema_project.BLL
     {
         private readonly PhimDAL _phimDAL = new();
         private readonly TmdbService _tmdbService = new();
+        private readonly ILogger<PhimBLL> _logger;
 
+        public PhimBLL(ILogger<PhimBLL>? logger = null)
+        {
+            _logger = logger ?? AppLogging.CreateLogger<PhimBLL>();
+        }
         public async Task<List<Phim>> DongBoVaLayPhimAsync()
         {
+            _logger.LogInformation("Bắt đầu tải danh sách phim.");
             var ds = await _phimDAL.LayPhimTuSupabaseAsync();
-            if (ds.Count > 0) return ds;
+            if (ds.Count > 0)
+            {
+                _logger.LogInformation("Lấy được {Count} phim từ Supabase.", ds.Count);
+                return ds;
+            }
+
+            _logger.LogInformation("Supabase chưa có phim, chuyển sang lấy phim từ TMDB.");
 
             try
             {
@@ -21,13 +35,22 @@ namespace cinema_project.BLL
                 if (dsTmdb.Count > 0)
                 {
                     if (await _phimDAL.LuuPhimVaoSupabaseAsync(dsTmdb))
-                        return await _phimDAL.LayPhimTuSupabaseAsync();
+                    {
+                        _logger.LogInformation("Đồng bộ thành công {Count} phim vào Supabase.",
+                            dsTmdb.Count);
 
+                        return await _phimDAL.LayPhimTuSupabaseAsync();
+                    }
+                    _logger.LogWarning("Không lưu được phim vào Supabase, sử dụng bộ nhớ tạm.");
                     _phimDAL.CapNhatBoNhoTam(dsTmdb);
                     return dsTmdb;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(
+                    ex, "Đồng bộ phim từ TMDB thất bại.");
+            }
 
             return ds;
         }
