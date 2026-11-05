@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -16,6 +17,11 @@ namespace cinema_project.DAL
         Task DangKyAsync(string hoTen, string email, string matKhau);
         Task<AuthLoginResult> DangNhapAsync(string email, string matKhau);
         Task ChangePasswordAsync(string email, string oldPassword, string newPassword);
+        Task UpdateProfileAsync(
+            string accessToken,
+            string hoTen,
+            string soDienThoai,
+            DateTime? ngaySinh);
     }
 
     public sealed class AuthDAL : IAuthDAL
@@ -91,7 +97,16 @@ namespace cinema_project.DAL
                 Email = result.User.Email ?? email.Trim(),
                 AccessToken = result.AccessToken,
                 RefreshToken = result.RefreshToken ?? "",
-                VaiTro = vaiTro
+                VaiTro = vaiTro,
+                HoTen = result.User.UserMetadata?.HoTen ?? "",
+                SoDienThoai = result.User.UserMetadata?.SoDienThoai ?? "",
+                NgaySinh = DateTime.TryParse(
+                    result.User.UserMetadata?.NgaySinh,
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out DateTime ngaySinh)
+                        ? ngaySinh
+                        : null
             };
 
             PhienDangNhap.Luu(ketQua);
@@ -133,6 +148,32 @@ namespace cinema_project.DAL
                 "đổi mật khẩu");
 
             _logger.LogInformation("Đổi mật khẩu thành công: {Email}", email.Trim());
+        }
+
+        public async Task UpdateProfileAsync(
+            string accessToken,
+            string hoTen,
+            string soDienThoai,
+            DateTime? ngaySinh)
+        {
+            using var request = TaoRequest(
+                HttpMethod.Put,
+                "auth/v1/user",
+                new
+                {
+                    data = new
+                    {
+                        full_name = hoTen.Trim(),
+                        phone = soDienThoai.Trim(),
+                        birth_date = ngaySinh?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                    }
+                },
+                accessToken);
+            using HttpResponseMessage response = await GuiYeuCauAsync(request, "cập nhật hồ sơ");
+            await KiemTraPhanHoiAsync(
+                response,
+                "Cập nhật thông tin tài khoản không thành công.",
+                "cập nhật hồ sơ");
         }
 
         private async Task<string> LayVaiTroAsync(string userId, string accessToken)

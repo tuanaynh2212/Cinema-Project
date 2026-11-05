@@ -82,5 +82,37 @@ namespace cinema_project.BLL
                 throw;
             }
         }
+
+        public async Task UpdateProfileAsync(
+            string accessToken,
+            string hoTen,
+            string soDienThoai,
+            DateTime? ngaySinh)
+        {
+            if (string.IsNullOrWhiteSpace(accessToken))
+                throw new ArgumentException("Phiên đăng nhập không hợp lệ.", nameof(accessToken));
+            if (string.IsNullOrWhiteSpace(hoTen))
+                throw new ArgumentException("Vui lòng nhập họ và tên.", nameof(hoTen));
+            if (string.IsNullOrWhiteSpace(soDienThoai))
+                throw new ArgumentException("Vui lòng nhập số điện thoại.", nameof(soDienThoai));
+            if (ngaySinh?.Date > DateTime.Today)
+                throw new ArgumentException("Ngày sinh không thể ở tương lai.", nameof(ngaySinh));
+
+            _logger.LogInformation("Cập nhật hồ sơ tài khoản");
+            try
+            {
+                await _authDAL.UpdateProfileAsync(
+                    accessToken,
+                    hoTen.Trim(),
+                    soDienThoai.Trim(),
+                    ngaySinh);
+                _logger.LogInformation("Cập nhật hồ sơ tài khoản thành công");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cập nhật hồ sơ tài khoản thất bại");
+                throw;
+            }
+        }
     }
 }

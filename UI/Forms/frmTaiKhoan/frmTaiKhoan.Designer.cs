@@ -19,9 +19,13 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
         private Button _btnMoDanhSachVe = null!;
         private Button _btnDangXuat = null!;
         private Button _btnCapNhatMatKhau = null!;
+        private Button _btnLuuThongTin = null!;
         private Label _lblHoTenTaiKhoan = null!;
         private Label _lblEmailTaiKhoan = null!;
-        private Control _txtEmail = null!;
+        private TextBox _txtHoTen = null!;
+        private TextBox _txtSoDienThoai = null!;
+        private TextBox _txtEmail = null!;
+        private DateTimePicker _ngaySinh = null!;
         private TextBox _txtMatKhauHienTai = null!;
         private TextBox _txtMatKhauMoi = null!;
         private TextBox _txtXacNhanMatKhauMoi = null!;
@@ -260,19 +264,19 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             fields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
             fields.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
             fields.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            fields.Controls.Add(TaoTruong("Họ và tên", "Nguyễn Minh Anh"), 0, 0);
-            fields.Controls.Add(TaoTruong("Số điện thoại", "090 123 4567"), 1, 0);
-            _txtEmail = TaoTruong("Email", "minhanh@example.com", readOnly: true);
-            fields.Controls.Add(_txtEmail, 0, 1);
-            fields.Controls.Add(TaoTruongNgaySinh(), 1, 1);
+            fields.Controls.Add(TaoTruong("Họ và tên", "", out _txtHoTen), 0, 0);
+            fields.Controls.Add(TaoTruong("Số điện thoại", "", out _txtSoDienThoai), 1, 0);
+            fields.Controls.Add(TaoTruong("Email", "", out _txtEmail, readOnly: true), 0, 1);
+            fields.Controls.Add(TaoTruongNgaySinh(out _ngaySinh), 1, 1);
             card.Resize += (_, _) => fields.Width = Math.Max(0, card.ClientSize.Width - 44);
             card.Controls.Add(fields);
 
-            var save = TaoNut("Lưu thay đổi", primary: true);
-            save.Location = new Point(card.ClientSize.Width - save.Width - 22, 208);
-            save.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            card.Resize += (_, _) => save.Location = new Point(card.ClientSize.Width - save.Width - 22, 208);
-            card.Controls.Add(save);
+            _btnLuuThongTin = TaoNut("Lưu thay đổi", primary: true);
+            _btnLuuThongTin.Location = new Point(card.ClientSize.Width - _btnLuuThongTin.Width - 22, 208);
+            _btnLuuThongTin.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            card.Resize += (_, _) =>
+                _btnLuuThongTin.Location = new Point(card.ClientSize.Width - _btnLuuThongTin.Width - 22, 208);
+            card.Controls.Add(_btnLuuThongTin);
 
             sections.Controls.Add(card);
             return page;
@@ -458,7 +462,11 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             return panel;
         }
 
-        private static Control TaoTruong(string label, string value, bool readOnly = false)
+        private static Control TaoTruong(
+            string label,
+            string value,
+            out TextBox textBox,
+            bool readOnly = false)
         {
             var field = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(0, 0, 12, 4) };
             field.Controls.Add(new Label
@@ -469,7 +477,7 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 ForeColor = MauChu,
                 Location = new Point(0, 0)
             });
-            field.Controls.Add(new TextBox
+            textBox = new TextBox
             {
                 Text = value,
                 Font = new Font("Segoe UI", 9.5F),
@@ -481,7 +489,8 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 Height = 30,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 Width = Math.Max(80, field.ClientSize.Width - 12)
-            });
+            };
+            field.Controls.Add(textBox);
             field.Resize += (_, _) =>
             {
                 if (field.Controls.Count > 1)
@@ -490,7 +499,7 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
             return field;
         }
 
-        private static Control TaoTruongNgaySinh()
+        private static Control TaoTruongNgaySinh(out DateTimePicker ngaySinh)
         {
             var field = new Panel { Dock = DockStyle.Fill, BackColor = Color.White, Padding = new Padding(0, 0, 12, 4) };
             field.Controls.Add(new Label
@@ -501,17 +510,21 @@ namespace cinema_project.UI.Forms.frmTaiKhoan
                 ForeColor = MauChu,
                 Location = new Point(0, 0)
             });
-            field.Controls.Add(new DateTimePicker
+            var datePicker = new DateTimePicker
             {
+                ShowCheckBox = true,
                 Format = DateTimePickerFormat.Custom,
-                CustomFormat = "dd/MM/yyyy",
+                CustomFormat = " ",
                 Font = new Font("Segoe UI", 9.5F),
-                Value = new DateTime(1998, 4, 13),
                 Location = new Point(0, 23),
                 Height = 30,
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 Width = Math.Max(80, field.ClientSize.Width - 12)
-            });
+            };
+            datePicker.ValueChanged += (_, _) =>
+                datePicker.CustomFormat = datePicker.Checked ? "dd/MM/yyyy" : " ";
+            ngaySinh = datePicker;
+            field.Controls.Add(datePicker);
             field.Resize += (_, _) =>
             {
                 if (field.Controls.Count > 1)

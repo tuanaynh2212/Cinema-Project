@@ -21,6 +21,21 @@ namespace cinema_project.DAL.DTO
 
         [JsonPropertyName("email")]
         public string? Email { get; set; }
+
+        [JsonPropertyName("user_metadata")]
+        public AuthUserMetadata? UserMetadata { get; set; }
+    }
+
+    public class AuthUserMetadata
+    {
+        [JsonPropertyName("full_name")]
+        public string? HoTen { get; set; }
+
+        [JsonPropertyName("phone")]
+        public string? SoDienThoai { get; set; }
+
+        [JsonPropertyName("birth_date")]
+        public string? NgaySinh { get; set; }
     }
 
     public class RoleRow
@@ -36,6 +51,9 @@ namespace cinema_project.DAL.DTO
         public string AccessToken { get; set; } = "";
         public string RefreshToken { get; set; } = "";
         public string VaiTro { get; set; } = "user";
+        public string HoTen { get; set; } = "";
+        public string SoDienThoai { get; set; } = "";
+        public DateTime? NgaySinh { get; set; }
 
         public bool LaAdmin => VaiTro == "admin";
     }
