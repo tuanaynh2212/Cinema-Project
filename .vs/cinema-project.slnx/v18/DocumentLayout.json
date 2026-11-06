@@ -1,0 +1,68 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\trongtin\\Cinema-Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{315C91FD-3CB8-D3AC-0C85-EAE2AD809637}|cinema-project.csproj|c:\\users\\trongtin\\downloads\\cinema-project\\dal\\phimdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{315C91FD-3CB8-D3AC-0C85-EAE2AD809637}|cinema-project.csproj|c:\\users\\trongtin\\downloads\\cinema-project\\dal\\baocaodoanhthudal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{315C91FD-3CB8-D3AC-0C85-EAE2AD809637}|cinema-project.csproj|c:\\users\\trongtin\\downloads\\cinema-project\\dal\\vedadatdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PhimDAL.cs",
+              "DocumentMoniker": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\PhimDAL.cs",
+              "RelativeDocumentMoniker": "..\\Downloads\\Cinema-Project\\DAL\\PhimDAL.cs",
+              "ToolTip": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\PhimDAL.cs",
+              "RelativeToolTip": "..\\Downloads\\Cinema-Project\\DAL\\PhimDAL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-06T12:32:54.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "VeDaDatDAL.cs",
+              "DocumentMoniker": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\VeDaDatDAL.cs",
+              "RelativeDocumentMoniker": "..\\Downloads\\Cinema-Project\\DAL\\VeDaDatDAL.cs",
+              "ToolTip": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\VeDaDatDAL.cs",
+              "RelativeToolTip": "..\\Downloads\\Cinema-Project\\DAL\\VeDaDatDAL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-06T12:28:37.381Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaoCaoDoanhThuDAL.cs",
+              "DocumentMoniker": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\BaoCaoDoanhThuDAL.cs",
+              "RelativeDocumentMoniker": "..\\Downloads\\Cinema-Project\\DAL\\BaoCaoDoanhThuDAL.cs",
+              "ToolTip": "C:\\Users\\trongtin\\Downloads\\Cinema-Project\\DAL\\BaoCaoDoanhThuDAL.cs",
+              "RelativeToolTip": "..\\Downloads\\Cinema-Project\\DAL\\BaoCaoDoanhThuDAL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-06T12:26:08.616Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
