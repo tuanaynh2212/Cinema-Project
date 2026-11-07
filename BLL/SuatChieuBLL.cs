@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using cinema_project.DAL;
 using cinema_project.Logging;
 using Microsoft.Extensions.Logging;
@@ -10,13 +11,18 @@ namespace cinema_project.BLL
 {
     public class SuatChieuBLL
     {
-        private readonly SuatChieuDAL _dal = new();
+        private readonly SuatChieuDAL _dal;
         private readonly ILogger<SuatChieuBLL> _logger;
 
         public SuatChieuBLL(ILogger<SuatChieuBLL>? logger = null)
+            : this(new SuatChieuDAL(), logger) { }
+
+        public SuatChieuBLL(SuatChieuDAL dal, ILogger<SuatChieuBLL>? logger = null)
         {
+            _dal = dal ?? throw new ArgumentNullException(nameof(dal));
             _logger = logger ?? AppLogging.CreateLogger<SuatChieuBLL>();
         }
+
 
         public List<SuatChieu> LayTatCa()
         {
@@ -48,240 +54,160 @@ namespace cinema_project.BLL
             }
         }
 
+
+
         public List<SuatChieu> LocSuatChieu(DateTime? ngay, string? tenPhim, int? maPhong, string? trangThai, string? tuKhoa)
-        {
-            _logger.LogDebug("Lọc suất chiếu: ngay={Ngay}, phim={Phim}, maPhong={MaPhong}, trangThai={TrangThai}, tuKhoa={TuKhoa}",
-                ngay, tenPhim, maPhong, trangThai, tuKhoa);
+            => Loc(LayTatCa(), ngay, tenPhim,
+                   maPhong is > 0 ? s => s.MaPhong == maPhong : null, trangThai, tuKhoa);
 
-            var ds = LayTatCa().AsEnumerable();
-
-            if (ngay.HasValue)
-            {
-                ds = ds.Where(s => s.NgayChieu.Date == ngay.Value.Date);
-            }
-
-            if (!string.IsNullOrWhiteSpace(tenPhim) && tenPhim != "Tất cả phim")
-            {
-                ds = ds.Where(s => s.TenPhim.Equals(tenPhim, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (maPhong.HasValue && maPhong.Value > 0)
-            {
-                ds = ds.Where(s => s.MaPhong == maPhong.Value);
-            }
-
-            if (!string.IsNullOrWhiteSpace(trangThai) && trangThai != "Tất cả trạng thái")
-            {
-                ds = ds.Where(s => s.TrangThai.Equals(trangThai, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (!string.IsNullOrWhiteSpace(tuKhoa))
-            {
-                string kw = tuKhoa.Trim().ToLowerInvariant();
-                ds = ds.Where(s =>
-                    s.MaSuatChieu.ToString().Contains(kw) ||
-                    s.TenPhim.ToLowerInvariant().Contains(kw) ||
-                    s.TenPhong.ToLowerInvariant().Contains(kw) ||
-                    s.TenRap.ToLowerInvariant().Contains(kw) ||
-                    s.MaPhong.ToString().Contains(kw) ||
-                    s.DinhDang.ToLowerInvariant().Contains(kw));
-            }
-
-            var result = ds.OrderBy(s => s.NgayChieu)
-                           .ThenBy(s => s.GioBatDau)
-                           .ToList();
-            _logger.LogDebug("Kết quả lọc: {Count} suất chiếu", result.Count);
-            return result;
-        }
+        public async Task<List<SuatChieu>> LocSuatChieuAsync(DateTime? ngay, string? tenPhim, int? maPhong, string? trangThai, string? tuKhoa)
+            => Loc(await _dal.LayTatCaAsync(), ngay, tenPhim,
+                   maPhong is > 0 ? s => s.MaPhong == maPhong : null, trangThai, tuKhoa);
 
         public List<SuatChieu> LocSuatChieu(DateTime? ngay, string? tenPhim, string? tenPhong, string? trangThai, string? tuKhoa)
+            => Loc(LayTatCa(), ngay, tenPhim,
+                   BoQua(tenPhong, "Tất cả phòng")
+                       ? null
+                       : s => s.MaPhong.ToString().Equals(tenPhong, StringComparison.OrdinalIgnoreCase),
+                   trangThai, tuKhoa);
+
+        private List<SuatChieu> Loc(IEnumerable<SuatChieu> danhSach, DateTime? ngay, string? tenPhim,
+            Func<SuatChieu, bool>? locPhong, string? trangThai, string? tuKhoa)
         {
-            _logger.LogDebug("Lọc suất chiếu: ngay={Ngay}, phim={Phim}, phong={Phong}, trangThai={TrangThai}, tuKhoa={TuKhoa}",
-                ngay, tenPhim, tenPhong, trangThai, tuKhoa);
+            string kw = tuKhoa?.Trim() ?? "";
 
-            var ds = LayTatCa().AsEnumerable();
+            var result = danhSach
+                .Where(s =>
+                    (!ngay.HasValue || s.NgayChieu.Date == ngay.Value.Date) &&
+                    (BoQua(tenPhim, "Tất cả phim") || s.TenPhim.Equals(tenPhim, StringComparison.OrdinalIgnoreCase)) &&
+                    (locPhong == null || locPhong(s)) &&
+                    (BoQua(trangThai, "Tất cả trạng thái") || s.TrangThai.Equals(trangThai, StringComparison.OrdinalIgnoreCase)) &&
+                    (kw.Length == 0 || KhopTuKhoa(s, kw)))
+                .OrderBy(s => s.NgayChieu)
+                .ThenBy(s => s.GioBatDau)
+                .ToList();
 
-            if (ngay.HasValue)
-            {
-                ds = ds.Where(s => s.NgayChieu.Date == ngay.Value.Date);
-            }
-
-            if (!string.IsNullOrWhiteSpace(tenPhim) && tenPhim != "Tất cả phim")
-            {
-                ds = ds.Where(s => s.TenPhim.Equals(tenPhim, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (!string.IsNullOrWhiteSpace(tenPhong) && tenPhong != "Tất cả phòng")
-            {
-                ds = ds.Where(s => s.MaPhong.ToString().Equals(tenPhong, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (!string.IsNullOrWhiteSpace(trangThai) && trangThai != "Tất cả trạng thái")
-            {
-                ds = ds.Where(s => s.TrangThai.Equals(trangThai, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (!string.IsNullOrWhiteSpace(tuKhoa))
-            {
-                string kw = tuKhoa.Trim().ToLowerInvariant();
-                ds = ds.Where(s =>
-                    s.MaSuatChieu.ToString().Contains(kw) ||
-                    s.TenPhim.ToLowerInvariant().Contains(kw) ||
-                    s.TenPhong.ToLowerInvariant().Contains(kw) ||
-                    s.TenRap.ToLowerInvariant().Contains(kw) ||
-                    s.MaPhong.ToString().Contains(kw) ||
-                    s.DinhDang.ToLowerInvariant().Contains(kw));
-            }
-
-            var result = ds.OrderBy(s => s.NgayChieu)
-                           .ThenBy(s => s.GioBatDau)
-                           .ToList();
             _logger.LogDebug("Kết quả lọc: {Count} suất chiếu", result.Count);
             return result;
         }
+
+        private static bool BoQua(string? giaTri, string tatCa)
+            => string.IsNullOrWhiteSpace(giaTri) || giaTri == tatCa;
+
+        private static bool KhopTuKhoa(SuatChieu s, string kw)
+            => new[] { s.MaSuatChieu.ToString(), s.TenPhim, s.TenPhong, s.TenRap, s.MaPhong.ToString(), s.DinhDang }
+                .Any(v => v.Contains(kw, StringComparison.OrdinalIgnoreCase));
 
         public bool KiemTraTrungLich(SuatChieu sc, out string thongBaoLoi)
         {
-            thongBaoLoi = "";
-            var danhSach = LayTatCa();
-
-            foreach (var existing in danhSach)
-            {
-                if (existing.MaSuatChieu == sc.MaSuatChieu) continue;
-
-                bool cungRap = sc.MaRap > 0 && existing.MaRap == sc.MaRap;
-                bool cungPhong = (sc.MaPhong > 0 && existing.MaPhong > 0)
-                    ? existing.MaPhong == sc.MaPhong
-                    : existing.TenPhong.Equals(sc.TenPhong, StringComparison.OrdinalIgnoreCase);
-
-                if (cungRap && cungPhong && existing.NgayChieu.Date == sc.NgayChieu.Date)
-                {
-                    if (sc.GioBatDau < existing.GioKetThuc && sc.GioKetThuc > existing.GioBatDau)
-                    {
-                        string tenPhongHienThi = !string.IsNullOrWhiteSpace(sc.TenPhong) ? sc.TenPhong : $"Phòng {sc.MaPhong}";
-                        thongBaoLoi = $"Trùng lịch chiếu tại '{tenPhongHienThi}'! Đã có phim '{existing.TenPhim}' chiếu khung giờ {existing.KhungGio}.";
-                        _logger.LogWarning("Trùng lịch: suất {MaSuatChieu} với suất {MaTrung} tại {Phong} ngày {Ngay}",
-                            sc.MaSuatChieu, existing.MaSuatChieu, tenPhongHienThi, sc.NgayChieu.Date);
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            thongBaoLoi = TimLoiTrungLich(sc, LayTatCa()) ?? "";
+            return thongBaoLoi.Length > 0;
         }
+
+        private string? TimLoiTrungLich(SuatChieu sc, IEnumerable<SuatChieu> danhSach)
+        {
+            foreach (var e in danhSach)
+            {
+                if (e.MaSuatChieu == sc.MaSuatChieu) continue;
+
+                bool cungRap = sc.MaRap > 0 && e.MaRap == sc.MaRap;
+                bool cungPhong = sc.MaPhong > 0 && e.MaPhong > 0
+                    ? e.MaPhong == sc.MaPhong
+                    : e.TenPhong.Equals(sc.TenPhong, StringComparison.OrdinalIgnoreCase);
+
+                if (!cungRap || !cungPhong || e.NgayChieu.Date != sc.NgayChieu.Date) continue;
+                if (sc.GioBatDau >= e.GioKetThuc || sc.GioKetThuc <= e.GioBatDau) continue;
+
+                string phong = !string.IsNullOrWhiteSpace(sc.TenPhong) ? sc.TenPhong : $"Phòng {sc.MaPhong}";
+                _logger.LogWarning("Trùng lịch: suất {MaSuatChieu} với suất {MaTrung} tại {Phong} ngày {Ngay}",
+                    sc.MaSuatChieu, e.MaSuatChieu, phong, sc.NgayChieu.Date);
+                return $"Trùng lịch chiếu tại '{phong}'! Đã có phim '{e.TenPhim}' chiếu khung giờ {e.KhungGio}.";
+            }
+            return null;
+        }
+
+
 
         public bool ThemSuatChieu(SuatChieu sc, out string thongBaoLoi)
-        {
-            _logger.LogInformation("Thêm suất chiếu: phim={Phim}, phong={Phong}, ngay={Ngay}", sc.TenPhim, sc.TenPhong, sc.NgayChieu.Date);
-
-            if (!KiemTraHopLe(sc, out thongBaoLoi)) return false;
-            if (KiemTraTrungLich(sc, out thongBaoLoi)) return false;
-
-            try
-            {
-                var ok = _dal.Them(sc).GetAwaiter().GetResult();
-                if (ok) _logger.LogInformation("Thêm suất chiếu thành công: {Phim}", sc.TenPhim);
-                else _logger.LogWarning("Thêm suất chiếu không thành công: {Phim}", sc.TenPhim);
-                return ok;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Thêm suất chiếu thất bại: {Phim}", sc.TenPhim);
-                throw;
-            }
-        }
+            => LuuDongBo(sc, "Thêm", _dal.Them, out thongBaoLoi);
 
         public bool CapNhatSuatChieu(SuatChieu sc, out string thongBaoLoi)
-        {
-            _logger.LogInformation("Cập nhật suất chiếu {MaSuatChieu}", sc.MaSuatChieu);
+            => LuuDongBo(sc, "Cập nhật", _dal.CapNhat, out thongBaoLoi);
 
-            if (!KiemTraHopLe(sc, out thongBaoLoi)) return false;
-            if (KiemTraTrungLich(sc, out thongBaoLoi)) return false;
+        public Task<(bool ThanhCong, string Loi)> ThemSuatChieuAsync(SuatChieu sc)
+            => LuuAsync(sc, "Thêm", _dal.Them);
 
-            try
-            {
-                var ok = _dal.CapNhat(sc).GetAwaiter().GetResult();
-                if (ok) _logger.LogInformation("Cập nhật suất chiếu thành công: {MaSuatChieu}", sc.MaSuatChieu);
-                else _logger.LogWarning("Cập nhật suất chiếu không thành công: {MaSuatChieu}", sc.MaSuatChieu);
-                return ok;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Cập nhật suất chiếu {MaSuatChieu} thất bại", sc.MaSuatChieu);
-                throw;
-            }
-        }
+        public Task<(bool ThanhCong, string Loi)> CapNhatSuatChieuAsync(SuatChieu sc)
+            => LuuAsync(sc, "Cập nhật", _dal.CapNhat);
 
         public bool XoaSuatChieu(int maSuatChieu)
+            => ThucThi("Xóa", maSuatChieu.ToString(), () => _dal.Xoa(maSuatChieu)).GetAwaiter().GetResult();
+
+        public Task<bool> XoaSuatChieuAsync(int maSuatChieu)
+            => ThucThi("Xóa", maSuatChieu.ToString(), () => _dal.Xoa(maSuatChieu));
+
+        private bool LuuDongBo(SuatChieu sc, string hanhDong, Func<SuatChieu, Task<bool>> luu, out string loi)
         {
-            _logger.LogInformation("Xóa suất chiếu {MaSuatChieu}", maSuatChieu);
+            _logger.LogInformation("{HanhDong} suất chiếu: phim={Phim}, phòng={Phong}, ngày={Ngay}",
+                hanhDong, sc.TenPhim, sc.TenPhong, sc.NgayChieu.Date);
+
+            if (!KiemTraHopLe(sc, out loi) || KiemTraTrungLich(sc, out loi)) return false;
+            return ThucThi(hanhDong, sc.TenPhim, () => luu(sc)).GetAwaiter().GetResult();
+        }
+
+        private async Task<(bool ThanhCong, string Loi)> LuuAsync(SuatChieu sc, string hanhDong, Func<SuatChieu, Task<bool>> luu)
+        {
+            _logger.LogInformation("{HanhDong} suất chiếu: phim={Phim}, phòng={Phong}, ngày={Ngay}",
+                hanhDong, sc.TenPhim, sc.TenPhong, sc.NgayChieu.Date);
+
+            if (!KiemTraHopLe(sc, out string loi)) return (false, loi);
+
+            string? loiTrung = TimLoiTrungLich(sc, await _dal.LayTatCaAsync());
+            if (loiTrung is not null) return (false, loiTrung);
+
+            return (await ThucThi(hanhDong, sc.TenPhim, () => luu(sc)), "");
+        }
+
+        private async Task<bool> ThucThi(string hanhDong, string doiTuong, Func<Task<bool>> thaoTac)
+        {
             try
             {
-                var ok = _dal.Xoa(maSuatChieu).GetAwaiter().GetResult();
-                if (ok) _logger.LogInformation("Xóa suất chiếu thành công: {MaSuatChieu}", maSuatChieu);
-                else _logger.LogWarning("Xóa suất chiếu không thành công: {MaSuatChieu}", maSuatChieu);
+                bool ok = await thaoTac();
+                if (ok) _logger.LogInformation("{HanhDong} suất chiếu thành công: {DoiTuong}", hanhDong, doiTuong);
+                else _logger.LogWarning("{HanhDong} suất chiếu không thành công: {DoiTuong}", hanhDong, doiTuong);
                 return ok;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Xóa suất chiếu {MaSuatChieu} thất bại", maSuatChieu);
+                _logger.LogError(ex, "{HanhDong} suất chiếu thất bại: {DoiTuong}", hanhDong, doiTuong);
                 throw;
             }
         }
+
 
         public TimeSpan TinhGioKetThuc(TimeSpan gioBatDau, string? thoiLuongStr)
         {
             int phut = 120;
-            if (!string.IsNullOrWhiteSpace(thoiLuongStr))
-            {
-                var match = Regex.Match(thoiLuongStr, @"\d+");
-                if (match.Success && int.TryParse(match.Value, out int p))
-                {
-                    phut = p;
-                }
-            }
+            var match = Regex.Match(thoiLuongStr ?? "", @"\d+");
+            if (match.Success && int.TryParse(match.Value, out int p)) phut = p;
 
-            phut += 15;
-
-            var ketThuc = gioBatDau.Add(TimeSpan.FromMinutes(phut));
-            if (ketThuc.TotalHours >= 24)
-            {
-                ketThuc = new TimeSpan(23, 59, 0);
-            }
-            return ketThuc;
+            var ketThuc = gioBatDau.Add(TimeSpan.FromMinutes(phut + 15));
+            return ketThuc.TotalHours >= 24 ? new TimeSpan(23, 59, 0) : ketThuc;
         }
 
         private bool KiemTraHopLe(SuatChieu sc, out string thongBaoLoi)
         {
-            thongBaoLoi = "";
-            if (string.IsNullOrWhiteSpace(sc.TenPhim))
-            {
-                thongBaoLoi = "Vui lòng chọn hoặc nhập tên phim.";
-            }
-            else if (sc.MaRap <= 0)
-            {
-                thongBaoLoi = "Vui lòng chọn rạp chiếu.";
-            }
-            else if (string.IsNullOrWhiteSpace(sc.TenPhong))
-            {
-                thongBaoLoi = "Vui lòng chọn phòng chiếu.";
-            }
-            else if (sc.GioKetThuc <= sc.GioBatDau)
-            {
-                thongBaoLoi = "Giờ kết thúc phải lớn hơn giờ bắt đầu.";
-            }
-            else if (sc.GiaVe < 0)
-            {
-                thongBaoLoi = "Giá vé không được nhỏ hơn 0.";
-            }
+            thongBaoLoi =
+                string.IsNullOrWhiteSpace(sc.TenPhim) ? "Vui lòng chọn hoặc nhập tên phim." :
+                sc.MaRap <= 0 ? "Vui lòng chọn rạp chiếu." :
+                string.IsNullOrWhiteSpace(sc.TenPhong) ? "Vui lòng chọn phòng chiếu." :
+                sc.GioKetThuc <= sc.GioBatDau ? "Giờ kết thúc phải lớn hơn giờ bắt đầu." :
+                sc.GiaVe < 0 ? "Giá vé không được nhỏ hơn 0." : "";
 
-            if (thongBaoLoi.Length > 0)
-            {
-                _logger.LogWarning("Dữ liệu suất chiếu không hợp lệ: {Loi}", thongBaoLoi);
-                return false;
-            }
+            if (thongBaoLoi.Length == 0) return true;
 
-            return true;
+            _logger.LogWarning("Dữ liệu suất chiếu không hợp lệ: {Loi}", thongBaoLoi);
+            return false;
         }
     }
 }

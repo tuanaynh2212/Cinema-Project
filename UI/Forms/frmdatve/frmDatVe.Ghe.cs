@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace cinema_project.UI.Forms.frmDatVe
 {
-    // Logic tạo và quản lý sơ đồ ghế được tách khỏi luồng đặt vé chính.
     public partial class frmDatVe
     {
         private readonly HashSet<string> _gheDangChon = new(StringComparer.OrdinalIgnoreCase);

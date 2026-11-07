@@ -119,6 +119,16 @@ dotnet run
 
 Hoặc mở `cinema-project.csproj` trong Visual Studio và nhấn **F5**.
 
+## Kiểm thử
+
+Chạy bộ unit test bằng lệnh:
+
+```bash
+dotnet test cinema-project.Tests/cinema-project.Tests.csproj
+```
+
+Unit test cho `AuthBLL` và `SuatChieuBLL` dùng DAL giả nên không cần kết nối Supabase hay TMDB. `Phim` cũng có test cho quy tắc chuẩn hóa thông tin và mã phim.
+
 ## Cơ sở dữ liệu
 
 | Bảng | Mô tả |
@@ -155,7 +165,7 @@ Cinema-Project/
 - [x] Màn hình lịch sử vé của người dùng
 - [ ] Làm mới token khi phiên đăng nhập hết hạn
 - [ ] Trang quản trị và báo cáo doanh thu
-- [ ] Unit test cho BLL
+- [x] Unit test cho BLL xác thực và suất chiếu
 
 ## Đóng góp
 

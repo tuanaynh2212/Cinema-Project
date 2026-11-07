@@ -1,0 +1,272 @@
+2026-11-07 08:17:28 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:17:28 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:17:29 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 760 ms.
+2026-11-07 08:17:29 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:17:41 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho 111@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 08:17:45 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.aa628421-e96f-43c0-9421-3e7cb4d382e0
+2026-11-07 08:17:45 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 111@gmail.com, vai trò admin
+2026-11-07 08:17:48 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:17:48 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 242 ms.
+2026-11-07 08:17:48 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 08:17:48 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 135 ms.
+2026-11-07 08:17:48 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:17:48 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:17:49 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 307 ms.
+2026-11-07 08:17:49 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:17:49 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:17:49 info: cinema_project.DAL.SupabaseService[0] Tải thành công 76 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 284 ms.
+2026-11-07 08:17:52 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:17:53 info: cinema_project.DAL.SupabaseService[0] Tải thành công 76 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 320 ms.
+2026-11-07 08:18:00 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu: phim=Contra el huracán, phong=Phòng 01 (2D Standard), ngay=11/07/2026 00:00:00
+2026-11-07 08:18:00 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:18:00 info: cinema_project.DAL.SupabaseService[0] Tải thành công 76 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 355 ms.
+2026-11-07 08:18:00 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu
+2026-11-07 08:18:49 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:18:49 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:18:49 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 600 ms.
+2026-11-07 08:18:49 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:19:00 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.aa628421-e96f-43c0-9421-3e7cb4d382e0
+2026-11-07 08:19:00 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 111@gmail.com, vai trò admin
+2026-11-07 08:19:03 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 305 ms.
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 321 ms.
+2026-11-07 08:19:04 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 247 ms.
+2026-11-07 08:19:04 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:19:04 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:05 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 281 ms.
+2026-11-07 08:19:07 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:07 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 230 ms.
+2026-11-07 08:19:31 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:19:31 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 459 ms.
+2026-11-07 08:19:31 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 08:19:32 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 138 ms.
+2026-11-07 08:19:32 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:19:32 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:19:32 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 402 ms.
+2026-11-07 08:19:32 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:19:32 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:32 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 236 ms.
+2026-11-07 08:19:34 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:34 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 240 ms.
+2026-11-07 08:19:36 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:36 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 243 ms.
+2026-11-07 08:19:38 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:19:38 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 236 ms.
+2026-11-07 08:22:25 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:22:26 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:22:31 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 5808 ms.
+2026-11-07 08:22:41 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:22:59 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.aa628421-e96f-43c0-9421-3e7cb4d382e0
+2026-11-07 08:23:04 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 111@gmail.com, vai trò admin
+2026-11-07 08:23:24 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:23:25 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 1920 ms.
+2026-11-07 08:23:26 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 08:23:27 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 1360 ms.
+2026-11-07 08:23:32 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:23:32 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:23:33 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 1241 ms.
+2026-11-07 08:23:46 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:24:32 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:24:32 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:24:33 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 749 ms.
+2026-11-07 08:24:33 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:25:14 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:25:14 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:26:19 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:26:20 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:26:32 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 13054 ms.
+2026-11-07 08:26:50 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:26:51 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:26:52 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 1641 ms.
+2026-11-07 08:27:02 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:27:21 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 08:27:23 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 08:27:44 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:27:49 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 7713 ms.
+2026-11-07 08:31:12 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:31:22 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 18575 ms.
+2026-11-07 08:32:18 warn: cinema_project.DAL.GheSuatChieuDAL[0] Mã suất chiếu không hợp lệ: 0
+2026-11-07 08:43:46 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:44:05 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 36855 ms.
+2026-11-07 08:44:23 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:45:26 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 67876 ms.
+2026-11-07 08:46:14 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:46:15 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 1280 ms.
+2026-11-07 08:46:16 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:46:17 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 1763 ms.
+2026-11-07 08:47:06 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:47:08 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 3532 ms.
+2026-11-07 08:47:26 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:47:27 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 1213 ms.
+2026-11-07 08:47:30 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:47:32 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 3701 ms.
+2026-11-07 08:47:39 warn: cinema_project.DAL.GheSuatChieuDAL[0] Mã suất chiếu không hợp lệ: 0
+2026-11-07 08:49:06 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:49:07 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 3013 ms.
+2026-11-07 08:49:11 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:49:12 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 3068 ms.
+2026-11-07 08:49:14 warn: cinema_project.DAL.GheSuatChieuDAL[0] Mã suất chiếu không hợp lệ: 0
+2026-11-07 08:50:57 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:50:57 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:50:58 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 532 ms.
+2026-11-07 08:50:58 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:51:21 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 08:51:21 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 08:51:24 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:51:24 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 129 ms.
+2026-11-07 08:51:24 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:51:25 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 460 ms.
+2026-11-07 08:51:25 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 08:51:25 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 0 ghế đã đặt
+2026-11-07 08:51:34 info: cinema_project.DAL.GheSuatChieuDAL[0] Đặt 8 ghế: suất 152, ghế C07,C08,D07,E06,F06,G07,H05,H06, user 40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 08:51:34 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu
+2026-11-07 08:51:34 info: cinema_project.DAL.GheSuatChieuDAL[0] Đặt ghế thành công: suất 152, 8 ghế
+2026-11-07 08:51:39 info: cinema_project.DAL.VeDaDatDAL[0] Bắt đầu tải danh sách vé của user 40b53454-ced8-425c-8762-65cdf628c822.
+2026-11-07 08:51:39 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=id,user_id,ma_suat_chieu,ma_ghe,gia_ghe,trang_thai,ngay_dat&user_id=eq.40b53454-ced8-425c-8762-65cdf628c822&trang_thai=eq.da_dat&order=ngay_dat.desc
+2026-11-07 08:51:39 info: cinema_project.DAL.VeDaDatDAL[0] Tải thành công 10 vé của user 40b53454-ced8-425c-8762-65cdf628c822.
+2026-11-07 08:52:07 info: cinema_project.BLL.AuthBLL[0] Cập nhật hồ sơ tài khoản
+2026-11-07 08:52:07 info: cinema_project.BLL.AuthBLL[0] Cập nhật hồ sơ tài khoản thành công
+2026-11-07 08:52:50 info: cinema_project.BLL.AuthBLL[0] Cập nhật hồ sơ tài khoản
+2026-11-07 08:52:50 info: cinema_project.BLL.AuthBLL[0] Cập nhật hồ sơ tài khoản thành công
+2026-11-07 08:53:13 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 08:53:23 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 08:53:29 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 9299 ms.
+2026-11-07 08:53:29 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 08:53:56 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 08:53:57 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 08:54:13 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:54:16 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 8634 ms.
+2026-11-07 08:54:31 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:54:38 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 9152 ms.
+2026-11-07 08:55:51 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 08:56:46 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 8 ghế đã đặt
+2026-11-07 08:57:06 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:57:29 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 26668 ms.
+2026-11-07 08:57:37 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:57:41 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 4766 ms.
+2026-11-07 08:58:02 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 08:58:09 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 8 ghế đã đặt
+2026-11-07 08:58:49 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 08:58:50 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 1456 ms.
+2026-11-07 08:58:52 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 08:58:53 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 1395 ms.
+2026-11-07 08:59:29 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 08:59:41 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 8 ghế đã đặt
+2026-11-07 09:03:54 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:03:54 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:03:55 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 773 ms.
+2026-11-07 09:03:55 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:04:10 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 09:04:10 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 09:05:01 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:05:01 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:05:01 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 415 ms.
+2026-11-07 09:05:01 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:11:22 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:11:22 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:11:22 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 782 ms.
+2026-11-07 09:11:22 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:11:33 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 09:11:33 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 09:11:38 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 09:11:38 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 244 ms.
+2026-11-07 09:11:38 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:11:38 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 253 ms.
+2026-11-07 09:11:39 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 09:11:39 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 8 ghế đã đặt
+2026-11-07 09:14:46 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:14:46 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:14:46 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 772 ms.
+2026-11-07 09:14:46 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:15:05 info: cinema_project.DAL.AuthDAL[0] Đã gửi yêu cầu đăng ký: tuanhanh@gmail.com
+2026-11-07 09:15:57 info: cinema_project.DAL.AuthDAL[0] Đã gửi yêu cầu đăng ký: thanh@gmail.com
+2026-11-07 09:16:06 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho thanh@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:16:42 info: cinema_project.DAL.AuthDAL[0] Đã gửi yêu cầu đăng ký: yianh798@gmail.com
+2026-11-07 09:17:44 info: cinema_project.DAL.AuthDAL[0] Đã gửi yêu cầu đăng ký: ta@gmail.com
+2026-11-07 09:17:50 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho ta@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:17:51 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho ta@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:17:51 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho ta@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:17:56 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho ta@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:18:01 fail: cinema_project.UI.Forms.frmAuth.frmDangNhap[0] Đăng nhập thất bại cho ta@gmail.com System.InvalidOperationException: Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.    at cinema_project.DAL.AuthDAL.DangNhapAsync(String email, String matKhau) in D:\cinema-project\cinema-project\DAL\AuthDAL.cs:line 83    at cinema_project.UI.Forms.frmAuth.frmDangNhap.BtnDangNhap_Click(Object sender, EventArgs e) in D:\cinema-project\cinema-project\UI\Forms\frmDangnhap\frmDangNhap.cs:line 48
+2026-11-07 09:21:09 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 09:21:09 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 1111@gmail.com, vai trò user
+2026-11-07 09:21:12 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 09:21:12 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 338 ms.
+2026-11-07 09:21:12 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:21:13 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 361 ms.
+2026-11-07 09:21:13 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 09:21:13 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 11 ghế đã đặt
+2026-11-07 09:21:54 info: cinema_project.DAL.GheSuatChieuDAL[0] Đặt 1 ghế: suất 152, ghế C02, user 40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 09:21:54 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu
+2026-11-07 09:21:54 info: cinema_project.DAL.GheSuatChieuDAL[0] Đặt ghế thành công: suất 152, 1 ghế
+2026-11-07 09:21:59 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 09:21:59 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 153 ms.
+2026-11-07 09:21:59 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:21:59 info: cinema_project.DAL.SupabaseService[0] Tải thành công 77 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 203 ms.
+2026-11-07 09:22:00 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 09:22:00 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 13 ghế đã đặt
+2026-11-07 09:22:30 info: cinema_project.DAL.GheSuatChieuDAL[0] Đặt 1 ghế: suất 152, ghế C01, user 40b53454-ced8-425c-8762-65cdf628c822
+2026-11-07 09:22:30 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu
+2026-11-07 09:22:31 warn: cinema_project.DAL.GheSuatChieuDAL[0] Đặt ghế xung đột (409): suất 152, ghế C01
+2026-11-07 09:22:31 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/ghe_suat_chieu?select=ma_ghe&ma_suat_chieu=eq.152&trang_thai=eq.da_dat
+2026-11-07 09:22:31 info: cinema_project.DAL.GheSuatChieuDAL[0] Suất chiếu 152 có 14 ghế đã đặt
+2026-11-07 09:23:31 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:23:31 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:23:31 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 579 ms.
+2026-11-07 09:23:31 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:23:50 warn: cinema_project.DAL.AuthDAL[0] Supabase từ chối yêu cầu đăng ký: HTTP 429. {"code":429,"error_code":"over_email_send_rate_limit","msg":"email rate limit exceeded"}
+2026-11-07 09:29:43 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:29:43 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:29:43 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 538 ms.
+2026-11-07 09:29:43 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:29:56 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.aa628421-e96f-43c0-9421-3e7cb4d382e0
+2026-11-07 09:29:56 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 111@gmail.com, vai trò admin
+2026-11-07 09:29:59 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 09:29:59 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 295 ms.
+2026-11-07 09:29:59 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 09:29:59 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 127 ms.
+2026-11-07 09:30:00 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:30:00 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:30:00 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 317 ms.
+2026-11-07 09:30:00 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:30:00 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:30:00 info: cinema_project.DAL.SupabaseService[0] Tải thành công 80 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 181 ms.
+2026-11-07 09:30:07 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu: phim=Contra el huracán, phòng=Phòng 01 (2D Standard), ngày=11/08/2026 00:00:00
+2026-11-07 09:30:07 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:30:08 info: cinema_project.DAL.SupabaseService[0] Tải thành công 80 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 317 ms.
+2026-11-07 09:30:08 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu
+2026-11-07 09:30:08 info: cinema_project.DAL.SupabaseService[0] Thao tác thêm suất chiếu thành công với HTTP 201 trong 241 ms.
+2026-11-07 09:30:08 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu thành công: Contra el huracán
+2026-11-07 09:30:09 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:30:09 info: cinema_project.DAL.SupabaseService[0] Tải thành công 81 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 332 ms.
+2026-11-07 09:33:56 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:33:56 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:33:56 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 732 ms.
+2026-11-07 09:33:56 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:35:16 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/profiles?select=role&id=eq.aa628421-e96f-43c0-9421-3e7cb4d382e0
+2026-11-07 09:35:17 info: cinema_project.DAL.AuthDAL[0] Đăng nhập thành công: 111@gmail.com, vai trò admin
+2026-11-07 09:35:21 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc
+2026-11-07 09:35:21 info: cinema_project.DAL.SupabaseService[0] Tải thành công 3 bản ghi từ rap?select=ma_rap,ten_rap,dia_chi&order=ma_rap.asc trong 339 ms.
+2026-11-07 09:35:21 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/phong_chieu?select=*&order=ma_phong.asc
+2026-11-07 09:35:21 info: cinema_project.DAL.SupabaseService[0] Tải thành công 5 bản ghi từ phong_chieu?select=*&order=ma_phong.asc trong 235 ms.
+2026-11-07 09:35:21 info: cinema_project.BLL.PhimBLL[0] Bắt đầu tải danh sách phim.
+2026-11-07 09:35:21 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/movies?select=*&order=tmdb_id.desc
+2026-11-07 09:35:22 info: cinema_project.DAL.SupabaseService[0] Tải thành công 63 bản ghi từ movies?select=*&order=tmdb_id.desc trong 301 ms.
+2026-11-07 09:35:22 info: cinema_project.BLL.PhimBLL[0] Lấy được 63 phim từ Supabase.
+2026-11-07 09:35:22 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:35:22 info: cinema_project.DAL.SupabaseService[0] Tải thành công 82 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 241 ms.
+2026-11-07 09:35:24 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu: phim=Contra el huracán, phòng=Phòng 01 (2D Standard), ngày=11/07/2026 00:00:00
+2026-11-07 09:35:24 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:35:24 info: cinema_project.DAL.SupabaseService[0] Tải thành công 82 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 198 ms.
+2026-11-07 09:35:24 warn: cinema_project.BLL.SuatChieuBLL[0] Trùng lịch: suất 0 với suất 152 tại Phòng 01 (2D Standard) ngày 11/07/2026 00:00:00
+2026-11-07 09:35:28 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu: phim=Contra el huracán, phòng=Phòng 01 (2D Standard), ngày=11/07/2026 00:00:00
+2026-11-07 09:35:28 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:35:28 info: cinema_project.DAL.SupabaseService[0] Tải thành công 82 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 310 ms.
+2026-11-07 09:35:28 info: cinema_project.DAL.SupabaseService[0] Request: POST https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu
+2026-11-07 09:35:29 info: cinema_project.DAL.SupabaseService[0] Thao tác thêm suất chiếu thành công với HTTP 201 trong 123 ms.
+2026-11-07 09:35:29 info: cinema_project.BLL.SuatChieuBLL[0] Thêm suất chiếu thành công: Contra el huracán
+2026-11-07 09:35:30 info: cinema_project.DAL.SupabaseService[0] Request: GET https://mndebpggpzheidwteppi.supabase.co/rest/v1/suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc
+2026-11-07 09:35:30 info: cinema_project.DAL.SupabaseService[0] Tải thành công 83 bản ghi từ suat_chieu?select=*,phong_chieu(*),movies(*),rap(*)&order=ngay_chieu.asc,gio_bat_dau.asc trong 187 ms.

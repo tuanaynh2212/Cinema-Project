@@ -19,6 +19,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
         private List<Rap> _danhSachRap = new();
         private List<SuatChieu> _danhSachHienThi = new();
         private bool _isBinding = false;
+        private int _lanTaiDanhSach;
         private List<PhongChieu> _danhSachPhong = [];
 
 
@@ -176,14 +177,15 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             _isBinding = false;
 
-            TaiDanhSachSuatChieu();
+            await TaiDanhSachSuatChieuAsync();
             LamMoiForm();
         }
 
-        private void TaiDanhSachSuatChieu()
+        private async Task TaiDanhSachSuatChieuAsync()
         {
             if (_isBinding) return;
 
+            int lanTai = ++_lanTaiDanhSach;
             DateTime? ngay = chkTatCaNgay.Checked ? null : dtpLocNgay.Value.Date;
             string? phim = cmbLocPhim.SelectedItem?.ToString();
 
@@ -199,7 +201,23 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             string tuKhoa = txtTimKiem.Text.Trim();
 
-            _danhSachHienThi = _suatChieuBLL.LocSuatChieu(ngay, phim, maPhong, null, tuKhoa);
+            try
+            {
+                List<SuatChieu> danhSach = await _suatChieuBLL.LocSuatChieuAsync(
+                    ngay, phim, maPhong, null, tuKhoa);
+                if (lanTai != _lanTaiDanhSach || IsDisposed) return;
+                _danhSachHienThi = danhSach;
+            }
+            catch (Exception ex)
+            {
+                if (lanTai != _lanTaiDanhSach || IsDisposed) return;
+                MessageBox.Show(
+                    $"Không tải được danh sách suất chiếu.\n\n{ex.Message}",
+                    "Lỗi tải lịch chiếu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
 
             foreach (var sc in _danhSachHienThi)
             {
@@ -233,12 +251,12 @@ namespace cinema_project.UI.Forms.frmLichChieu
             }
         }
 
-        private void LocSuatChieu_Changed(object? sender, EventArgs e)
+        private async void LocSuatChieu_Changed(object? sender, EventArgs e)
         {
-            TaiDanhSachSuatChieu();
+            await TaiDanhSachSuatChieuAsync();
         }
 
-        private void BtnDatLaiBoLoc_Click(object? sender, EventArgs e)
+        private async void BtnDatLaiBoLoc_Click(object? sender, EventArgs e)
         {
             _isBinding = true;
             chkTatCaNgay.Checked = true;
@@ -248,7 +266,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             txtTimKiem.Text = "";
             _isBinding = false;
 
-            TaiDanhSachSuatChieu();
+            await TaiDanhSachSuatChieuAsync();
         }
 
         private void DgvSuatChieu_SelectionChanged(object? sender, EventArgs e)
@@ -359,7 +377,7 @@ namespace cinema_project.UI.Forms.frmLichChieu
             CapNhatGioKetThuc();
         }
 
-        private void BtnThem_Click(object? sender, EventArgs e)
+        private async void BtnThem_Click(object? sender, EventArgs e)
         {
             var rapChon = cmbRap.SelectedItem as Rap;
             var phongChon = cmbPhong.SelectedItem as PhongChieu;
@@ -382,18 +400,39 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 TrangThai = cmbTrangThai.SelectedItem?.ToString() ?? "Sắp chiếu"
             };
 
-            if (!_suatChieuBLL.ThemSuatChieu(sc, out string loi))
+            btnThem.Enabled = false;
+            try
             {
-                MessageBox.Show(loi, "Cảnh báo lịch chiếu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                (bool thanhCong, string loi) = await _suatChieuBLL.ThemSuatChieuAsync(sc);
+                if (!thanhCong)
+                {
+                    MessageBox.Show(
+                        string.IsNullOrWhiteSpace(loi) ? "Không thể thêm suất chiếu." : loi,
+                        "Cảnh báo lịch chiếu",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
 
-            MessageBox.Show("Thêm suất chiếu mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            TaiDanhSachSuatChieu();
-            LamMoiForm();
+                MessageBox.Show("Thêm suất chiếu mới thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await TaiDanhSachSuatChieuAsync();
+                LamMoiForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể thêm suất chiếu.\n\n{ex.Message}",
+                    "Lỗi thêm suất chiếu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (!IsDisposed) btnThem.Enabled = true;
+            }
         }
 
-        private void BtnCapNhat_Click(object? sender, EventArgs e)
+        private async void BtnCapNhat_Click(object? sender, EventArgs e)
         {
             if (!int.TryParse(txtMaSC.Text, out int maSC))
             {
@@ -423,17 +462,34 @@ namespace cinema_project.UI.Forms.frmLichChieu
                 TrangThai = cmbTrangThai.SelectedItem?.ToString() ?? "Sắp chiếu"
             };
 
-            if (!_suatChieuBLL.CapNhatSuatChieu(sc, out string loi))
+            btnCapNhat.Enabled = false;
+            try
             {
-                MessageBox.Show(loi, "Cảnh báo lịch chiếu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                (bool thanhCong, string loi) = await _suatChieuBLL.CapNhatSuatChieuAsync(sc);
+                if (!thanhCong)
+                {
+                    MessageBox.Show(loi, "Cảnh báo lịch chiếu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-            MessageBox.Show("Cập nhật thông tin suất chiếu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            TaiDanhSachSuatChieu();
+                MessageBox.Show("Cập nhật thông tin suất chiếu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await TaiDanhSachSuatChieuAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Không thể cập nhật suất chiếu.\n\n{ex.Message}",
+                    "Lỗi cập nhật suất chiếu",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (!IsDisposed) btnCapNhat.Enabled = true;
+            }
         }
 
-        private void BtnXoa_Click(object? sender, EventArgs e)
+        private async void BtnXoa_Click(object? sender, EventArgs e)
         {
             if (!int.TryParse(txtMaSC.Text, out int maSC))
             {
@@ -449,15 +505,30 @@ namespace cinema_project.UI.Forms.frmLichChieu
 
             if (xacNhan == DialogResult.Yes)
             {
-                if (_suatChieuBLL.XoaSuatChieu(maSC))
+                btnXoa.Enabled = false;
+                try
                 {
+                    if (!await _suatChieuBLL.XoaSuatChieuAsync(maSC))
+                    {
+                        MessageBox.Show("Không thể xóa suất chiếu này.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     MessageBox.Show("Đã xóa suất chiếu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    TaiDanhSachSuatChieu();
+                    await TaiDanhSachSuatChieuAsync();
                     LamMoiForm();
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Không thể xóa suất chiếu này.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(
+                        $"Không thể xóa suất chiếu.\n\n{ex.Message}",
+                        "Lỗi xóa suất chiếu",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (!IsDisposed) btnXoa.Enabled = true;
                 }
             }
         }

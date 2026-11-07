@@ -12,19 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace cinema_project.DAL
 {
-    public interface IAuthDAL
-    {
-        Task DangKyAsync(string hoTen, string email, string matKhau);
-        Task<AuthLoginResult> DangNhapAsync(string email, string matKhau);
-        Task ChangePasswordAsync(string email, string oldPassword, string newPassword);
-        Task UpdateProfileAsync(
-            string accessToken,
-            string hoTen,
-            string soDienThoai,
-            DateTime? ngaySinh);
-    }
-
-    public sealed class AuthDAL : IAuthDAL
+    public class AuthDAL
     {
         private static readonly HttpClient _http = new()
         {
@@ -47,7 +35,7 @@ namespace cinema_project.DAL
             _logger = logger ?? AppLogging.CreateLogger<AuthDAL>();
         }
 
-        public async Task DangKyAsync(string hoTen, string email, string matKhau)
+        public virtual async Task DangKyAsync(string hoTen, string email, string matKhau)
         {
             var body = new
             {
@@ -63,7 +51,7 @@ namespace cinema_project.DAL
             _logger.LogInformation("Đăng ký thành công: {Email}", email.Trim());
         }
 
-        public async Task<AuthLoginResult> DangNhapAsync(string email, string matKhau)
+        public virtual async Task<AuthLoginResult> DangNhapAsync(string email, string matKhau)
         {
             var body = new
             {
@@ -82,8 +70,13 @@ namespace cinema_project.DAL
                 "đăng nhập");
 
             AuthResponse? result = JsonSerializer.Deserialize<AuthResponse>(noiDung, _json);
-            if (result?.User == null ||
-                string.IsNullOrWhiteSpace(result.User.Id) ||
+            if (result?.User == null)
+            {
+                throw new InvalidOperationException(
+                    "Email hoặc mật khẩu không chính xác, hoặc tài khoản chưa xác minh email.");
+            }
+
+            if (string.IsNullOrWhiteSpace(result.User.Id) ||
                 string.IsNullOrWhiteSpace(result.AccessToken))
             {
                 throw new InvalidOperationException(
@@ -117,7 +110,7 @@ namespace cinema_project.DAL
             return ketQua;
         }
 
-        public async Task ChangePasswordAsync(
+        public virtual async Task ChangePasswordAsync(
             string email,
             string oldPassword,
             string newPassword)
@@ -127,14 +120,11 @@ namespace cinema_project.DAL
                 "auth/v1/token?grant_type=password",
                 new { email = email.Trim(), password = oldPassword });
             using HttpResponseMessage loginResponse = await GuiYeuCauAsync(loginRequest, "xác thực đổi mật khẩu");
-            string loginBody = await KiemTraPhanHoiAsync(
-                loginResponse,
-                "Mật khẩu hiện tại không đúng.",
-                "xác thực đổi mật khẩu");
+            string loginBody = await loginResponse.Content.ReadAsStringAsync();
 
             AuthResponse? login = JsonSerializer.Deserialize<AuthResponse>(loginBody, _json);
             if (string.IsNullOrWhiteSpace(login?.AccessToken))
-                throw new InvalidOperationException("Supabase chưa trả về phiên xác thực để đổi mật khẩu.");
+                throw new InvalidOperationException("Mật khẩu hiện tại không đúng.");
 
             using var updateRequest = TaoRequest(
                 HttpMethod.Put,
@@ -142,15 +132,11 @@ namespace cinema_project.DAL
                 new { password = newPassword },
                 login.AccessToken);
             using HttpResponseMessage updateResponse = await GuiYeuCauAsync(updateRequest, "đổi mật khẩu");
-            await KiemTraPhanHoiAsync(
-                updateResponse,
-                "Đổi mật khẩu không thành công.",
-                "đổi mật khẩu");
 
-            _logger.LogInformation("Đổi mật khẩu thành công: {Email}", email.Trim());
+            _logger.LogInformation("Đã gửi yêu cầu đổi mật khẩu: {Email}", email.Trim());
         }
 
-        public async Task UpdateProfileAsync(
+        public virtual async Task UpdateProfileAsync(
             string accessToken,
             string hoTen,
             string soDienThoai,
@@ -170,10 +156,6 @@ namespace cinema_project.DAL
                 },
                 accessToken);
             using HttpResponseMessage response = await GuiYeuCauAsync(request, "cập nhật hồ sơ");
-            await KiemTraPhanHoiAsync(
-                response,
-                "Cập nhật thông tin tài khoản không thành công.",
-                "cập nhật hồ sơ");
         }
 
         private async Task<string> LayVaiTroAsync(string userId, string accessToken)
@@ -183,15 +165,32 @@ namespace cinema_project.DAL
                 $"profiles?select=role&id=eq.{Uri.EscapeDataString(userId)}",
                 accessToken);
             using HttpResponseMessage response = await GuiYeuCauAsync(request, "tải vai trò tài khoản");
-            string noiDung = await KiemTraPhanHoiAsync(
-                response,
-                "Không thể tải vai trò tài khoản.",
-                "tải vai trò tài khoản");
+            string noiDung = await response.Content.ReadAsStringAsync();
 
             List<RoleRow>? rows = JsonSerializer.Deserialize<List<RoleRow>>(noiDung, _json);
             return string.Equals(rows?.Count > 0 ? rows[0].Role : null, "admin", StringComparison.OrdinalIgnoreCase)
                 ? "admin"
                 : "user";
+        }
+
+        private async Task<string> KiemTraPhanHoiAsync(
+            HttpResponseMessage response,
+            string loiMacDinh,
+            string thaoTac)
+        {
+            string noiDung = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning(
+                    "Supabase từ chối yêu cầu {ThaoTac}: HTTP {Status}. {NoiDung}",
+                    thaoTac,
+                    (int)response.StatusCode,
+                    noiDung);
+                throw new InvalidOperationException(
+                    $"{loiMacDinh} (HTTP {(int)response.StatusCode}). {noiDung}");
+            }
+
+            return noiDung;
         }
 
         private static HttpRequestMessage TaoRequest(
@@ -263,48 +262,6 @@ namespace cinema_project.DAL
                     stopwatch.ElapsedMilliseconds);
                 throw;
             }
-        }
-
-        private async Task<string> KiemTraPhanHoiAsync(
-            HttpResponseMessage response,
-            string loiMacDinh,
-            string thaoTac)
-        {
-            string noiDung = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-            {
-                string loi = DocLoi(noiDung, loiMacDinh);
-                _logger.LogWarning(
-                    "Supabase từ chối yêu cầu {ThaoTac}: HTTP {Status}. {Loi}",
-                    thaoTac,
-                    (int)response.StatusCode,
-                    loi);
-                throw new InvalidOperationException(loi);
-            }
-
-            return noiDung;
-        }
-
-        private static string DocLoi(string json, string macDinh)
-        {
-            try
-            {
-                using JsonDocument doc = JsonDocument.Parse(json);
-                foreach (string key in new[] { "msg", "message", "error_description", "error" })
-                {
-                    if (doc.RootElement.TryGetProperty(key, out JsonElement value) &&
-                        value.ValueKind == JsonValueKind.String &&
-                        !string.IsNullOrWhiteSpace(value.GetString()))
-                    {
-                        return value.GetString()!;
-                    }
-                }
-            }
-            catch (JsonException)
-            {
-            }
-
-            return string.IsNullOrWhiteSpace(json) ? macDinh : $"{macDinh}\n{json}";
         }
     }
 }

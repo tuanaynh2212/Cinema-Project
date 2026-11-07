@@ -7,7 +7,7 @@ namespace cinema_project.BLL
 {
     public class AuthBLL
     {
-        private readonly IAuthDAL _authDAL;
+        private readonly AuthDAL _authDAL;
         private readonly ILogger<AuthBLL> _logger;
 
         public AuthBLL(SupabaseService supabaseService, ILoggerFactory? loggerFactory = null)
@@ -19,7 +19,7 @@ namespace cinema_project.BLL
         {
         }
 
-        public AuthBLL(IAuthDAL authDAL, ILoggerFactory? loggerFactory = null)
+        public AuthBLL(AuthDAL authDAL, ILoggerFactory? loggerFactory = null)
         {
             _logger = loggerFactory?.CreateLogger<AuthBLL>() ?? AppLogging.CreateLogger<AuthBLL>();
             _authDAL = authDAL ?? throw new ArgumentNullException(nameof(authDAL));

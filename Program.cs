@@ -1,4 +1,3 @@
-using System;
 using System.Windows.Forms;
 using cinema_project.Logging;
 using cinema_project.UI;
@@ -16,7 +15,8 @@ namespace cinema_project
 
             try
             {
-                ApplicationConfiguration.Initialize();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new frmMain());
             }
             catch (Exception ex)
